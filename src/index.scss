@@ -1,0 +1,11 @@
+// @import '~bootstrap/scss/bootstrap.scss';
+@import 'constant/style.scss';
+
+body {
+  font-family: $quicksand;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  background-color: $dark-green;
+  color: $off-white;
+}
