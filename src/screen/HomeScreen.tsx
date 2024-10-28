@@ -1,18 +1,42 @@
+import {useState, useEffect} from 'react';
+import {Cases} from '../constant/Cases.ts';
 import SquareButton from '../component/SquareButton.tsx';
 import logo from '../logo.svg';
 
-const changeCase = (): void => {
-  console.log('test')
-}
+const Home = (): ReactElement => {
 
-const Home = () => {
+  const [areaValue, setAreaValue] = useState<string>();
+  const [action, setAction] = useState<string>('');
+
+  /*
+    trim
+    toUpperCase
+    toLowerCase
+
+    camel case + whiteCaracter : https://www.geeksforgeeks.org/how-to-convert-string-to-camel-case-in-javascript/
+   */
+
+  const changeCase = (action:string): void => {
+    if (areaValue !== "" && areaValue !== undefined) {
+
+      if (action === Cases.low) {
+        setAreaValue(areaValue.toLowerCase());
+      }
+    }
+  }
+
   return (
     <main>
-      <SquareButton action="TEST" text="Test Case" onClick={changeCase} />
 
-      <textarea name="story" rows="20" cols="100">
-      It was a dark and stormy night...
-      </textarea>
+      <SquareButton action={Cases.low} text="Test Case" onClick={()=>{changeCase(Cases.low)}} />
+
+      <textarea
+        name="story"
+        rows="20"
+        cols="100"
+        value={areaValue}
+        onChange={({target})=>{setAreaValue(target.value)}}
+      />
 
       {/*<img src={logo} className="App-logo" alt="logo" />*/}
     </main>)
