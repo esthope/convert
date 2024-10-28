@@ -1,15 +1,22 @@
+@import 'constant/style.scss';
+
 /*---base---------------------------------------------*/
 .bb {
-  border: red solid 2px;
+  box-sizing: border-box;
+  border: red solid 1px;
 }
 
 .no-border {border: none;}
 
-/*.flex-center {
+.m {
+  padding: 20px
+}
+
+.flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
-}*/
+}
 
 /*.lemonada-btn {
   font-family: "Lemonada", cursive;
@@ -25,6 +32,33 @@
   font-style: normal;
 }*/
 
+main {
+  padding: 0px 95px;
+}
+
+
+/*---component----------------------------------------*/
+.squareButton {
+  min-width: 64px;
+  height: 64px;
+  background-color: $light-green;
+  border: none;
+  padding: 10px;
+  box-shadow: -3.5px -3.5px 0 $klein;
+
+
+  span {
+    font-family: $RozhaOne;
+    font-size: 22pt;
+    line-height: 0pt;
+    color: $off-white;  
+  }
+}
+
+textarea {
+  margin: 51px 0;
+}
+
 /*---react--------------------------------------------*/
 .App-logo {
   height: 40vmin;
@@ -35,19 +69,6 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
-}
-
-.App-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-}
-
-.App-link {
-  color: #61dafb;
 }
 
 @keyframes App-logo-spin {

@@ -1,11 +1,32 @@
 // @import '~bootstrap/scss/bootstrap.scss';
 @import 'constant/style.scss';
 
+#root{
+  min-height: 100vh;
+  position: relative;
+}
+
 body {
+  // min-height: 100vh;
+  margin: 0;
   font-family: $quicksand;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   background-color: $dark-green;
   color: $off-white;
+}
+
+footer{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
 }
