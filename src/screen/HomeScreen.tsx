@@ -5,8 +5,9 @@ import logo from '../../public/logo.svg';
 
 const Home = (): ReactElement => {
 
-  const [areaValue, setAreaValue] = useState<string>();
-  const [action, setAction] = useState<string>('');
+  const [areaValue, setAreaValue] = useState<string>(),
+        [action, setAction] = useState<string>(''),
+        [selection, setSelection] = useState<string>('');
 
   /*
     https://www.w3schools.com/jsref/jsref_obj_string.asp
@@ -22,19 +23,10 @@ const Home = (): ReactElement => {
     padStart padEnd
     letter >= 'A'
 
-    camel case + whiteCaracter : https://www.geeksforgeeks.org/how-to-convert-string-to-camel-case-in-javascript/
-
     REGEX : https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Regular_expressions
-    /^ : début d'un mot
-    /$ : fin
     /. : sélectionner une lettre.s en particulier
-    (x) : pour inversion ?
     {n,m} : pour multiselction ?
     /^\w/i: première lettre
-
-    toutes les fonités indépendemment
-    les tester
-    factoriser
    */
     
     /*
@@ -61,8 +53,8 @@ const Home = (): ReactElement => {
     const franckCamelCase = (action:string):void => {
       // text-transform: capitalize
       let transformed = areaValue.toLowerCase();
-      transformed = transformed.replaceAll('/\s\w/gi', (value:string):string => value.toUpperCase())
-      transformed = transformed.replaceAll('/\s/gi', '');
+      transformed = transformed.replaceAll(/\s\w/g, (value:string):string => value.toUpperCase())
+      transformed = transformed.replaceAll(/\s/gi, '');
       setAreaValue(transformed);
     }
 
@@ -74,33 +66,32 @@ const Home = (): ReactElement => {
      */
     const franckCapitalize = (action:string):void => {
       let transformed = areaValue.toLowerCase();
-      transformed = transformed.replaceAll('/\s\w/gi', (value:string):string => value.toUpperCase())
-      setAreaValue(transformed)
+      transformed = transformed.replaceAll(/\s\w/g, (value:string):string => value.toUpperCase())
+      setAreaValue(transformed);
     }
 
     /**/
     const franckInversion = (action:string):void => {
       //[\p{upper}\p{lower}]
       let transformed = areaValue.toLowerCase(),
-          upperRegex = new RegExp('[A-Z]'); //\p{Upper}
+          lowerRegex = new RegExp('[a-z]', 'g'), //\p{Lower}
+          upperRegex = new RegExp('[A-Z]', 'g'); //\p{Upper}
 
-      /*
-        let transformed = "OUI non OUI non non",
-        upperRegex = new RegExp('[A-Z]'),
-        test = new RegExp('.', 'gi');
-
-
-        console.log(test.test(transformed))
-        transformed = transformed.replaceAll('.*', (letter) => {
-          console.log(letter)
-          debugger
-          return (upperRegex.test(letter)) ? letter.toLowerCase() : letter.toUpperCase();
-        });
-
-        console.log(transformed)
+/*
+test.replaceAll(/\w/g, (letter) => {
+  if (upperRegex.test(letter)) {
+      console.log(letter, upperRegex.test(letter), 'upp')
+      return letter.toLowerCase();
+  } else if (lowerRegex.test(letter)) { 
+      console.log(letter, lowerRegex.test(letter), 'low')
+      return letter.toUpperCase();
+  } else {
+      return letter;
+  }
+})
        */
 
-      transformed = transformed.replaceAll('/\w/gi', (letter:string):string => {
+      transformed = transformed.replaceAll(/\w/gm, (letter:string):string => {
         return (upperRegex.test(letter)) ? letter.toLowerCase() : letter.toUpperCase();
       });
 
