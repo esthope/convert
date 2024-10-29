@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
-import {Cases} from '../constant/Cases.ts';
+import {Action} from '../constant/Cases.ts';
 import SquareButton from '../component/SquareButton.tsx';
-import logo from '../logo.svg';
+import logo from '../../public/logo.svg';
 
 const Home = (): ReactElement => {
 
@@ -9,26 +9,128 @@ const Home = (): ReactElement => {
   const [action, setAction] = useState<string>('');
 
   /*
+    https://www.w3schools.com/jsref/jsref_obj_string.asp
     trim
     toUpperCase
     toLowerCase
+    search       Searches a string for a value, or regular expression, and returns the index (position) of the match
+    slice        Extracts a part of a string and returns a new string
+    split        Splits a string into an array of substrings
+    replaceAll
+
+    valueOf
+    padStart padEnd
+    letter >= 'A'
 
     camel case + whiteCaracter : https://www.geeksforgeeks.org/how-to-convert-string-to-camel-case-in-javascript/
+
+    REGEX : https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Regular_expressions
+    /^ : début d'un mot
+    /$ : fin
+    /. : sélectionner une lettre.s en particulier
+    (x) : pour inversion ?
+    {n,m} : pour multiselction ?
+    /^\w/i: première lettre
+
+    toutes les fonités indépendemment
+    les tester
+    factoriser
    */
-
-  const changeCase = (action:string): void => {
-    if (areaValue !== "" && areaValue !== undefined) {
-
-      if (action === Cases.low) {
-        setAreaValue(areaValue.toLowerCase());
-      }
+    
+    /*
+      - remplacer tout
+     */
+    const franckMajuscule = (action:string):void => {
+      setAreaValue(areaValue.toUpperCase())
     }
+
+    /*
+      - remplacer tout
+     */
+    const franckMinuscule = (action:string):void => {
+      setAreaValue(areaValue.toLowerCase())
+    }
+
+    /*
+      - lowercase partout
+      - départager tous les mots /\s\w/g
+      - ignorer le premier
+      - capitaliser la 1er lettre des mots
+      - joindre les mots sans espace
+     */
+    const franckCamelCase = (action:string):void => {
+      // text-transform: capitalize
+      let transformed = areaValue.toLowerCase();
+      transformed = transformed.replaceAll('/\s\w/gi', (value:string):string => value.toUpperCase())
+      transformed = transformed.replaceAll('/\s/gi', '');
+      setAreaValue(transformed);
+    }
+
+    /*
+      - lowercase partout
+      - départager tous les mots (^|\s)\w
+      - capitaliser la 1er lettre des mots
+      - joindre les mots avec espace
+     */
+    const franckCapitalize = (action:string):void => {
+      let transformed = areaValue.toLowerCase();
+      transformed = transformed.replaceAll('/\s\w/gi', (value:string):string => value.toUpperCase())
+      setAreaValue(transformed)
+    }
+
+    /**/
+    const franckInversion = (action:string):void => {
+      //[\p{upper}\p{lower}]
+      let transformed = areaValue.toLowerCase(),
+          upperRegex = new RegExp('[A-Z]'); //\p{Upper}
+
+      /*
+        let transformed = "OUI non OUI non non",
+        upperRegex = new RegExp('[A-Z]'),
+        test = new RegExp('.', 'gi');
+
+
+        console.log(test.test(transformed))
+        transformed = transformed.replaceAll('.*', (letter) => {
+          console.log(letter)
+          debugger
+          return (upperRegex.test(letter)) ? letter.toLowerCase() : letter.toUpperCase();
+        });
+
+        console.log(transformed)
+       */
+
+      transformed = transformed.replaceAll('/\w/gi', (letter:string):string => {
+        return (upperRegex.test(letter)) ? letter.toLowerCase() : letter.toUpperCase();
+      });
+
+      setAreaValue(transformed);
+    }
+
+    /*
+      - récupérer les caractères sélectionnés
+      - récupérer le caractère de remplacement
+      - là où ils se trouvent, les remplacer
+     */
+    const franckRemplacer = (action:string):void => {
+      let selectedCharRegex = '/X{1,}/gi'; // state
+          newChar = 'O';
+
+      transformed = areaValue.replaceAll(selectedCharRegex, newChar);
+      setAreaValue(transformed);
+    }
+
+
+  // if (areaValue !== "" && areaValue !== undefined) {}
+  // if (action === Action.lower) {}
+  const changeCase = (action:string): void => {
+    franckMajuscule(action);
   }
 
   return (
     <main>
 
-      <SquareButton action={Cases.low} text="Test Case" onClick={()=>{changeCase(Cases.low)}} />
+      <SquareButton action={Action.lower} text="Test Case" onClick={()=>{changeCase(Action.lower)}} />
 
       <textarea
         name="story"
