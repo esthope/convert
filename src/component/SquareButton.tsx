@@ -1,12 +1,14 @@
 import {useState, ReactElement} from "react";
 
-const SquareButton = ({action, text, onClick}: {action: string, text: string, onClick: Function}): ReactElement => {
+const SquareButton = ({action, content, onClick}: {action: string, content: string|Function, onClick: Function}): ReactElement => {
 
 	return (
 		<button id={action} type="button"  onClick={onClick} className="squareButton flex-center"> 
-			<span>{text}</span>
+			{(typeof content === 'function')
+				? content()
+				: <span>{content}</span>
+			}
 		</button>
-
 	)
 }
 

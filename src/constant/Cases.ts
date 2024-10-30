@@ -1,8 +1,8 @@
-export const Cases = {
+export const Action = {
 	upper: "UPP",
 	lower: "LOW",
 	camel: "CAM",
-	pascal: "PCL",
+	capital: "CPI",
 	inversion: "INV",
 	replace: "RPL"
 }

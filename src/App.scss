@@ -18,6 +18,10 @@
   align-items: center;
 }
 
+.flex {
+  display: flex;
+}
+
 /*.lemonada-btn {
   font-family: "Lemonada", cursive;
   font-optical-sizing: auto;
@@ -38,6 +42,14 @@ main {
 
 
 /*---component----------------------------------------*/
+.square-container {
+  column-gap: 35px;
+
+  #inversionText {
+    column-gap: 6px;
+  }
+}
+
 .squareButton {
   min-width: 64px;
   height: 64px;
@@ -45,7 +57,7 @@ main {
   border: none;
   padding: 10px;
   box-shadow: -3.5px -3.5px 0 $klein;
-
+  border-radius: 3px;
 
   span {
     font-family: $RozhaOne;
