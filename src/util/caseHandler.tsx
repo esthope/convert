@@ -2,12 +2,18 @@
 - récupérer les caractères sélectionnés
 - récupérer le caractère de remplacement
 - là où ils se trouvent, les remplacer
-*/
-export const franckRemplacer = ():void => {
-	let selectedCharRegex = '/X{1,}/gi'; // state
-	  newChar = 'O';
 
-	transformed = areaValue.replaceAll(selectedCharRegex, newChar);
+savoir là où il se trouvent
+
+"test oui test oui non"
+→ selection du deuxième test seulement, comment le différencier ?
+
+*/
+export const franckRemplacer = (areaValue:string /*à enlever*/, selected:string, choice:string):void => {
+	// let regex = '/X{1,}/gi'; // state selected;
+	let regex = selected; // state selected;
+
+	transformed = areaValue.replaceAll(regex, choice);
 	setAreaValue(transformed);
 }
 
@@ -28,10 +34,10 @@ export const franckCamelCase = ():void => {
 }
 
 /*
-- lowercase partout
-- départager tous les mots (^|\s)\w
-- capitaliser la 1er lettre des mots
-- joindre les mots avec espace
+	- lowercase partout
+	- départager tous les mots (^|\s)\w
+	- capitaliser la 1er lettre des mots
+	- joindre les mots avec espace
 */
 export const franckCapitalize = ():void => {
 	let transformed = areaValue.toLowerCase();
