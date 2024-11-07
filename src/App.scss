@@ -22,6 +22,15 @@
   display: flex;
 }
 
+.inline {
+  display: inline;
+}
+
+.fit-content {
+  width: fit-content;
+  height: fit-content;
+}
+
 /*.lemonada-btn {
   font-family: "Lemonada", cursive;
   font-optical-sizing: auto;
@@ -29,17 +38,29 @@
   font-style: normal;
 }*/
 
-/*.quicksand-font {
-  font-family: "Quicksand", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: <weight>;
-  font-style: normal;
-}*/
+.quicksand-font {
+  font-family: $quicksand;
+  font-size: 16px;
+  // font-optical-sizing: auto;
+}
+
+.green-background {
+  background-color: $light-green;
+  border-radius: 3px;
+}
+
+
+*:focus {
+  outline: none;
+}
 
 main {
   padding: 0px 95px;
-}
 
+  * {
+    color: $off-white;
+  }
+}
 
 /*---component----------------------------------------*/
 .square-container {
@@ -53,28 +74,67 @@ main {
 .squareButton {
   min-width: 64px;
   height: 64px;
-  background-color: $light-green;
   border: none;
   padding: 10px;
   box-shadow: -3.5px -3.5px 0 $klein;
-  border-radius: 3px;
 
   span {
     font-family: $RozhaOne;
     font-size: 22pt;
     line-height: 0pt;
-    color: $off-white;  
   }
 }
 
-.replace_icon {
-  width: 15px;
-  height: auto;
+#replace-container {
+  margin-top: 38px;
+
+  button {
+    background: none;
+    border: none;
+  } 
+
+  img {
+    width: 20px;
+    height: auto;
+  }
 }
 
-textarea {
-  margin: 51px 0;
+input[type="text"] {
+  border: none;
+  min-width: 239px;
+  min-height: 64px;
+  padding: 0px 11px;
 }
+
+input::placeholder {
+  color: #EBEFEF;
+  font-style: italic;
+  opacity: .6;
+}
+
+
+.editor {
+  margin: 51px 0;
+  padding: 50px;
+  border: none;
+}
+
+.editor::placeholder {
+  color: #EBEFEF;
+  font-style: italic;
+  opacity: .6;
+}
+
+.editor::selection {
+  background: #908859;
+  text-shadow: none;
+}
+
+.editor::-moz-selection {
+  background: #908859;
+  text-shadow: none;
+}
+
 
 /*---react--------------------------------------------*/
 .App-logo {
