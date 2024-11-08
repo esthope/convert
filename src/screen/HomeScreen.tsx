@@ -1,7 +1,18 @@
-import {useState} from 'react';
+// import {useState, useRef} from 'react';
 import SquareContainer from '../component/SquareContainer.tsx';
-// import {franckRemplacer} from '../util/caseHandler.tsx';
 import circle from 'assets/circle.svg' ;
+// import {Editor, EditorState} from 'draft-js';
+import "draft-js/dist/Draft.css";
+
+
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  convertToRaw,
+  convertFromRaw,
+} from "draft-js";
 
 const Home = ():ReactElement => {
 
@@ -106,7 +117,6 @@ selection très mutiple (mots différents)
     areaCopy = begining + choice + ending;
   })
 */
-
   let areaCopy = areaValue,
       begining = 0,
       ending = -1;
@@ -120,6 +130,55 @@ selection très mutiple (mots différents)
 
     setAreaValue(areaCopy);
   }
+
+const DraftEditor = () => {
+
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const editor = useRef(null);
+
+  const handleKeyCommand = (command) => {
+    const newState = RichUtils.handleKeyCommand(editorState, command);
+    if (newState) {
+      setEditorState(newState);
+      return true;
+    }
+    return false;
+  };
+
+  // FOR INLINE STYLES
+  const styleMap = {
+    HIGHLIGHT: {
+      backgroundColor: "#908859",
+    }
+  };
+
+  return (
+    <div onClick={()=>editor.current.focus()}>
+
+      <button
+          className="squareButton green-background quicksand-font"
+          onClick={(event) => {setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))}}
+          onMouseDown={(event) => event.preventDefault()}
+        >Test</button>
+
+      <div className="editor-container editor quicksand-font green-background">
+        <Editor
+          ref={editor}
+          editorState={editorState}
+          placeholder="Write Here"
+          handleKeyCommand={handleKeyCommand}
+          customStyleMap={styleMap}
+          onChange={(editorState) => {
+            const contentState = editorState.getCurrentContent();
+            console.log(convertToRaw(contentState));
+            setEditorState(editorState);
+          }}
+        />
+      </div>
+    </div>
+  );
+};
+
 
   return (
     <main>
@@ -142,23 +201,13 @@ selection très mutiple (mots différents)
         </button>
       </div>
 
-      <p
-        contentEditable="true"
-        className="editor quicksand-font green-background fit-content"
-        // onBlur={({target})=>{setAreaValue(target.value)}}
-        onInput={({target})=>{setAreaValue(target.value)}}
-      >
-        {areaValue}
-      </p>
-
-      <textarea
+      {/*<textarea
         name="story"
         rows="20"
         cols="100"
         value={areaValue}
         placeholder="Inscrire le texte"
         className="editor quicksand-font green-background"
-        // className="green-background"
         onChange={({target})=>{setAreaValue(target.value)}}
         onSelect={({target})=>{
           setCursor({
@@ -166,7 +215,10 @@ selection très mutiple (mots différents)
             end: target.selectionEnd
           })
         // /> onSelectCapture={(item)=>{console.log(item)}}
-        }} />
+        }} />*/}
+
+      <DraftEditor />
+
     </main>
   )
 };

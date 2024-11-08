@@ -125,13 +125,13 @@ input::placeholder {
   opacity: .6;
 }
 
-.editor::selection {
-  background: #908859;
+*::selection {
+  background: #908859 !important;
   text-shadow: none;
 }
 
-.editor::-moz-selection {
-  background: #908859;
+*::-moz-selection {
+  background: #908859 !important;
   text-shadow: none;
 }
 
