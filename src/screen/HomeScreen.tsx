@@ -1,32 +1,29 @@
 // import {useState, useRef} from 'react';
 import SquareContainer from '../component/SquareContainer.tsx';
+import CustomComponent from '../component/CustomComponent.tsx';
 import circle from 'assets/circle.svg' ;
-// import {Editor, EditorState} from 'draft-js';
+
+import React, { createElement, useEffect, useRef, useState } from "react";
+import {Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, } from "draft-js";
 import "draft-js/dist/Draft.css";
-
-
-import React, { useEffect, useRef, useState } from "react";
-import {
-  Editor,
-  EditorState,
-  RichUtils,
-  convertToRaw,
-  convertFromRaw,
-} from "draft-js";
 
 const Home = ():ReactElement => {
 
   type Cursor = {
-    start: number,
-    end: number
+    anchor: number,
+    extent: number
   }
+
+  let begining = 0,
+      ending = -1;
 
   const [areaValue, setAreaValue] = useState<string>(''),
         [choice, setChoice] = useState<string>(''),
         [selected, setSelected] = useState<string>(''),
-        [cursor, setCursor] = useState<Cursor>({});
-
-  // ref.current.focus
+        [cursor, setCursor] = useState<Cursor>({
+          anchor: begining,
+          extent: ending
+        });
 
 /*
 
@@ -37,7 +34,7 @@ const Home = ():ReactElement => {
     split        Splits a string into an array of substrings
 
     valueOf
-    padStart padEnd
+    padanchor padEnd
     letter >= 'A'
 
     REGEX : https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Regular_expressions
@@ -46,9 +43,7 @@ const Home = ():ReactElement => {
     /^\w/i: première lettre
 
     oui non oui
-
 */
-
 
 /*selection
   - boutton commencer sélection
@@ -65,120 +60,119 @@ const Home = ():ReactElement => {
   là où ils se trouvent, les remplacer
 */
 
-
-
 /*
----------------
-selection simple
----------------
+  ---------------
+  selection simple
+  ---------------
 
-setSelected(areaValue.substring(target.selectionStart, target.selectionEnd))
+  setSelected(areaValue.substring(target.selectionanchor, target.selectionEnd))
 
 
-/(selected)/g
+  /(selected)/g
 
----------------
-selection multiple totale identique
----------------
+  ---------------
+  selection multiple totale identique
+  ---------------
 
-lecture evenement ctrl+D
-/(selected)/g
+  lecture evenement ctrl+D
+  /(selected)/g
 
-test.matchAll(regex).forEach((match)=>{
-  item.index
-})
+  test.matchAll(regex).forEach((match)=>{
+    item.index
+  })
 
-areaValue.replaceAll(regex, choice);
+  areaValue.replaceAll(regex, choice);
 
----------------
-selection très mutiple (mots différents)
----------------
+  ---------------
+  selection très mutiple (mots différents)
+  ---------------
 
   selected = [
   {
-    cursorStart: 4,
-    cursorEnd: 8,
+    cursoranchor: 4,
+    cursorextent: 8,
     text: /(item)/g
   },
   {
-    cursorStart: 15,
-    cursorEnd: 16,
+    cursoranchor: 15,
+    cursorextent: 16,
     text: /(item)/g
   }]
 
   let areaCopy = areaValue;
   selected.forEach((position) => {
 
-    const {cursorStart, cursorEnd} = position;
+    const {cursoranchor, cursorEnd} = position;
 
-    let begining = areaCopy.slice(0,cursorStart),
+    let begining = areaCopy.slice(0,cursoranchor),
         ending = areaCopy.slice(cursorEnd);
 
     areaCopy = begining + choice + ending;
   })
 */
-  let areaCopy = areaValue,
-      begining = 0,
-      ending = -1;
+
+  const DraftEditor = () => {
+    const [editorState, setEditorState] = useState(EditorState.createWithText(areaValue));
+    const editor = useRef(null);
+
+    const handleKeyCommand = (command) => {
+      const newState = RichUtils.handleKeyCommand(editorState, command);
+      if (newState) {
+        setEditorState(newState);
+        return true;
+      }
+      return false;
+    };
+
+    const styleMap = {
+      HIGHLIGHT: {
+        backgroundColor: "#908859",
+      }
+    };
+
+    return (
+      <div onClick={()=>editor.current.focus()}>
+
+        <button
+            className="squareButton green-background quicksand-font"
+            onClick={(event) => {setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))}}
+            onMouseDown={(event) => event.preventDefault()}
+          >Test</button>
+
+        <div className="editor-container editor quicksand-font green-background">
+          <Editor
+            ref={editor}
+            editorState={editorState}
+            placeholder="Inscrire le texte"
+            handleKeyCommand={handleKeyCommand}
+            customStyleMap={styleMap}
+            onChange={(editorState) => {
+              const contentState = editorState.getCurrentContent();
+              console.log(convertToRaw(contentState));
+              setEditorState(editorState);
+            }}
+          />
+        </div>
+      </div>
+    )
+  }
+
+  let areaCopy = areaValue;
 
   const franckRemplacer = ():void => {
-    const {start, end} = cursor;
+    const {anchor, extent} = cursor;
 
-    begining = areaCopy.slice(0,start);
-    ending = areaCopy.slice(end);
+    begining = areaCopy.slice(0,anchor);
+    ending = areaCopy.slice(extent);
     areaCopy = begining + choice + ending;
+    console.log(begining, ending, areaCopy)
 
     setAreaValue(areaCopy);
   }
-
-const DraftEditor = () => {
-
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
-  const editor = useRef(null);
-
-  const handleKeyCommand = (command) => {
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      setEditorState(newState);
-      return true;
-    }
-    return false;
-  };
-
-  // FOR INLINE STYLES
-  const styleMap = {
-    HIGHLIGHT: {
-      backgroundColor: "#908859",
-    }
-  };
-
-  return (
-    <div onClick={()=>editor.current.focus()}>
-
-      <button
-          className="squareButton green-background quicksand-font"
-          onClick={(event) => {setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))}}
-          onMouseDown={(event) => event.preventDefault()}
-        >Test</button>
-
-      <div className="editor-container editor quicksand-font green-background">
-        <Editor
-          ref={editor}
-          editorState={editorState}
-          placeholder="Write Here"
-          handleKeyCommand={handleKeyCommand}
-          customStyleMap={styleMap}
-          onChange={(editorState) => {
-            const contentState = editorState.getCurrentContent();
-            console.log(convertToRaw(contentState));
-            setEditorState(editorState);
-          }}
-        />
-      </div>
-    </div>
-  );
-};
-
+  
+  useEffect(()=>{
+    console.log(cursor)
+  }, [cursor])
 
   return (
     <main>
@@ -201,24 +195,7 @@ const DraftEditor = () => {
         </button>
       </div>
 
-      {/*<textarea
-        name="story"
-        rows="20"
-        cols="100"
-        value={areaValue}
-        placeholder="Inscrire le texte"
-        className="editor quicksand-font green-background"
-        onChange={({target})=>{setAreaValue(target.value)}}
-        onSelect={({target})=>{
-          setCursor({
-            start: target.selectionStart,
-            end: target.selectionEnd
-          })
-        // /> onSelectCapture={(item)=>{console.log(item)}}
-        }} />*/}
-
-      <DraftEditor />
-
+      <CustomComponent areaValue={areaValue} setAreaValue={setAreaValue} setCursor={setCursor} />
     </main>
   )
 };
