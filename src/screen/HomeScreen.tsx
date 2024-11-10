@@ -165,14 +165,13 @@ const Home = ():ReactElement => {
     begining = areaCopy.slice(0,anchor);
     ending = areaCopy.slice(extent);
     areaCopy = begining + choice + ending;
-    console.log(begining, ending, areaCopy)
 
     setAreaValue(areaCopy);
   }
   
-  useEffect(()=>{
+  /*useEffect(()=>{
     console.log(cursor)
-  }, [cursor])
+  }, [cursor])*/
 
   return (
     <main>
@@ -195,7 +194,7 @@ const Home = ():ReactElement => {
         </button>
       </div>
 
-      <CustomComponent areaValue={areaValue} setAreaValue={setAreaValue} setCursor={setCursor} />
+      <CustomComponent areaValue={areaValue} setAreaValue={setAreaValue} setCursor={setCursor} cursor={cursor} />
     </main>
   )
 };

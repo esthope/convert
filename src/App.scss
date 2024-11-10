@@ -135,7 +135,12 @@ input::placeholder {
       opacity: .6;
       position: absolute;
     }
+
   }
+}
+
+.highlight {
+  background-color: #908859;
 }
 
 *::selection {

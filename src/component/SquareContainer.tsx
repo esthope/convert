@@ -68,7 +68,8 @@ const SquareContainer = ({areaValue, setAreaValue}:{areaValue:string, setAreaVal
 
 	return (
 	<section className="square-container flex">
-        <SquareButton content="init" onClick={()=>{setAreaValue('OUI non OUI OUI non non OUI àäâa èee éee ùuu oğuzhan özyakup')}} />
+        <SquareButton content="init" onClick={()=>{setAreaValue('first second third')}} />
+        {/*<SquareButton content="init" onClick={()=>{setAreaValue('OUI non OUI OUI non non OUI àäâa èee éee ùuu oğuzhan özyakup')}} />*/}
 
         <SquareButton content="AB" onClick={()=>{setAreaValue(areaValue.toUpperCase())}} />
   
