@@ -4,8 +4,6 @@ import CustomComponent from '../component/CustomComponent.tsx';
 import circle from 'assets/circle.svg' ;
 
 import React, { createElement, useEffect, useRef, useState } from "react";
-import {Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, } from "draft-js";
-import "draft-js/dist/Draft.css";
 
 const Home = ():ReactElement => {
 
@@ -110,52 +108,6 @@ const Home = ():ReactElement => {
     areaCopy = begining + choice + ending;
   })
 */
-
-  const DraftEditor = () => {
-    const [editorState, setEditorState] = useState(EditorState.createWithText(areaValue));
-    const editor = useRef(null);
-
-    const handleKeyCommand = (command) => {
-      const newState = RichUtils.handleKeyCommand(editorState, command);
-      if (newState) {
-        setEditorState(newState);
-        return true;
-      }
-      return false;
-    };
-
-    const styleMap = {
-      HIGHLIGHT: {
-        backgroundColor: "#908859",
-      }
-    };
-
-    return (
-      <div onClick={()=>editor.current.focus()}>
-
-        <button
-            className="squareButton green-background quicksand-font"
-            onClick={(event) => {setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))}}
-            onMouseDown={(event) => event.preventDefault()}
-          >Test</button>
-
-        <div className="editor-container editor quicksand-font green-background">
-          <Editor
-            ref={editor}
-            editorState={editorState}
-            placeholder="Inscrire le texte"
-            handleKeyCommand={handleKeyCommand}
-            customStyleMap={styleMap}
-            onChange={(editorState) => {
-              const contentState = editorState.getCurrentContent();
-              console.log(convertToRaw(contentState));
-              setEditorState(editorState);
-            }}
-          />
-        </div>
-      </div>
-    )
-  }
 
   let areaCopy = areaValue;
 
