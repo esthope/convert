@@ -1,6 +1,7 @@
 import SquareButton from './SquareButton.tsx';
 import inversionArrow from '../assets/inverse.svg';
 import {Action} from '../constant/Cases.ts';
+import {EditorState, convertToRaw, convertFromRaw} from "draft-js";
 
   /*
     https://www.w3schools.com/jsref/jsref_obj_string.asp
@@ -29,27 +30,25 @@ const InversionText = ():void => {
     )
 }
 
-const SquareContainer = ({areaValue, setAreaValue}:{areaValue:string, setAreaValue:Function}):ReactElement => {
+const SquareContainer = ({areaValue, setAreaValue, setRaws, editorState}:{areaValue:string, setAreaValue:Function, setRaws:Function, editorState:Object}):ReactElement => {
 
-	const changeCase = (action:string):void => {
+	const changeCase = (action:string, text:string):void => {
 		let changedText:string,
 				lowerRegex = new RegExp('\\p{Lower}', 'u'),
 				caseRegex:Object;
 
-		try
-		{
 			// verify text
-			if (typeof areaValue !== 'string' || areaValue === '') return;
+			if (typeof text !== 'string' || text === '') return;
 
 			// camel case and capitalize
 			if (action === Action.camel || action === Action.capital) {
-				changedText = areaValue.toLowerCase();
+				changedText = text.toLowerCase();
 				caseRegex = (action === Action.camel) ? /\s\p{Letter}/gu : /(^|\s)\p{Letter}/gu;
 			}
 
 			// case inversion
 			if (action === Action.inversion) {
-				changedText = areaValue;
+				changedText = text;
 				caseRegex = /\p{Letter}/gu;
 			}
 
@@ -57,29 +56,56 @@ const SquareContainer = ({areaValue, setAreaValue}:{areaValue:string, setAreaVal
 			changedText = changedText.replaceAll(caseRegex, (letter:string):string => (lowerRegex.test(letter)) ? letter.toUpperCase() : letter.toLowerCase());
 			// delete whitespaces for camel case
 			if (action === Action.camel) changedText = changedText.replaceAll(/\s/g, '');
-			setAreaValue(changedText);
-		}
-		catch (err)
-		{
-			// [!] handling error + send error
-			console.log(err)
-		}
+			return changedText;
+	}
+
+	const changeBlockCase = (action:string):void => {
+
+	  	const contentState = editorState.getCurrentContent(),
+	  				raws = convertToRaw(contentState),
+						{blocks} = raws;
+
+			try
+			{
+		  	blocks.forEach((block):Function => {
+		  		switch (action) {
+						case Action.upper:
+							block.text = block.text.toUpperCase();
+							break;
+						case Action.lower:
+							block.text = block.text.toLowerCase();
+							break;
+						default:
+		  			block.text = changeCase(action, block.text)
+					}
+		  	})
+		  }
+			catch (err)
+			{
+				// [!] handling error + send error
+				console.log(err)
+			}
+
+		  setRaws(raws);
 	}
 
 	return (
 	<section className="square-container flex">
-        <SquareButton content="init" onClick={()=>{setAreaValue('first second third')}} />
-        {/*<SquareButton content="init" onClick={()=>{setAreaValue('OUI non OUI OUI non non OUI àäâa èee éee ùuu oğuzhan özyakup')}} />*/}
+        <SquareButton content="init" onClick={()=>{
+        	const initialState = EditorState.createWithText('OUI non OUI OUI non non OUI àäâa èee éee ùuu oğuzhan özyakup');
+        	const initialContent = initialState.getCurrentContent();
+        	setRaws(convertToRaw(initialContent))
+        }} />
 
-        <SquareButton content="AB" onClick={()=>{setAreaValue(areaValue.toUpperCase())}} />
+        <SquareButton content="AB" onClick={()=>{changeBlockCase(Action.upper)}} />
   
-        <SquareButton content="ab" onClick={()=>{setAreaValue(areaValue.toLowerCase())}} />
+        <SquareButton content="ab" onClick={()=>{changeBlockCase(Action.lower)}} />
   
-        <SquareButton content="abCd" onClick={()=>{changeCase(Action.camel)}} />
+        <SquareButton content="abCd" onClick={()=>{changeBlockCase(Action.camel)}} />
 
-        <SquareButton content="Ab Cd" onClick={()=>{changeCase(Action.capital)}} />
+        <SquareButton content="Ab Cd" onClick={()=>{changeBlockCase(Action.capital)}} />
 
-        <SquareButton content={InversionText} onClick={()=>{changeCase(Action.inversion)}} />
+        <SquareButton content={InversionText} onClick={()=>{changeBlockCase(Action.inversion)}} />
       </section>
 	)
 }

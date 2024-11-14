@@ -4,6 +4,7 @@ import CustomComponent from '../component/CustomComponent.tsx';
 import circle from 'assets/circle.svg' ;
 
 import React, { createElement, useEffect, useRef, useState } from "react";
+import {EditorState, convertToRaw, convertFromRaw, RichUtils} from "draft-js";
 
 const Home = ():ReactElement => {
 
@@ -15,15 +16,67 @@ const Home = ():ReactElement => {
   let begining = 0,
       ending = -1;
 
+  const parentRef = useRef(null);
+
   const [areaValue, setAreaValue] = useState<string>(''),
         [choice, setChoice] = useState<string>(''),
         [selected, setSelected] = useState<string>(''),
-        [cursor, setCursor] = useState<Cursor>({
-          anchor: begining,
-          extent: ending
-        });
+        [hasMounted, setHasMounted] = useState(false),
+        [raws, setRaws] = useState({}),
+        [editorState, setEditorState] = useState(EditorState.createEmpty()),
+        [cursor, setCursor] = useState<Cursor>({anchor: begining, extent: ending });
+
+ useEffect(()=>{
+    if (hasMounted) {
+      const contentRaws = convertFromRaw(raws);
+      setEditorState(EditorState.createWithContent(contentRaws))
+    } else {
+      setHasMounted(true);
+    }
+  }, [raws])
+
+  return (
+    <main>
+      <SquareContainer areaValue={areaValue} setAreaValue={setAreaValue} editorState={editorState} setRaws={setRaws} />
+
+      <div id="replace-container" className="flex">
+        <input
+          type="text" 
+          value={choice}
+          className="green-background quicksand-font"
+          placeholder="Saisir le caratère"
+          onChange={({target})=>{setChoice(target.value)}} />
+
+        <button
+          type="button"
+          className="flex-center"
+          // onClick={franckRemplacer}
+          >
+
+          <img src={circle} alt="logo" />
+        </button>
+      </div>
+
+      <CustomComponent parentRef={parentRef} editorState={editorState} setEditorState={setEditorState}/>
+    </main>
+  )
+};
+export default Home;
+
 
 /*
+
+  let areaCopy = areaValue;
+
+  const franckRemplacer = ():void => {
+    const {anchor, extent} = cursor;
+
+    begining = areaCopy.slice(0,anchor);
+    ending = areaCopy.slice(extent);
+    areaCopy = begining + choice + ending;
+
+    setAreaValue(areaCopy);
+  }
 
     https://www.w3schools.com/jsref/jsref_obj_string.asp
     trim
@@ -108,46 +161,3 @@ const Home = ():ReactElement => {
     areaCopy = begining + choice + ending;
   })
 */
-
-  let areaCopy = areaValue;
-
-  const franckRemplacer = ():void => {
-    const {anchor, extent} = cursor;
-
-    begining = areaCopy.slice(0,anchor);
-    ending = areaCopy.slice(extent);
-    areaCopy = begining + choice + ending;
-
-    setAreaValue(areaCopy);
-  }
-  
-  /*useEffect(()=>{
-    console.log(cursor)
-  }, [cursor])*/
-
-  return (
-    <main>
-      <SquareContainer areaValue={areaValue} setAreaValue={setAreaValue} />
-
-      <div id="replace-container" className="flex">
-        <input
-          type="text" 
-          value={choice}
-          className="green-background quicksand-font"
-          placeholder="Saisir le caratère"
-          onChange={({target})=>{setChoice(target.value)}} />
-
-        <button
-          type="button"
-          className="flex-center"
-          onClick={franckRemplacer}>
-
-          <img src={circle} alt="logo" />
-        </button>
-      </div>
-
-      <CustomComponent areaValue={areaValue} setAreaValue={setAreaValue} setCursor={setCursor} cursor={cursor} />
-    </main>
-  )
-};
-export default Home;

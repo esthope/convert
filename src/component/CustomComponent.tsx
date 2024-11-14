@@ -1,34 +1,33 @@
 import { createElement, useEffect, useRef, useState } from "react";
-import {Editor, EditorState, RichUtils, convertToRaw, convertFromRaw, } from "draft-js";
+import {Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
 import "draft-js/dist/Draft.css";
+import SquareButton from './SquareButton.tsx';
 
 type Cursor = {
     anchor: number,
     extent: number
   }
 
-const CustomComponent = ({areaValue, setAreaValue, setCursor, cursor}:{areaValue:string, setAreaValue:Function, setCursor:Function, cursor:Cursor}) => {
-
-  let first = 'first ';
-  let second = 'second';
-  let third = ' third';
+const CustomComponent = ({parentRef, editorState, setEditorState}:{parentRef:Object, editorState:string, setEditorState:Function}) => {
 
   const editor = useRef(null);
+
+  // parentRef.current.innerText
+  // editor.current.props.editorState
+  // contentState.getFirstBlock() si innerText contains \n
+  // contentState.getPlainText()
+  // editorState.getCurrentInlineStyle()
+  // editorState.getDecorator()
+  // editorState.getSelection()
+  // toggleInlineStyle
+
   const [change, setChange] = useState(false),
         [children, setChildren] = useState([]),
         [doubleclick, setDoubleClick] = useState(false),
-        [hasMounted, setHasMounted] = useState(false),
-        [editorState, setEditorState] = useState(EditorState.createWithText(areaValue));
-
-  const selection = ()=> {
-    setChildren([
-      'oui test second',
-      createElement('span', {key: 'fuck', className: 'highlight' }, ' event')
-    ]);
-  }
-
+        [hasMounted, setHasMounted] = useState(false);
 
   const handleKeyCommand = (command) => {
+    console.log('commnd !')
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
       setEditorState(newState);
@@ -43,11 +42,50 @@ const CustomComponent = ({areaValue, setAreaValue, setCursor, cursor}:{areaValue
     }
   }
 
-  // useEffect(()=>{}, [])
-  
+  useEffect(()=>{
+    if (hasMounted) {
+      /*
+      selection.getAnchorOffset()
+      selection.getEndOffset()
+      selection.getHasFocus()
+      selection.getStartOffset()
+      selection.isBackward()
+      let {anchorOffset, extentOffset} = document.getSelection();
+
+      currentStyle.isEmpty()
+      editorState.getCurrentInlineStyle()
+      */
+
+
+      try
+      {
+        const contentState = editorState.getCurrentContent(),
+              selection = editorState.getSelection(),
+              currentStyle = editorState.getCurrentInlineStyle(),
+              raws = convertToRaw(contentState),
+              {blocks} = raws;
+
+        let selections = [];
+        blocks.forEach((block, index):void => {
+          selections.push(...block.inlineStyleRanges)
+        })
+      }
+      catch(err)
+      {
+        console.log(err)
+      }
+
+    } else {
+      setHasMounted(true);
+    }
+  }, [editorState])
+
   return (
     <div onClick={()=>editor.current.focus()}>
-      <div onDoubleClick={(event)=>{
+
+      <SquareButton content="Test" onClick={(event) => applyStyle(event)} />
+
+      <div ref={parentRef} onDoubleClick={(event)=>{
         let {anchorNode, anchorOffset, extentNode, extentOffset} = document.getSelection(),
             lastChar = 'terererererererererere'.charAt(extentOffset-1);
             
@@ -58,17 +96,20 @@ const CustomComponent = ({areaValue, setAreaValue, setCursor, cursor}:{areaValue
         setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))
       }}
       className="editor-container editor quicksand-font green-background">
+
         <Editor
           ref={editor}
           editorState={editorState}
           placeholder="Inscrire le texte"
           handleKeyCommand={handleKeyCommand}
           customStyleMap={styleMap}
+          onEditorStateChange={(editorState) => {
+            console.log('editor state changed')
+          }}
           onChange={(editorState) => {
             const contentState = editorState.getCurrentContent();
             setEditorState(editorState);
-            // setAreaValue(contentState);
-            // console.log(convertToRaw(contentState));
+            const toRaw = convertToRaw(contentState);
           }}
         />
       </div>
@@ -79,56 +120,9 @@ const CustomComponent = ({areaValue, setAreaValue, setCursor, cursor}:{areaValue
 export default CustomComponent;
 
 /*
-  <div className="editor quicksand-font green-background"
-    onClick={()=>ref.current.focus()}>
-
     <div className="placeholder">
       <p className={areaValue !== '' ? 'none':''}>Inscrire le texte</p>
     </div>
-
-    <div
-      ref={ref}
-      className="content"
-      onDoubleClick={()=>{
-        let {anchorOffset, extentOffset} = document.getSelection();
-
-        let currentCursor = {
-          anchor: (anchorOffset < extentOffset) ? anchorOffset : extentOffset,
-          extent: (extentOffset > anchorOffset) ? extentOffset : anchorOffset
-        }
-
-        setCursor(currentCursor);
-        // selection();
-      }}
-      onSelect={(event)=>{
-        // let {anchorNode, anchorOffset, extentNode, extentOffset} = document.getSelection();
-        // console.log(anchorOffset, extentOffset)
-      }}
-      onInput={(event)=>{
-
-        setChildren(createElement(
-          'span', {className: 'highlight' }, event.target.textContent
-        ))
-
-        setAreaValue(event.target.textContent);
-      }}
-      contentEditable
-      suppressContentEditableWarning>
-      {
-        createElement(
-          'p', {
-            key: 'main',
-            ref: ref
-          },
-          children,
-        )
-      }
-      </div>
-  </div>
-
-first,
-createElement('span', {className: 'highlight'}, second), 
-third
 
 <textarea
       name="story"
@@ -146,16 +140,6 @@ third
       // /> onSelectCapture={(item)=>{console.log(item)}}
     }} />
 
-if (hasMounted) 
-{
-  textSelection();
-}
-else {
-  console.log('nope');
-  setHasMounted(true);      
-}
-
-
 let {anchorNode, anchorOffset, extentNode, extentOffset} = document.getSelection(),
               lastChar = phrase.charAt(extentOffset-1);
 
@@ -171,7 +155,7 @@ const textSelection = ()=>{
       selected = phrase.slice(anchor,extent),
       ending = phrase.slice(extent);
 
-      debugger
+  debugger
   console.log(cursor);
   console.log({begining: begining, selected: selected, ending: ending})
 
