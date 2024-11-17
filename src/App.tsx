@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Template from 'component/Template.tsx';
-import HomeScreen from 'screen/HomeScreen.tsx';
+import Template from 'component/Template';
+import HomeScreen from 'screen/HomeScreen';
 
 // import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'App.scss';

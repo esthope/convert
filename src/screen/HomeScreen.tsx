@@ -1,35 +1,114 @@
-// import {useState, useRef} from 'react';
-import SquareContainer from '../component/SquareContainer.tsx';
-import CustomComponent from '../component/CustomComponent.tsx';
+import SquareContainer from 'component/SquareContainer';
+import CustomComponent from 'component/CustomComponent';
+import {Cursor} from 'constant/interfaces';
 import circle from 'assets/circle.svg' ;
+import {getCurrentRaws} from 'util/editorHandler';
 
-import React, { createElement, useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import {EditorState, convertToRaw, convertFromRaw, RichUtils} from "draft-js";
 
 const Home = ():ReactElement => {
-
-  type Cursor = {
-    anchor: number,
-    extent: number
-  }
 
   let begining = 0,
       ending = -1;
 
   const parentRef = useRef(null);
 
-  const [areaValue, setAreaValue] = useState<string>(''),
-        [choice, setChoice] = useState<string>(''),
+  const [choice, setChoice] = useState<string>(''),
         [selected, setSelected] = useState<string>(''),
-        [hasMounted, setHasMounted] = useState(false),
+        [changed, setChanged] = useState<boolean>(false),
+        [hasMounted, setHasMounted] = useState<boolean>(false),
         [raws, setRaws] = useState({}),
         [editorState, setEditorState] = useState(EditorState.createEmpty()),
         [cursor, setCursor] = useState<Cursor>({anchor: begining, extent: ending });
 
- useEffect(()=>{
+  /**
+   * Get all the selection of the text from each Block
+   * @return {array} selection
+   */
+  const getSelection = ():Array => {
+    let selections = [];
+    blocks.forEach((block, index):void => {
+      const {key, inlineStyleRanges} = block;
+      if (inlineStyleRanges.length <= 0) return;
+
+      // add the block key to the first selection
+      inlineStyleRanges[0].block_key = key;
+      selections.push(...inlineStyleRanges)
+
+      // empty the selection
+      block.inlineStyleRanges = [];
+    })
+
+    return selections;
+  }
+
+  const franckRemplacer = ():void => {
+    try
+      {
+      /*
+      CONTROLE
+        selection.hasEdgeWithin('ea2b7', 0, 2);
+        editorState.getCurrentContent().hasText()
+        currentStyle.isEmpty()
+
+      SELECTION
+        selection.getAnchorOffset()
+        selection.getEndOffset()
+        selection.getHasFocus()
+        selection.getStartOffset()
+        selection.isBackward()
+        let {anchorOffset, extentOffset} = document.getSelection();
+
+        editorState.getCurrentInlineStyle()
+      */
+     
+        const selection = editorState.getSelection(),
+              currentStyle = editorState.getCurrentInlineStyle(),
+              currentRaws = getCurrentRaws(editorState),
+              {blocks} = currentRaws;
+
+        let currentBlock:Object; // [!] type Block
+
+        
+
+        // replace selection
+        selections.forEach((selection, index):void => {
+          const {offset, length, block_key} = selection;
+
+          // get the current block with its passed key
+          if (block_key) 
+          {
+            currentBlock = blocks.find((block)=>block.key === block_key)
+          }
+
+          // update the section
+          let begining = currentBlock.text.slice(0,offset),
+              ending = currentBlock.text.slice(offset + length);
+
+          currentBlock.text = begining + choice + ending;
+        });
+
+        // update the text
+        setRaws(currentRaws);
+        setChanged(true);
+      }
+      catch(err)
+      {
+        console.log(err)
+      }
+  }
+
+  useEffect(()=>{
     if (hasMounted) {
-      const contentRaws = convertFromRaw(raws);
-      setEditorState(EditorState.createWithContent(contentRaws))
+
+      if (changed) 
+      {
+        const contentRaws = convertFromRaw(raws);
+        setEditorState(EditorState.createWithContent(contentRaws));
+        setChanged(false);
+      }
+
     } else {
       setHasMounted(true);
     }
@@ -37,7 +116,7 @@ const Home = ():ReactElement => {
 
   return (
     <main>
-      <SquareContainer areaValue={areaValue} setAreaValue={setAreaValue} editorState={editorState} setRaws={setRaws} />
+      <SquareContainer setChanged={setChanged} editorState={editorState} setRaws={setRaws} />
 
       <div id="replace-container" className="flex">
         <input
@@ -50,7 +129,7 @@ const Home = ():ReactElement => {
         <button
           type="button"
           className="flex-center"
-          // onClick={franckRemplacer}
+          onClick={franckRemplacer}
           >
 
           <img src={circle} alt="logo" />
@@ -66,17 +145,14 @@ export default Home;
 
 /*
 
-  let areaCopy = areaValue;
-
-  const franckRemplacer = ():void => {
+FRANCK
+    let areaCopy = areaValue;
     const {anchor, extent} = cursor;
 
     begining = areaCopy.slice(0,anchor);
     ending = areaCopy.slice(extent);
     areaCopy = begining + choice + ending;
-
-    setAreaValue(areaCopy);
-  }
+FRANCK END
 
     https://www.w3schools.com/jsref/jsref_obj_string.asp
     trim

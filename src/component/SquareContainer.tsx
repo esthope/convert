@@ -1,6 +1,7 @@
-import SquareButton from './SquareButton.tsx';
-import inversionArrow from '../assets/inverse.svg';
-import {Action} from '../constant/Cases.ts';
+import SquareButton from './SquareButton';
+import inversionArrow from 'assets/inverse.svg';
+import {Action} from 'constant/Cases.ts';
+import {getCurrentRaws} from 'util/editorHandler';
 import {EditorState, convertToRaw, convertFromRaw} from "draft-js";
 
   /*
@@ -30,7 +31,7 @@ const InversionText = ():void => {
     )
 }
 
-const SquareContainer = ({areaValue, setAreaValue, setRaws, editorState}:{areaValue:string, setAreaValue:Function, setRaws:Function, editorState:Object}):ReactElement => {
+const SquareContainer = ({setChanged, setRaws, editorState}:{setChanged:Function, setRaws:Function, editorState:Object}):ReactElement => {
 
 	const changeCase = (action:string, text:string):void => {
 		let changedText:string,
@@ -61,9 +62,8 @@ const SquareContainer = ({areaValue, setAreaValue, setRaws, editorState}:{areaVa
 
 	const changeBlockCase = (action:string):void => {
 
-	  	const contentState = editorState.getCurrentContent(),
-	  				raws = convertToRaw(contentState),
-						{blocks} = raws;
+			const currentRaws = getCurrentRaws(editorState),
+						{blocks} = currentRaws;
 
 			try
 			{
@@ -83,10 +83,11 @@ const SquareContainer = ({areaValue, setAreaValue, setRaws, editorState}:{areaVa
 			catch (err)
 			{
 				// [!] handling error + send error
-				console.log(err)
+				console.log(err);
 			}
 
-		  setRaws(raws);
+		  setRaws(currentRaws);
+		  setChanged(true);
 	}
 
 	return (
@@ -94,7 +95,8 @@ const SquareContainer = ({areaValue, setAreaValue, setRaws, editorState}:{areaVa
         <SquareButton content="init" onClick={()=>{
         	const initialState = EditorState.createWithText('OUI non OUI OUI non non OUI àäâa èee éee ùuu oğuzhan özyakup');
         	const initialContent = initialState.getCurrentContent();
-        	setRaws(convertToRaw(initialContent))
+        	setRaws(convertToRaw(initialContent));
+        	setChanged(true);
         }} />
 
         <SquareButton content="AB" onClick={()=>{changeBlockCase(Action.upper)}} />

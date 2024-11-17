@@ -1,14 +1,10 @@
-import { createElement, useEffect, useRef, useState } from "react";
-import {Editor, EditorState, RichUtils, convertToRaw, convertFromRaw } from "draft-js";
+import { createElement, useEffect, useRef, useState, LegacyRef } from "react";
+import {Cursor} from 'constant/interfaces';
+import {RichUtils, convertToRaw, convertFromRaw, Editor, EditorState} from "draft-js";
 import "draft-js/dist/Draft.css";
-import SquareButton from './SquareButton.tsx';
+import SquareButton from './SquareButton';
 
-type Cursor = {
-    anchor: number,
-    extent: number
-  }
-
-const CustomComponent = ({parentRef, editorState, setEditorState}:{parentRef:Object, editorState:string, setEditorState:Function}) => {
+const CustomComponent = ({parentRef, editorState, setEditorState}:{parentRef:LegacyRef<HTMLDivElement>, editorState:EditorState, setEditorState:Function}) => {
 
   const editor = useRef(null);
 
@@ -26,7 +22,7 @@ const CustomComponent = ({parentRef, editorState, setEditorState}:{parentRef:Obj
         [doubleclick, setDoubleClick] = useState(false),
         [hasMounted, setHasMounted] = useState(false);
 
-  const handleKeyCommand = (command) => {
+  const handleKeyCommand = (command:any):boolean => {
     console.log('commnd !')
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
@@ -42,57 +38,17 @@ const CustomComponent = ({parentRef, editorState, setEditorState}:{parentRef:Obj
     }
   }
 
-  useEffect(()=>{
-    if (hasMounted) {
-      /*
-      selection.getAnchorOffset()
-      selection.getEndOffset()
-      selection.getHasFocus()
-      selection.getStartOffset()
-      selection.isBackward()
-      let {anchorOffset, extentOffset} = document.getSelection();
-
-      currentStyle.isEmpty()
-      editorState.getCurrentInlineStyle()
-      */
-
-
-      try
-      {
-        const contentState = editorState.getCurrentContent(),
-              selection = editorState.getSelection(),
-              currentStyle = editorState.getCurrentInlineStyle(),
-              raws = convertToRaw(contentState),
-              {blocks} = raws;
-
-        let selections = [];
-        blocks.forEach((block, index):void => {
-          selections.push(...block.inlineStyleRanges)
-        })
-      }
-      catch(err)
-      {
-        console.log(err)
-      }
-
-    } else {
-      setHasMounted(true);
-    }
-  }, [editorState])
+  const setFocus = () => {
+    // if (editor && editor.current)
+      // editor.current.focus();
+  }
 
   return (
-    <div onClick={()=>editor.current.focus()}>
+    <div onClick={()=>{setFocus()}}>
 
-      <SquareButton content="Test" onClick={(event) => applyStyle(event)} />
+      <SquareButton action='TEST' content="Test" onClick={(event:any) => console.log(event)} />
 
       <div ref={parentRef} onDoubleClick={(event)=>{
-        let {anchorNode, anchorOffset, extentNode, extentOffset} = document.getSelection(),
-            lastChar = 'terererererererererere'.charAt(extentOffset-1);
-            
-        if (lastChar === ' ') {
-          extentOffset = extentOffset-1;
-          document.getSelection().setBaseAndExtent(anchorNode, anchorOffset, extentNode, extentOffset);
-        }
         setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))
       }}
       className="editor-container editor quicksand-font green-background">
@@ -101,16 +57,9 @@ const CustomComponent = ({parentRef, editorState, setEditorState}:{parentRef:Obj
           ref={editor}
           editorState={editorState}
           placeholder="Inscrire le texte"
-          handleKeyCommand={handleKeyCommand}
+          // handleKeyCommand={handleKeyCommand}
           customStyleMap={styleMap}
-          onEditorStateChange={(editorState) => {
-            console.log('editor state changed')
-          }}
-          onChange={(editorState) => {
-            const contentState = editorState.getCurrentContent();
-            setEditorState(editorState);
-            const toRaw = convertToRaw(contentState);
-          }}
+          onChange={(editorState)=>setEditorState(editorState)}
         />
       </div>
     </div>
