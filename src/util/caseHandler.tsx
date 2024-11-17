@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 /*
 - récupérer les caractères sélectionnés
 - récupérer le caractère de remplacement

@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "baseUrl": "src",
-    "target": "es5",
+    "target": "es6", // regex
+    // "target": "es5", // regex
     "lib": [
       "dom",
       "dom.iterable",
@@ -25,7 +26,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.tsx"
+    "src/**/*.tsx",
+    "custom.d.ts"
   ]
   // "files": [erreur si non trouvés],
   // "references": [improve build https://www.typescriptlang.org/docs/handbook/project-references.html],

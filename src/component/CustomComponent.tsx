@@ -6,7 +6,7 @@ import SquareButton from './SquareButton';
 
 const CustomComponent = ({parentRef, editorState, setEditorState}:{parentRef:LegacyRef<HTMLDivElement>, editorState:EditorState, setEditorState:Function}) => {
 
-  const editor = useRef(null);
+  const editor = useRef<any>(null);
 
   // parentRef.current.innerText
   // editor.current.props.editorState
@@ -32,23 +32,16 @@ const CustomComponent = ({parentRef, editorState, setEditorState}:{parentRef:Leg
     return false;
   };
 
-  const styleMap = {
-    HIGHLIGHT: {
-      backgroundColor: "#908859",
-    }
-  }
-
   const setFocus = () => {
-    // if (editor && editor.current)
       // editor.current.focus();
   }
 
   return (
-    <div onClick={()=>{setFocus()}}>
+    <div onClick={():void => editor.current.focus()}>
 
-      <SquareButton action='TEST' content="Test" onClick={(event:any) => console.log(event)} />
+      <SquareButton content="Test" onClick={(event:any):void => console.log(event)} />
 
-      <div ref={parentRef} onDoubleClick={(event)=>{
+      <div ref={parentRef} onDoubleClick={(event):void=>{
         setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))
       }}
       className="editor-container editor quicksand-font green-background">
@@ -58,8 +51,8 @@ const CustomComponent = ({parentRef, editorState, setEditorState}:{parentRef:Leg
           editorState={editorState}
           placeholder="Inscrire le texte"
           // handleKeyCommand={handleKeyCommand}
-          customStyleMap={styleMap}
-          onChange={(editorState)=>setEditorState(editorState)}
+          customStyleMap={{ HIGHLIGHT: { backgroundColor: '#908859' } }}
+          onChange={(editorState):void=>setEditorState(editorState)}
         />
       </div>
     </div>

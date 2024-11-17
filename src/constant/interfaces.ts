@@ -1,17 +1,16 @@
+import {RawDraftContentBlock, RawDraftContentState} from "draft-js";
+
+export type Block = RawDraftContentBlock;
+export type Raw = RawDraftContentState;
+
 export type Cursor = {
     anchor: number,
     extent: number
 }
 
-export interface Block {
-
-}
-
-
-export interface Block {
-	place_id: string,
-	name: string,
-	embedded_type: "administrative_region" | "stop_point"| "stop_area" | never,
-	longitude?: string,
-	latitude?: string,
+export type Selection = {
+	offset: number
+	length: number,
+	style: 'HIGHLIGHT',
+	block_key?: string
 }

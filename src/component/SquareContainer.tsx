@@ -1,8 +1,9 @@
-import SquareButton from './SquareButton';
-import inversionArrow from 'assets/inverse.svg';
-import {Action} from 'constant/Cases.ts';
+import {convertToRaw, convertFromRaw, EditorState, RawDraftContentBlock} from "draft-js";
 import {getCurrentRaws} from 'util/editorHandler';
-import {EditorState, convertToRaw, convertFromRaw} from "draft-js";
+import {Action} from 'constant/Cases';
+import SquareButton from './SquareButton';
+import {Block} from 'constant/interfaces';
+import inversionArrows from 'assets/inverse.svg';
 
   /*
     https://www.w3schools.com/jsref/jsref_obj_string.asp
@@ -21,25 +22,28 @@ import {EditorState, convertToRaw, convertFromRaw} from "draft-js";
     /^\w/i: première lettre
    */
 
-const InversionText = ():void => {
+const InversionText = () => {
     return (
       <div id="inversionText" className="flex-center">
         <span>A</span>
-        <img src={inversionArrow} className="" alt="arrows" />
+        <img src={inversionArrows} className="" alt="arrows" />
         <span>a</span>
       </div>
     )
 }
 
-const SquareContainer = ({setChanged, setRaws, editorState}:{setChanged:Function, setRaws:Function, editorState:Object}):ReactElement => {
+const SquareContainer = ({setChanged, setRaws, editorState}:{setChanged:Function, setRaws:Function, editorState:EditorState}) => {
 
-	const changeCase = (action:string, text:string):void => {
-		let changedText:string,
-				lowerRegex = new RegExp('\\p{Lower}', 'u'),
-				caseRegex:Object;
-
-			// verify text
-			if (typeof text !== 'string' || text === '') return;
+	/**
+	 * Change the case of a text depenting of the chosen action
+	 * @param  {string} action 			constant from Cases
+	 * @param  {string} text 				text to change
+	 * @return {string} changedText changed text
+	 */
+	const changeCase = (action:string, text:string):string => {
+		let changedText:string = '',
+				caseRegex:RegExp = /./,
+				lowerRegex = new RegExp('\\p{Lower}', 'u');
 
 			// camel case and capitalize
 			if (action === Action.camel || action === Action.capital) {
@@ -54,12 +58,19 @@ const SquareContainer = ({setChanged, setRaws, editorState}:{setChanged:Function
 			}
 
 			// change text
-			changedText = changedText.replaceAll(caseRegex, (letter:string):string => (lowerRegex.test(letter)) ? letter.toUpperCase() : letter.toLowerCase());
-			// delete whitespaces for camel case
-			if (action === Action.camel) changedText = changedText.replaceAll(/\s/g, '');
+			if (changedText) 
+			{
+				changedText = changedText.replaceAll(caseRegex, (letter:string):string => (lowerRegex.test(letter)) ? letter.toUpperCase() : letter.toLowerCase());
+				// delete whitespaces for camel case
+				if (action === Action.camel) changedText = changedText.replaceAll(/\s/g, '');
+			}
 			return changedText;
 	}
 
+	/**
+	 * Change all the text of the text fields (blocks)
+	 * @param  {string} action 	constant from Cases
+	 */
 	const changeBlockCase = (action:string):void => {
 
 			const currentRaws = getCurrentRaws(editorState),
@@ -67,7 +78,11 @@ const SquareContainer = ({setChanged, setRaws, editorState}:{setChanged:Function
 
 			try
 			{
-		  	blocks.forEach((block):Function => {
+		  	blocks.forEach((block:Block):void => {
+		  		// verify text
+					if (typeof block.text !== 'string' || block.text === '') return;
+
+					// change text
 		  		switch (action) {
 						case Action.upper:
 							block.text = block.text.toUpperCase();
@@ -93,7 +108,8 @@ const SquareContainer = ({setChanged, setRaws, editorState}:{setChanged:Function
 	return (
 	<section className="square-container flex">
         <SquareButton content="init" onClick={()=>{
-        	const initialState = EditorState.createWithText('OUI non OUI OUI non non OUI àäâa èee éee ùuu oğuzhan özyakup');
+        	// @ts-expect-error
+        	const initialState = EditorState.createWithContent('OUI non OUI OUI non non OUI àäâa èee éee ùuu oğuzhan özyakup'); 
         	const initialContent = initialState.getCurrentContent();
         	setRaws(convertToRaw(initialContent));
         	setChanged(true);

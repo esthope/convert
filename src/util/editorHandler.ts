@@ -1,7 +1,7 @@
-import {convertToRaw} from "draft-js";
-// construire type Block EditorStateType à partir du module ?
+import {convertToRaw, EditorState} from "draft-js";
+import {Raw} from 'constant/interfaces';
 
-export const getCurrentRaws = (editorState:Object):Object => {
+export const getCurrentRaws = (editorState:EditorState):Raw => {
 	const contentState = editorState.getCurrentContent(),
 		  currentRaws = convertToRaw(contentState);
 	

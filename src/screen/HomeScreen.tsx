@@ -1,13 +1,14 @@
-import SquareContainer from 'component/SquareContainer';
-import CustomComponent from 'component/CustomComponent';
-import {Cursor} from 'constant/interfaces';
-import circle from 'assets/circle.svg' ;
-import {getCurrentRaws} from 'util/editorHandler';
-
 import {useEffect, useRef, useState} from "react";
 import {EditorState, convertToRaw, convertFromRaw, RichUtils} from "draft-js";
 
-const Home = ():ReactElement => {
+import SquareContainer from 'component/SquareContainer';
+import CustomComponent from 'component/CustomComponent';
+import {Cursor, Raw, Block, Selection} from 'constant/interfaces';
+
+import {getCurrentRaws} from 'util/editorHandler';
+import circle from 'assets/circle.svg';
+
+const Home = () => {
 
   let begining = 0,
       ending = -1;
@@ -18,16 +19,34 @@ const Home = ():ReactElement => {
         [selected, setSelected] = useState<string>(''),
         [changed, setChanged] = useState<boolean>(false),
         [hasMounted, setHasMounted] = useState<boolean>(false),
-        [raws, setRaws] = useState({}),
-        [editorState, setEditorState] = useState(EditorState.createEmpty()),
+        [raws, setRaws] = useState<any>(),
+        [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty()),
         [cursor, setCursor] = useState<Cursor>({anchor: begining, extent: ending });
+
+  /*
+  CONTROLE
+    selection.hasEdgeWithin('ea2b7', 0, 2);
+    editorState.getCurrentContent().hasText()
+    currentStyle.isEmpty()
+
+  SELECTION
+    selection.getAnchorOffset()
+    selection.getEndOffset()
+    selection.getHasFocus()
+    selection.getStartOffset()
+    selection.isBackward()
+    let {anchorOffset, extentOffset} = document.getSelection();
+
+    editorState.getCurrentInlineStyle()
+  */
 
   /**
    * Get all the selection of the text from each Block
    * @return {array} selection
    */
-  const getSelection = ():Array => {
-    let selections = [];
+  const getSelection = (blocks:any[]):any[] => {
+    let selections:Selection[] = [];
+
     blocks.forEach((block, index):void => {
       const {key, inlineStyleRanges} = block;
       if (inlineStyleRanges.length <= 0) return;
@@ -43,51 +62,36 @@ const Home = ():ReactElement => {
     return selections;
   }
 
+  const transformTexts = (selections:Selection[], blocks:any[]):void => {
+    let currentBlock:any;
+
+    selections.forEach((selection, index):void => {
+      const {offset, length, block_key} = selection;
+
+      // get the current block with its passed key
+      if (block_key)
+      {
+        currentBlock = blocks.find((block)=>block.key === block_key)
+      }
+
+      // update the section
+      let begining = currentBlock.text.slice(0,offset),
+          ending = currentBlock.text.slice(offset + length);
+
+      currentBlock.text = begining + choice + ending;
+    })
+  }
+
   const franckRemplacer = ():void => {
     try
       {
-      /*
-      CONTROLE
-        selection.hasEdgeWithin('ea2b7', 0, 2);
-        editorState.getCurrentContent().hasText()
-        currentStyle.isEmpty()
-
-      SELECTION
-        selection.getAnchorOffset()
-        selection.getEndOffset()
-        selection.getHasFocus()
-        selection.getStartOffset()
-        selection.isBackward()
-        let {anchorOffset, extentOffset} = document.getSelection();
-
-        editorState.getCurrentInlineStyle()
-      */
-     
-        const selection = editorState.getSelection(),
-              currentStyle = editorState.getCurrentInlineStyle(),
+        const currentStyle = editorState.getCurrentInlineStyle(),
               currentRaws = getCurrentRaws(editorState),
               {blocks} = currentRaws;
 
-        let currentBlock:Object; // [!] type Block
-
-        
-
         // replace selection
-        selections.forEach((selection, index):void => {
-          const {offset, length, block_key} = selection;
-
-          // get the current block with its passed key
-          if (block_key) 
-          {
-            currentBlock = blocks.find((block)=>block.key === block_key)
-          }
-
-          // update the section
-          let begining = currentBlock.text.slice(0,offset),
-              ending = currentBlock.text.slice(offset + length);
-
-          currentBlock.text = begining + choice + ending;
-        });
+        const selections = getSelection(blocks);
+        transformTexts(selections, blocks);
 
         // update the text
         setRaws(currentRaws);
@@ -114,6 +118,7 @@ const Home = ():ReactElement => {
     }
   }, [raws])
 
+  console.log(circle)
   return (
     <main>
       <SquareContainer setChanged={setChanged} editorState={editorState} setRaws={setRaws} />
