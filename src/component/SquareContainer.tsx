@@ -1,8 +1,8 @@
-import {convertToRaw, convertFromRaw, EditorState, RawDraftContentBlock} from "draft-js";
-import {getCurrentRaws} from 'util/editorHandler';
+import {convertToRaw, convertFromRaw, EditorState, ContentState, RawDraftContentBlock} from "draft-js";
+import {getCurrentRaws, initContent} from 'util/editorHandler';
+import {Block} from 'constant/interfaces';
 import {Action} from 'constant/Cases';
 import SquareButton from './SquareButton';
-import {Block} from 'constant/interfaces';
 import inversionArrows from 'assets/inverse.svg';
 
   /*
@@ -32,15 +32,15 @@ const InversionText = () => {
     )
 }
 
-const SquareContainer = ({setChanged, setRaws, editorState}:{setChanged:Function, setRaws:Function, editorState:EditorState}) => {
+const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorState:EditorState}) => {
 
 	/**
-	 * Change the case of a text depenting of the chosen action
+	 * Change the case with more option
 	 * @param  {string} action 			constant from Cases
 	 * @param  {string} text 				text to change
 	 * @return {string} changedText changed text
 	 */
-	const changeCase = (action:string, text:string):string => {
+	const changeComplexCase = (action:string, text:string):string => {
 		let changedText:string = '',
 				caseRegex:RegExp = /./,
 				lowerRegex = new RegExp('\\p{Lower}', 'u');
@@ -68,7 +68,8 @@ const SquareContainer = ({setChanged, setRaws, editorState}:{setChanged:Function
 	}
 
 	/**
-	 * Change all the text of the text fields (blocks)
+	 * Choose the case treatment depending of the selected action
+	 * Change case, then updtate states
 	 * @param  {string} action 	constant from Cases
 	 */
 	const changeBlockCase = (action:string):void => {
@@ -91,7 +92,7 @@ const SquareContainer = ({setChanged, setRaws, editorState}:{setChanged:Function
 							block.text = block.text.toLowerCase();
 							break;
 						default:
-		  			block.text = changeCase(action, block.text)
+		  			block.text = changeComplexCase(action, block.text)
 					}
 		  	})
 		  }
@@ -101,30 +102,29 @@ const SquareContainer = ({setChanged, setRaws, editorState}:{setChanged:Function
 				console.log(err);
 			}
 
-		  setRaws(currentRaws);
-		  setChanged(true);
+			changeRaws(currentRaws)
 	}
 
+	const actionProps = [
+		{ content: 'AB', action: Action.upper },
+		{ content: 'ab', action: Action.lower },
+		{ content: 'abCd', action: Action.camel },
+		{ content: 'Ab Cd', action: Action.capital },
+		{ content: InversionText, action: Action.inversion }
+	]
+
 	return (
-	<section className="square-container flex">
-        <SquareButton content="init" onClick={()=>{
-        	// @ts-expect-error
-        	const initialState = EditorState.createWithContent('OUI non OUI OUI non non OUI àäâa èee éee ùuu oğuzhan özyakup'); 
-        	const initialContent = initialState.getCurrentContent();
-        	setRaws(convertToRaw(initialContent));
-        	setChanged(true);
-        }} />
-
-        <SquareButton content="AB" onClick={()=>{changeBlockCase(Action.upper)}} />
-  
-        <SquareButton content="ab" onClick={()=>{changeBlockCase(Action.lower)}} />
-  
-        <SquareButton content="abCd" onClick={()=>{changeBlockCase(Action.camel)}} />
-
-        <SquareButton content="Ab Cd" onClick={()=>{changeBlockCase(Action.capital)}} />
-
-        <SquareButton content={InversionText} onClick={()=>{changeBlockCase(Action.inversion)}} />
-      </section>
+		<section className="square-container flex">
+			<SquareButton content="init" onClick={()=>initContent(changeRaws)} />
+			{
+				actionProps.map((property, index)=>
+					<SquareButton
+						key={index}
+						content={property.content}
+						onClick={() => changeBlockCase(property.action)} />
+				)
+			}
+		</section>
 	)
 }
 

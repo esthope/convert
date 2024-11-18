@@ -1,12 +1,9 @@
 import {useEffect, useRef, useState} from "react";
 import {EditorState, convertToRaw, convertFromRaw, RichUtils} from "draft-js";
-
+import {Cursor, Raw, Block} from 'constant/interfaces';
 import SquareContainer from 'component/SquareContainer';
-import CustomComponent from 'component/CustomComponent';
-import {Cursor, Raw, Block, Selection} from 'constant/interfaces';
-
-import {getCurrentRaws} from 'util/editorHandler';
-import circle from 'assets/circle.svg';
+import ReplacingField from 'component/ReplacingField';
+import CustomEditor from 'component/CustomEditor';
 
 const Home = () => {
 
@@ -15,9 +12,7 @@ const Home = () => {
 
   const parentRef = useRef(null);
 
-  const [choice, setChoice] = useState<string>(''),
-        [selected, setSelected] = useState<string>(''),
-        [changed, setChanged] = useState<boolean>(false),
+  const [changed, setChanged] = useState<boolean>(false),
         [hasMounted, setHasMounted] = useState<boolean>(false),
         [raws, setRaws] = useState<any>(),
         [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty()),
@@ -38,207 +33,62 @@ const Home = () => {
     let {anchorOffset, extentOffset} = document.getSelection();
 
     editorState.getCurrentInlineStyle()
+    editorState.getSelection()
+
+  EDITOR CONTENT
+    parentRef.current.innerText
+    editor.current.props.editorState
+    contentState.getFirstBlock() si innerText contains \n
+    contentState.getPlainText()
+    editorState.getDecorator()
+    toggleInlineStyle
   */
 
-  /**
-   * Get all the selection of the text from each Block
-   * @return {array} selection
-   */
-  const getSelection = (blocks:any[]):any[] => {
-    let selections:Selection[] = [];
-
-    blocks.forEach((block, index):void => {
-      const {key, inlineStyleRanges} = block;
-      if (inlineStyleRanges.length <= 0) return;
-
-      // add the block key to the first selection
-      inlineStyleRanges[0].block_key = key;
-      selections.push(...inlineStyleRanges)
-
-      // empty the selection
-      block.inlineStyleRanges = [];
-    })
-
-    return selections;
-  }
-
-  const transformTexts = (selections:Selection[], blocks:any[]):void => {
-    let currentBlock:any;
-
-    selections.forEach((selection, index):void => {
-      const {offset, length, block_key} = selection;
-
-      // get the current block with its passed key
-      if (block_key)
-      {
-        currentBlock = blocks.find((block)=>block.key === block_key)
-      }
-
-      // update the section
-      let begining = currentBlock.text.slice(0,offset),
-          ending = currentBlock.text.slice(offset + length);
-
-      currentBlock.text = begining + choice + ending;
-    })
-  }
-
-  const franckRemplacer = ():void => {
-    try
-      {
-        const currentStyle = editorState.getCurrentInlineStyle(),
-              currentRaws = getCurrentRaws(editorState),
-              {blocks} = currentRaws;
-
-        // replace selection
-        const selections = getSelection(blocks);
-        transformTexts(selections, blocks);
-
-        // update the text
-        setRaws(currentRaws);
-        setChanged(true);
-      }
-      catch(err)
-      {
-        console.log(err)
-      }
+  const changeRaws = (currentRaws:Raw):void => {
+    setRaws(currentRaws);
+    setChanged(true);
   }
 
   useEffect(()=>{
-    if (hasMounted) {
-
-      if (changed) 
-      {
-        const contentRaws = convertFromRaw(raws);
-        setEditorState(EditorState.createWithContent(contentRaws));
-        setChanged(false);
-      }
-
-    } else {
+    if (!hasMounted) {
       setHasMounted(true);
+      return
+    }
+
+    if (changed) 
+    {
+      const contentRaws = convertFromRaw(raws);
+      setEditorState(EditorState.createWithContent(contentRaws));
+      setChanged(false);
     }
   }, [raws])
 
-  console.log(circle)
   return (
     <main>
-      <SquareContainer setChanged={setChanged} editorState={editorState} setRaws={setRaws} />
+      <SquareContainer changeRaws={changeRaws} editorState={editorState} />
 
-      <div id="replace-container" className="flex">
-        <input
-          type="text" 
-          value={choice}
-          className="green-background quicksand-font"
-          placeholder="Saisir le caratère"
-          onChange={({target})=>{setChoice(target.value)}} />
+      <ReplacingField changeRaws={changeRaws} editorState={editorState} />
 
-        <button
-          type="button"
-          className="flex-center"
-          onClick={franckRemplacer}
-          >
-
-          <img src={circle} alt="logo" />
-        </button>
-      </div>
-
-      <CustomComponent parentRef={parentRef} editorState={editorState} setEditorState={setEditorState}/>
+      <CustomEditor parentRef={parentRef} editorState={editorState} setEditorState={setEditorState}/>
     </main>
   )
-};
+}
+
 export default Home;
 
-
 /*
 
-FRANCK
-    let areaCopy = areaValue;
-    const {anchor, extent} = cursor;
+  https://www.w3schools.com/jsref/jsref_obj_string.asp
+  trim
+  search       Searches a string for a value, or regular expression, and returns the index (position) of the match
+  split        Splits a string into an array of substrings
+  letter >= 'A'
 
-    begining = areaCopy.slice(0,anchor);
-    ending = areaCopy.slice(extent);
-    areaCopy = begining + choice + ending;
-FRANCK END
+  REGEX : https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Regular_expressions
+  /. : sélectionner une lettre.s en particulier
+  /^\w/i: première lettre
 
-    https://www.w3schools.com/jsref/jsref_obj_string.asp
-    trim
-    search       Searches a string for a value, or regular expression, and returns the index (position) of the match
-    slice        Extracts a part of a string and returns a new string
-    split        Splits a string into an array of substrings
-
-    valueOf
-    padanchor padEnd
-    letter >= 'A'
-
-    REGEX : https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Regular_expressions
-    /. : sélectionner une lettre.s en particulier
-    {n,m} : pour multiselction ?
-    /^\w/i: première lettre
-
-    oui non oui
-*/
-
-/*selection
-  - boutton commencer sélection
-  - depuis selection basique sur le texte
-  - depuis ctrl D
-  
-  avoir là où il se trouvent
-
-  "test oui test oui non"
-  → selection du deuxième "test" seulement, comment le différencier ?
-
-  récupérer les caractères sélectionnés
-  récupérer le caractère de remplacement
-  là où ils se trouvent, les remplacer
-*/
-
-/*
-  ---------------
-  selection simple
-  ---------------
-
-  setSelected(areaValue.substring(target.selectionanchor, target.selectionEnd))
-
-
-  /(selected)/g
-
-  ---------------
-  selection multiple totale identique
-  ---------------
-
-  lecture evenement ctrl+D
-  /(selected)/g
-
-  test.matchAll(regex).forEach((match)=>{
-    item.index
-  })
-
-  areaValue.replaceAll(regex, choice);
-
-  ---------------
-  selection très mutiple (mots différents)
-  ---------------
-
-  selected = [
-  {
-    cursoranchor: 4,
-    cursorextent: 8,
-    text: /(item)/g
-  },
-  {
-    cursoranchor: 15,
-    cursorextent: 16,
-    text: /(item)/g
-  }]
-
-  let areaCopy = areaValue;
-  selected.forEach((position) => {
-
-    const {cursoranchor, cursorEnd} = position;
-
-    let begining = areaCopy.slice(0,cursoranchor),
-        ending = areaCopy.slice(cursorEnd);
-
-    areaCopy = begining + choice + ending;
-  })
+  boutton commencer sélection
+  depuis selection basique sur le texte
+  depuis ctrl D
 */
