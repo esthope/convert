@@ -35,26 +35,47 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 	 * @param  {array} 	blocks 		the text blocks from Draftjs
 	 */
 	const transformTexts = (selections:Selection[], blocks:any[]):void => {
-		let currentBlock:any,
-			changedText:string;
+		let selectionsLength = selections.length, 
+			currentBlock:any,
+			textLength:number,
+			workText:string,
+			newText = '',
+			start = 0;
 
-			console.log(selections)
+		console.log(selections)
 		selections.forEach((selection, index):void => {
 			const {offset, length, block_key} = selection;
 
-			// get the current block with its passed key
 			if (block_key)
 			{
-				currentBlock = blocks.find((block)=>block.key === block_key)
+				// add the rest of the sentence, then update
+				if (newText !== '') 
+				{
+					newText += workText.slice(start);
+					currentBlock.text = newText;
+				}
+
+				// get the current block with its passed key
+				currentBlock = blocks.find((block)=>block.key === block_key);
+				workText = currentBlock.text;
+
+				// init
+				textLength = workText.length;
+				newText = '';
+				start = 0;
 			}
 
-			// update the section
-			let begining = currentBlock.text.slice(0,offset),
-			  ending = currentBlock.text.slice(offset + length);
+			// get the section and add the choice
+			newText += workText.slice(start, offset) + choice;
+			// define the start position for next|last iteration
+			start = offset + length;
 
-
-			currentBlock.text = begining + choice + ending;
-			debugger
+			// on last iteration, add the rest of the sentence, then update
+			if (selectionsLength === (index+1))
+			{
+				newText += workText.slice(start);
+				currentBlock.text = newText;
+			}
 		})
 	}
 
