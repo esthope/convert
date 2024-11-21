@@ -42,7 +42,6 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 			newText = '',
 			start = 0;
 
-		console.log(selections)
 		selections.forEach((selection, index):void => {
 			const {offset, length, block_key} = selection;
 
@@ -108,18 +107,18 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 	return (
 		<div id="replace-container" className="flex">
 	        <input
-	          type="text" 
-	          value={choice}
-	          className="green-background quicksand-font"
-	          placeholder="Saisir le caratère"
-	          onChange={({target})=>{setChoice(target.value)}}
-	           />
+				type="text" 
+				value={choice}
+				className="green-background quicksand-font"
+				placeholder="Saisir le caratère"
+				onChange={({target})=>{setChoice(target.value)}}
+				/>
 
-	        <button
-	          type="button"
-	          className="flex-center"
-	          onClick={replaceSelection}
-	           >
+			<button
+				type="button"
+				className="flex-center"
+				onClick={replaceSelection}
+				>
 
 	          <img src={circle} alt="logo" />
 	        </button>

@@ -140,16 +140,16 @@ input::placeholder {
 }
 
 .highlight {
-  background-color: #908859;
+  background-color: $ocher;
 }
 
 *::selection {
-  background: #908859 !important;
+  background: $klein !important;
   text-shadow: none;
 }
 
 *::-moz-selection {
-  background: #908859 !important;
+  background: $klein !important;
   text-shadow: none;
 }
 

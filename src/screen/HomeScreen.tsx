@@ -29,7 +29,7 @@ const Home = () => {
     selection.getEndOffset()
     selection.getHasFocus()
     selection.getStartOffset()
-    selection.isBackward()
+    selection.getIsBackward()
     let {anchorOffset, extentOffset} = document.getSelection();
 
     editorState.getCurrentInlineStyle()
