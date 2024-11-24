@@ -77,7 +77,6 @@ const Home = () => {
 export default Home;
 
 /*
-
   https://www.w3schools.com/jsref/jsref_obj_string.asp
   trim
   search       Searches a string for a value, or regular expression, and returns the index (position) of the match

@@ -1,47 +1,56 @@
-import {RichUtils, convertToRaw, convertFromRaw, Editor, EditorState} from "draft-js";
+import {RichUtils, Editor, EditorState} from "draft-js";
 import {useRef, useState, LegacyRef} from "react";
-import {Cursor} from 'constant/interfaces';
-import SquareButton from './SquareButton';
 import "draft-js/dist/Draft.css";
 import style from "constant/style.scss";
 
 const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:LegacyRef<HTMLDivElement>, editorState:EditorState, setEditorState:Function}) => {
 
-  const editor = useRef<any>(null);
-
-  const [change, setChange] = useState(false),
-        [children, setChildren] = useState([]),
-        [doubleclick, setDoubleClick] = useState(false),
-        [hasMounted, setHasMounted] = useState(false);
-
-  const arrowsCode:number[] = [37, 39],
+  const editor = useRef<any>(null),
         colors:any = style;
 
+const [selectionClass, setSelectionClass] = useState<string>('');
+
+  const onShiftUp = (event:any):any => {
+    // event.ctrlKey && event.code === 'keyD'
+    if (event.code.includes('Shift')) {
+      setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))
+    }
+  }
+
+  const onCancelDelete = (command:string, editorState:EditorState):any => {
+    if (command === 'delete') {
+      return 'handled'
+    }
+  }
+
+  const onChange = (editorState:EditorState):any => {
+    setEditorState(editorState);
+    const event = window.event;
+
+    if (event instanceof MouseEvent && event.ctrlKey) {
+      setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))
+    }
+  }
+
+  // {selectionClass}
   return (
     <div onClick={():void => editor.current.focus()}>
 
-      <div ref={parentRef} className="editor-container editor quicksand-font green-background" >
+      <div 
+        ref={parentRef}
+        className="editor-container editor quicksand-font green-background" 
+        onKeyUp={onShiftUp} >
 
         <Editor
           ref={editor}
           editorState={editorState}
           placeholder="Inscrire le texte"
-          handleKeyCommand={(command:any):any => console.log(command)}
-          customStyleMap={{ HIGHLIGHT: { backgroundColor: colors.ocher } }}
-          onChange={(editorState):any => {
-            setEditorState(editorState);
-
-            const event = window.event;
-
-            if (event instanceof Event && event.type === 'selectionchange') {
-              setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))
-            }
-
-            if (event instanceof MouseEvent && event.ctrlKey) {
-              setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))
-            }
+          handleKeyCommand={onCancelDelete}
+          keyBindingFn={(event:any):any => {
+            console.log(event.type)
           }}
-          />
+          customStyleMap={{ HIGHLIGHT: { backgroundColor: colors.ocher } }}
+          onChange={onChange} />
       </div>
     </div>
   )

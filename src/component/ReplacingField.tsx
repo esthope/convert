@@ -1,5 +1,5 @@
 import {EditorState} from "draft-js";
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import {Selection} from 'constant/interfaces';
 import {getCurrentRaws} from 'util/editorHandler';
 import circle from 'assets/circle.svg';
@@ -37,7 +37,6 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 	const transformTexts = (selections:Selection[], blocks:any[]):void => {
 		let selectionsLength = selections.length, 
 			currentBlock:any,
-			textLength:number,
 			workText:string,
 			newText = '',
 			start = 0;
@@ -59,7 +58,6 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 				workText = currentBlock.text;
 
 				// init
-				textLength = workText.length;
 				newText = '';
 				start = 0;
 			}
@@ -87,8 +85,7 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 	const replaceSelection = ():void => {
 		try
 		{
-			const currentStyle = editorState.getCurrentInlineStyle(),
-			      currentRaws = getCurrentRaws(editorState),
+			const currentRaws = getCurrentRaws(editorState),
 			      {blocks} = currentRaws;
 
 			// replace selection

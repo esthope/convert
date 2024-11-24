@@ -64,6 +64,17 @@ main {
   * {
     color: $off-white;
   }
+  
+  *::selection {
+    background: $klein !important;
+    text-shadow: none;
+  }
+
+  *::-moz-selection {
+    background: $klein !important;
+    text-shadow: none;
+  }
+
 }
 
 /*---component----------------------------------------*/
@@ -143,16 +154,17 @@ input::placeholder {
   background-color: $ocher;
 }
 
-*::selection {
-  background: $klein !important;
-  text-shadow: none;
-}
+.selection {
+    *::selection {
+    background: $klein !important;
+    text-shadow: none;
+  }
 
-*::-moz-selection {
-  background: $klein !important;
-  text-shadow: none;
+    *::-moz-selection {
+    background: $klein !important;
+    text-shadow: none;
+  }
 }
-
 
 /*---react--------------------------------------------*/
 .App-logo {
