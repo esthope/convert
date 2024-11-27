@@ -25,17 +25,9 @@ const Home = () => {
     currentStyle.isEmpty()
 
   SELECTION
-    selection.getAnchorOffset()
-    selection.getEndOffset()
-    selection.getHasFocus()
-    selection.getStartOffset()
-    selection.getIsBackward()
-    let {anchorOffset, extentOffset} = document.getSelection();
-
     editorState.getCurrentInlineStyle()
-    editorState.getSelection()
 
-  EDITOR CONTENT
+  CONTENT
     parentRef.current.innerText
     editor.current.props.editorState
     contentState.getFirstBlock() si innerText contains \n

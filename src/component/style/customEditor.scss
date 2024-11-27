@@ -1,0 +1,42 @@
+@import 'constant/style.scss';
+
+#editor-container {
+  margin: 51px 0;
+}
+
+.editor {
+  padding: 50px;
+  border: none;
+  width: 50vw;
+  // min-height: 40vh;
+  // height: 40vh;
+
+  .placeholder {
+
+    position: relative;
+
+    p {
+      color: #EBEFEF;
+      font-style: italic;
+      opacity: .6;
+      position: absolute;
+    }
+
+  }
+}
+
+.highlight {
+  background-color: $ocher;
+}
+
+.selectMode {
+    *::selection {
+    background: $medium !important;
+    text-shadow: none;
+  }
+
+    *::-moz-selection {
+    background: $medium !important;
+    text-shadow: none;
+  }
+}

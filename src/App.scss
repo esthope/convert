@@ -102,17 +102,18 @@ main {
 
 #replace-container {
   margin-top: 38px;
+}
 
-  button {
-    background: none;
-    border: none;
-  } 
+
+.test-button {
+  background: none;
+  border: none;
 
   img {
     width: 20px;
     height: auto;
   }
-}
+} 
 
 input[type="text"] {
   border: none;
@@ -125,45 +126,6 @@ input::placeholder {
   color: #EBEFEF;
   font-style: italic;
   opacity: .6;
-}
-
-
-.editor {
-  margin: 51px 0;
-  padding: 50px;
-  border: none;
-  width: 50vw;
-  // min-height: 40vh;
-  // height: 40vh;
-
-  .placeholder {
-
-    position: relative;
-
-    p {
-      color: #EBEFEF;
-      font-style: italic;
-      opacity: .6;
-      position: absolute;
-    }
-
-  }
-}
-
-.highlight {
-  background-color: $ocher;
-}
-
-.selection {
-    *::selection {
-    background: $klein !important;
-    text-shadow: none;
-  }
-
-    *::-moz-selection {
-    background: $klein !important;
-    text-shadow: none;
-  }
 }
 
 /*---react--------------------------------------------*/

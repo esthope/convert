@@ -2,6 +2,7 @@ import {EditorState} from "draft-js";
 import {useState} from "react";
 import {Selection} from 'constant/interfaces';
 import {getCurrentRaws} from 'util/editorHandler';
+import TestButton from 'component/TestButton';
 import circle from 'assets/circle.svg';
 
 const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorState:EditorState}) => {
@@ -103,22 +104,14 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 
 	return (
 		<div id="replace-container" className="flex">
-	        <input
-				type="text" 
-				value={choice}
-				className="green-background quicksand-font"
-				placeholder="Saisir le caratère"
-				onChange={({target})=>{setChoice(target.value)}}
-				/>
+        	<input
+			type="text" 
+			value={choice}
+			className="green-background quicksand-font"
+			placeholder="Saisir le caratère"
+			onChange={({target})=>{setChoice(target.value)}} />
 
-			<button
-				type="button"
-				className="flex-center"
-				onClick={replaceSelection}
-				>
-
-	          <img src={circle} alt="logo" />
-	        </button>
+			<TestButton onClick={replaceSelection} />
       </div>
 	)
 }

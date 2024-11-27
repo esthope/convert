@@ -8,7 +8,7 @@ $clear-blue	 : #2943B9;
 $klein 		 : #002FA7;
 $light-orange: #E0A648;
 $ocher: #908859;
-// $ocher: #455a82;
+$medium: #757767;
 
 $lemonada : 'Lemonada', cursive;
 $RozhaOne : 'Rozha One', cursive;
@@ -16,6 +16,6 @@ $quicksand : 'Quicksand', Roboto, Verdana, sans-serif;
 
 :export {
 	ocher:$ocher;
-	clear-blue:$clear-blue;
 	klein:$klein;
+	lightOrange: $light-orange;
 }

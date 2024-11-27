@@ -6,6 +6,7 @@ module.exports = function override(config, env) {
     ...config.resolve.alias,
     assets: path.resolve(__dirname, 'src/assets/'),
     component: path.resolve(__dirname, 'src/component/'),
+    style: path.resolve(__dirname, 'src/component/style'),
     constant: path.resolve(__dirname, 'src/constant/'),
     service: path.resolve(__dirname, 'src/network/service/'),
     screen: path.resolve(__dirname, 'src/screen/'),
