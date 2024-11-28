@@ -27,6 +27,20 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 			block.inlineStyleRanges = [];
 		})
 
+		debugger
+		if (selections.length <= 0) 
+		{
+			const {anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorState.getSelection().toJS();
+
+			let currentSel = {
+				block_key: (!isBackward) ? anchorKey : focusKey,
+				offset: (!isBackward) ? anchorOffset : focusOffset,
+				length: (!isBackward) ? (focusOffset - anchorOffset) : (anchorOffset - focusOffset)  
+			}
+
+			selections.push(currentSel)
+		}
+
 		return selections;
 	}
 

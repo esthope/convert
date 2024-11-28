@@ -11,6 +11,6 @@ export type Cursor = {
 export type Selection = {
 	offset: number
 	length: number,
-	style: 'HIGHLIGHT',
+	style?: 'HIGHLIGHT',
 	block_key?: string
 }

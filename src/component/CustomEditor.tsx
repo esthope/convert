@@ -14,6 +14,12 @@ const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:Legacy
   const editor = useRef<any>(null),
         colors:any = style;
 
+  /**
+   * Listen the delete command of DraftJS to cancel it 
+   * It uses the shortcut ctrl•D and ctrl•maj•D. We need those for the selection handler
+   * @param  {string}       command     The command name 
+   * @param  {EditorState}  editorState The current state of the editor content
+   */
   const onCancelDelete = (command:string, editorState:EditorState):any => {
     console.log(command)
     if (command === 'delete') {
@@ -21,47 +27,54 @@ const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:Legacy
     }
   }
 
-  const onShiftUp = (event:any):any => {
-    if (selectMode && event.code.includes('Shift'))
+  /**
+   * Switch the multi selection mode
+   * Save the current selection as highlight text into the editor state
+   * @param  {any}          event       Current event : mouseup or keyup type event
+   * @param  {EditorState}  editorState The current state of the editor content
+   */
+  const handleSelection = (event:any, editorState:EditorState) => {
+    try
     {
-      setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))
-    }
-    else if (event.ctrlKey && event.code === 'KeyD')
-    {
-      setSelectMode(!selectMode)
-    }
-  }
+      // get the needed properties
+      const {code, type, ctrlKey} = event;
 
-  const onChange = (editorState:EditorState):any => {
-    let event:any;
+      // switch selection mode
+      if (ctrlKey && code === 'KeyD') setSelectMode(!selectMode)
 
-    setEditorState(editorState);
-    event = window.event;
-
-    let instance = event.constructor.name; 
-    if (instance === 'Event') 
-    {
-      handleSelection(event, editorState);
-    }
-  }
-
-  const handleSelection = (event:any, editorState:EditorState) =>
-  {
-    const {code, type, ctrlKey} = event;
-    if (selectMode)
-    {
-
-      if (code.includes('Shift')
-        || (event instanceof MouseEvent && type === 'mouseup'))
+      // highlight the selection 
+      if (selectMode && (type === 'mouseup' || code.includes('Shift')))
       {
-        // selection with the keyboard
         setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))
+        console.log(editorState.getSelection().toJS())
+        debugger
+        // faire nouvel algo qui prend en compte multilgne
+        // entrer manuellement la selection avec prise en compte de la selection entre ligne
+        // déplacer les fonctions dans utils ou organiser ou renommer
+
       }
     }
-    else if (ctrlKey && code === 'KeyD')
+    catch(err)
     {
-      setSelectMode(!selectMode)
+      console.log('SEL : ', err)
     }
+  }
+
+  /**
+   * Save the current state of the content
+   * Handle the multi selection when mouseup is listened
+   * @param  {EditorState}  editorState The current state of the editor content
+   */
+  const onChange = (editorState:EditorState):any => {
+
+    // update text state
+    setEditorState(editorState);
+
+    // handle multi selection
+    let event:any;
+    event = window.event;
+    let instance = event.constructor.name;
+    if (instance === 'MouseEvent') handleSelection(event, editorState);
   }
 
   useEffect(()=>{
@@ -77,7 +90,7 @@ const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:Legacy
       <div 
       ref={parentRef}
       className={`editor quicksand-font green-background ${selectionClass}`} 
-      // onKeyUp={onShiftUp}
+      onKeyUp={(event:any):void => {handleSelection(event, editorState)}}
       >
 
         <Editor
@@ -96,6 +109,6 @@ export default CustomEditor;
 
 /*
 RichUtils.handleKeyCommand(editorState, command)
-keyBindingFn={(event:any):any => {pas de maj du editorState en direct}}
+keyBindingFn={(event:any):any => {}} // pas de maj du editorState en direct ; keyup pas écouté
 handleBeforeInput={(chars, editorState):any => {seulement à la modif du texte}}
 */
