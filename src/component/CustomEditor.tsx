@@ -33,22 +33,32 @@ const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:Legacy
   }
 
   const onChange = (editorState:EditorState):any => {
+    let event:any;
+
     setEditorState(editorState);
-    handleSelection(window.event, editorState);
+    event = window.event;
+
+    let instance = event.constructor.name; 
+    if (instance === 'Event') 
+    {
+      handleSelection(event, editorState);
+    }
   }
 
   const handleSelection = (event:any, editorState:EditorState) =>
   {
+    const {code, type, ctrlKey} = event;
     if (selectMode)
     {
-      if ( event.code.includes('Shift')
-        || (event instanceof MouseEvent && event.type === 'mouseup'))
+
+      if (code.includes('Shift')
+        || (event instanceof MouseEvent && type === 'mouseup'))
       {
         // selection with the keyboard
         setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))
       }
     }
-    else if (event.ctrlKey && event.code === 'KeyD')
+    else if (ctrlKey && code === 'KeyD')
     {
       setSelectMode(!selectMode)
     }
@@ -67,7 +77,8 @@ const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:Legacy
       <div 
       ref={parentRef}
       className={`editor quicksand-font green-background ${selectionClass}`} 
-      onKeyUp={onShiftUp} >
+      // onKeyUp={onShiftUp}
+      >
 
         <Editor
         ref={editor}
