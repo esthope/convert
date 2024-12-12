@@ -101,14 +101,44 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 		try
 		{
 			const currentRaws = getCurrentRaws(editorState),
-			      {blocks} = currentRaws;
+			      {blocks} = currentRaws
+			      ,contentState = editorState.getCurrentContent()
+				  ,blockMap = contentState.getBlockMap()
+			      ;
 
 			// replace selection
-			const selections = getSelection(blocks);
-			transformTexts(selections, blocks);
+			// const selections = getSelection(blocks);
+			// transformTexts(selections, blocks);
 
-			// update the text
-			changeRaws(currentRaws);
+			let startKey = 'es4o7';
+			let startBlock = contentState.getBlockForKey(startKey),
+				endBlock = contentState.getBlockForKey('18utg');
+
+			let mergedTexts = startBlock.getText() + endBlock.getText(),
+				characterList = startBlock.getCharacterList().concat(endBlock.getCharacterList());
+
+			debugger
+
+			let mergedStart = startBlock.merge(
+			{
+			    text: mergedTexts,
+			    characterList: characterList
+			})
+
+			let updatedBlockMap = blockMap.merge(mergedStart);
+
+			contentState.merge({
+			    blockMap: updatedBlockMap,
+			    // selectionBefore: selectionState,
+			    /*selectionAfter: selectionState.merge({
+			      anchorKey: startKey,
+			      anchorOffset: mergedStart.getLength(),
+			      focusKey: startKey,
+			      focusOffset: mergedStart.getLength(),
+			      isBackward: false*/
+			})
+
+			// changeRaws(currentRaws);
 		}
 		catch(err)
 		{

@@ -6,6 +6,12 @@ import './style/customEditor.scss';
 import TestButton from 'component/TestButton';
 import style from "constant/style.scss";
 
+/* [!]
+faire nouvel algo qui prend en compte multilgne
+entrer manuellement la selection avec prise en compte de la selection entre ligne
+déplacer les fonctions dans utils ou organiser ou renommer
+*/
+
 const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:LegacyRef<HTMLDivElement>, editorState:EditorState, setEditorState:Function}) => {
 
   const [selectionClass, setSelectionClass] = useState<string>(''),
@@ -47,11 +53,7 @@ const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:Legacy
       {
         setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))
         console.log(editorState.getSelection().toJS())
-        debugger
-        // faire nouvel algo qui prend en compte multilgne
-        // entrer manuellement la selection avec prise en compte de la selection entre ligne
-        // déplacer les fonctions dans utils ou organiser ou renommer
-
+        // [!] 1.
       }
     }
     catch(err)
@@ -108,6 +110,9 @@ const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:Legacy
 export default CustomEditor;
 
 /*
+content.getBlockForKey(selection.getStartKey()) // block before
+content.getBlockBefore(startKey)
+currentBlock.getPrevSiblingKey()
 RichUtils.handleKeyCommand(editorState, command)
 keyBindingFn={(event:any):any => {}} // pas de maj du editorState en direct ; keyup pas écouté
 handleBeforeInput={(chars, editorState):any => {seulement à la modif du texte}}
