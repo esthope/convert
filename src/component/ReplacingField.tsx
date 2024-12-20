@@ -110,9 +110,8 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 			// const selections = getSelection(blocks);
 			// transformTexts(selections, blocks);
 
-			let startKey = 'es4o7';
-			let startBlock = contentState.getBlockForKey(startKey),
-				endBlock = contentState.getBlockForKey('18utg');
+			let startBlock = contentState.getBlockForKey('812fs'),
+				endBlock = contentState.getBlockForKey('f155g');
 
 			let mergedTexts = startBlock.getText() + endBlock.getText(),
 				characterList = startBlock.getCharacterList().concat(endBlock.getCharacterList());
@@ -127,16 +126,20 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 
 			let updatedBlockMap = blockMap.merge(mergedStart);
 
-			contentState.merge({
+			let merged = contentState.merge({
 			    blockMap: updatedBlockMap,
 			    // selectionBefore: selectionState,
-			    /*selectionAfter: selectionState.merge({
-			      anchorKey: startKey,
-			      anchorOffset: mergedStart.getLength(),
-			      focusKey: startKey,
-			      focusOffset: mergedStart.getLength(),
-			      isBackward: false*/
+			    //selectionAfter: selectionState.merge({
+			      // anchorKey: startKey,
+			      // anchorOffset: mergedStart.getLength(),
+			      // focusKey: startKey,
+			      // focusOffset: mergedStart.getLength(),
+			      // isBackward: false
 			})
+
+			console.log(merged)
+
+			EditorState.push(editorState, afterRemoval.set('selectionBefore', selection), selection.isCollapsed() ? 'backspace-character' : 'remove-range');
 
 			// changeRaws(currentRaws);
 		}
