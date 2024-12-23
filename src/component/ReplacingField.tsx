@@ -1,4 +1,4 @@
-import {EditorState} from "draft-js";
+import {EditorState, ContentState} from "draft-js";
 import {useState} from "react";
 import {Selection} from 'constant/interfaces';
 import {getCurrentRaws} from 'util/editorHandler';
@@ -101,14 +101,52 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 		try
 		{
 			const currentRaws = getCurrentRaws(editorState),
-			      {blocks} = currentRaws;
+			      {blocks} = currentRaws
+			      ,contentState = editorState.getCurrentContent()
+				  ,blockMap = contentState.getBlockMap()
+			      ;
+
+			let merged:any;
+			let mergedStart:any;
+			let updatedBlockMap:any;
 
 			// replace selection
-			const selections = getSelection(blocks);
-			transformTexts(selections, blocks);
+			// const selections = getSelection(blocks);
+			// transformTexts(selections, blocks);
 
-			// update the text
-			changeRaws(currentRaws);
+			let startBlock = contentState.getBlockForKey('ihct'),
+				endBlock = contentState.getBlockForKey('dfr9n');
+
+			let mergedTexts = startBlock.getText() + endBlock.getText(),
+				characterList = startBlock.getCharacterList().concat(endBlock.getCharacterList());
+
+			mergedStart = startBlock.merge(
+			{
+			    text: mergedTexts,
+			    characterList: characterList
+			})
+
+			updatedBlockMap = blockMap.set('ihct', mergedStart);
+			updatedBlockMap = updatedBlockMap.remove('dfr9n');
+
+			merged = contentState.merge({
+			    blockMap: updatedBlockMap,
+			    // selectionBefore: selectionState,
+			    //selectionAfter: selectionState.merge({
+			      // anchorKey: startKey,
+			      // anchorOffset: mergedStart.getLength(),
+			      // focusKey: startKey,
+			      // focusOffset: mergedStart.getLength(),
+			      // isBackward: false
+			})
+
+
+			// afterRemoval.set('selectionBefore', selection)
+			// selection.isCollapsed() ? 'backspace-character' : 
+			EditorState.push(editorState, merged, 'remove-range');
+
+			debugger
+			// changeRaws(currentRaws);
 		}
 		catch(err)
 		{
