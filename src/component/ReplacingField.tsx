@@ -100,24 +100,21 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 	const replaceSelection = ():void => {
 		try
 		{
-			const currentRaws = getCurrentRaws(editorState),
-			      {blocks} = currentRaws
-			      ,contentState = editorState.getCurrentContent()
-				  ,blockMap = contentState.getBlockMap()
-			      ;
-
-			let merged:any;
 			let mergedStart:any;
 			let updatedBlockMap:any;
+			let merged:any;
 
-			// replace selection
-			// const selections = getSelection(blocks);
-			// transformTexts(selections, blocks);
+			// data test
+			const 
+				// currentRaws = getCurrentRaws(editorState)
+			      	// ,{blocks} = currentRaws
+			      	contentState = editorState.getCurrentContent()
+				,blockMap = contentState.getBlockMap()
+			      	,startBlock = contentState.getBlockForKey('ihct')
+				,endBlock = contentState.getBlockForKey('dfr9n');
 
-			let startBlock = contentState.getBlockForKey('ihct'),
-				endBlock = contentState.getBlockForKey('dfr9n');
-
-			let mergedTexts = startBlock.getText() + endBlock.getText(),
+			// merge the texts
+			const  mergedTexts = startBlock.getText() + endBlock.getText(),
 				characterList = startBlock.getCharacterList().concat(endBlock.getCharacterList());
 
 			mergedStart = startBlock.merge(
@@ -126,6 +123,7 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 			    characterList: characterList
 			})
 
+			// uupdate blocks
 			updatedBlockMap = blockMap.set('ihct', mergedStart);
 			updatedBlockMap = updatedBlockMap.remove('dfr9n');
 
@@ -140,10 +138,17 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 			      // isBackward: false
 			})
 
+			// factoriser pour multiselection
+			// à partir d'ici : hors boucle pour mettre à jour l'éditeur d'un coup
 
 			// afterRemoval.set('selectionBefore', selection)
 			// selection.isCollapsed() ? 'backspace-character' : 
+			// tester directgement sur l'objet editorState de l'éditeur
 			EditorState.push(editorState, merged, 'remove-range');
+
+			// si ne met pas à jour : ?récupérer les block, maj raws. 
+			// si action redondante : éditer manutellement les blocks + maj raws
+
 
 			debugger
 			// changeRaws(currentRaws);
