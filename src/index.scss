@@ -1,5 +1,4 @@
-// @import '~bootstrap/scss/bootstrap.scss';
-@import 'constant/style.scss';
+@use 'constant/style.scss' as cst;
 
 #root{
   min-height: 100vh;
@@ -9,12 +8,12 @@
 body {
   // min-height: 100vh;
   margin: 0;
-  font-family: $quicksand;
+  font-family: cst.$quicksand;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-color: $dark-green;
-  color: $off-white;
+  background-color: cst.$dark-green;
+  color: cst.$off-white;
 }
 
 footer{

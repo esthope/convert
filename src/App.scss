@@ -1,4 +1,4 @@
-@import 'constant/style.scss';
+@use 'constant/style.scss' as cst;
 
 /*---base---------------------------------------------*/
 .bb {
@@ -43,13 +43,13 @@
 }*/
 
 .quicksand-font {
-  font-family: $quicksand;
+  font-family: cst.$quicksand;
   font-size: 16px;
   // font-optical-sizing: auto;
 }
 
 .green-background {
-  background-color: $light-green;
+  background-color: cst.$light-green;
   border-radius: 3px;
 }
 
@@ -62,16 +62,16 @@ main {
   padding: 0px 95px;
 
   * {
-    color: $off-white;
+    color: cst.$off-white;
   }
   
   *::selection {
-    background: $klein !important;
+    background: cst.$klein !important;
     text-shadow: none;
   }
 
   *::-moz-selection {
-    background: $klein !important;
+    background: cst.$klein !important;
     text-shadow: none;
   }
 
@@ -91,10 +91,10 @@ main {
   height: 64px;
   border: none;
   padding: 10px;
-  box-shadow: -3.5px -3.5px 0 $klein;
+  box-shadow: -3.5px -3.5px 0 cst.$klein;
 
   span {
-    font-family: $RozhaOne;
+    font-family: cst.$RozhaOne;
     font-size: 22pt;
     line-height: 0pt;
   }

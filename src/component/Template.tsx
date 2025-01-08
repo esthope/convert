@@ -1,8 +1,9 @@
-import './style/template.scss';
-import { Outlet } from 'react-router-dom';
+import {ReactElement} from "react";
+import {Outlet} from 'react-router-dom';
 import prov_logo from 'assets/circle.svg';
+import './style/template.scss';
 
-const Template = () => {
+const Template = (): ReactElement => {
 	return (
 	<>
 		<header>

@@ -1,18 +1,18 @@
 import {RichUtils, Editor, EditorState} from "draft-js";
-import {useRef, useState, LegacyRef, useEffect} from "react";
-import "draft-js/dist/Draft.css";
-// import 'style/customEditor.scss';
-import './style/customEditor.scss';
+import {ReactElement, useRef, useState, useEffect} from "react";
 import TestButton from 'component/TestButton';
 import style from "constant/style.scss";
+import "draft-js/dist/Draft.css";
+// import './style/customEditor.scss';
 
 /* [!]
-faire nouvel algo qui prend en compte multilgne
-entrer manuellement la selection avec prise en compte de la selection entre ligne
-déplacer les fonctions dans utils ou organiser ou renommer
+déplacer les fonctions dans utils / organiser / renommer
+document
+changer case de la sélection seulement
+selectionne bleu → outfocus → remplace → corriger
 */
 
-const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:LegacyRef<HTMLDivElement>, editorState:EditorState, setEditorState:Function}) => {
+const CustomEditor = ({editorState, setEditorState}:{editorState:EditorState, setEditorState:Function}): ReactElement => {
 
   const [selectionClass, setSelectionClass] = useState<string>(''),
         [selectMode, setSelectMode] = useState<boolean>(false);;
@@ -27,8 +27,13 @@ const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:Legacy
    * @param  {EditorState}  editorState The current state of the editor content
    */
   const onCancelDelete = (command:string, editorState:EditorState):any => {
-    console.log(command)
-    if (command === 'delete') {
+    const event = window.event;
+
+    if (command === 'delete' &&
+        (event instanceof KeyboardEvent
+        && event?.ctrlKey
+        && event?.code === 'KeyD'
+      )) {
       return 'handled'
     }
   }
@@ -49,15 +54,20 @@ const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:Legacy
       if (ctrlKey && code === 'KeyD') setSelectMode(!selectMode)
 
       // highlight the selection 
-      if (selectMode && (type === 'mouseup' || code.includes('Shift')))
-      {
-        setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'))
-        console.log(editorState.getSelection().toJS())
-        // [!] 1.
+      if (selectMode && (type === 'mouseup' || code.includes('Shift'))) {
+        setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'));
+
+        const currentSel = editorState.getSelection().toJS();
+        if (currentSel.anchorKey !== currentSel.focusKey) 
+        {
+          // [!] MSG
+          console.log('Sélection multiligne nest pas disponible');
+        }
       }
     }
     catch(err)
     {
+      // [!] MSG
       console.log('SEL : ', err)
     }
   }
@@ -68,14 +78,13 @@ const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:Legacy
    * @param  {EditorState}  editorState The current state of the editor content
    */
   const onChange = (editorState:EditorState):any => {
-
     // update text state
     setEditorState(editorState);
 
     // handle multi selection
     let event:any;
     event = window.event;
-    let instance = event.constructor.name;
+    let instance = event?.constructor?.name;
     if (instance === 'MouseEvent') handleSelection(event, editorState);
   }
 
@@ -90,7 +99,6 @@ const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:Legacy
       <TestButton onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
 
       <div 
-      ref={parentRef}
       className={`editor quicksand-font green-background ${selectionClass}`} 
       onKeyUp={(event:any):void => {handleSelection(event, editorState)}}
       >
@@ -108,12 +116,3 @@ const CustomEditor = ({parentRef, editorState, setEditorState}:{parentRef:Legacy
 }
 
 export default CustomEditor;
-
-/*
-content.getBlockForKey(selection.getStartKey()) // block before
-content.getBlockBefore(startKey)
-currentBlock.getPrevSiblingKey()
-RichUtils.handleKeyCommand(editorState, command)
-keyBindingFn={(event:any):any => {}} // pas de maj du editorState en direct ; keyup pas écouté
-handleBeforeInput={(chars, editorState):any => {seulement à la modif du texte}}
-*/

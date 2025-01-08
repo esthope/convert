@@ -1,38 +1,12 @@
-import {convertToRaw, convertFromRaw, EditorState, ContentState, RawDraftContentBlock} from "draft-js";
+import {ReactElement} from "react";
+import {EditorState} from "draft-js";
 import {getCurrentRaws, initContent} from 'util/editorHandler';
 import {Block} from 'constant/interfaces';
 import {Action} from 'constant/Cases';
 import SquareButton from './SquareButton';
-import inversionArrows from 'assets/inverse.svg';
+import SquareInverse from './SquareInverse';
 
-  /*
-    https://www.w3schools.com/jsref/jsref_obj_string.asp
-    trim
-    search       Searches a string for a value, or regular expression, and returns the index (position) of the match
-    slice        Extracts a part of a string and returns a new string
-    split        Splits a string into an array of substrings
-
-    valueOf
-    padStart padEnd
-    letter >= 'A'
-
-    REGEX : https://developer.mozilla.org/fr/docs/Web/JavaScript/Guide/Regular_expressions
-    /. : sélectionner une lettre.s en particulier
-    {n,m} : pour multiselction ?
-    /^\w/i: première lettre
-   */
-
-const InversionText = () => {
-    return (
-      <div id="inversionText" className="flex-center">
-        <span>A</span>
-        <img src={inversionArrows} className="" alt="arrows" />
-        <span>a</span>
-      </div>
-    )
-}
-
-const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorState:EditorState}) => {
+const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorState:EditorState}): ReactElement => {
 
 	/**
 	 * Change the case with more option
@@ -98,7 +72,7 @@ const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorS
 		  }
 			catch (err)
 			{
-				// [!] handling error + send error
+				// [!] MSG handling error + send error
 				console.log(err);
 			}
 
@@ -110,7 +84,7 @@ const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorS
 		{ content: 'ab', action: Action.lower },
 		{ content: 'abCd', action: Action.camel },
 		{ content: 'Ab Cd', action: Action.capital },
-		{ content: InversionText, action: Action.inversion }
+		{ content: SquareInverse, action: Action.inversion }
 	]
 
 	return (

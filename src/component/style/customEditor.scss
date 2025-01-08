@@ -1,4 +1,4 @@
-@import 'constant/style.scss';
+@use 'constant/style.scss' as cst;
 
 #editor-container {
   margin: 51px 0;
@@ -26,17 +26,17 @@
 }
 
 .highlight {
-  background-color: $ocher;
+  background-color: cst.$ocher;
 }
 
 .selectMode {
     *::selection {
-    background: $medium !important;
+    background: cst.$medium !important;
     text-shadow: none;
   }
 
     *::-moz-selection {
-    background: $medium !important;
+    background: cst.$medium !important;
     text-shadow: none;
   }
 }

@@ -1,33 +1,33 @@
 {
 	"action": [
 		{
-			"case_id": "UPP",
+			"action_id": "UPP",
 			"label": "Majuscule",
 			"key": "E"
 		},
 		{
-			"case_id": "LOW",
+			"action_id": "LOW",
 			"label": "Minuscule",
 			"shift": true,
 			"key": "E"
 		},
 		{
-			"case_id": "CAM",
+			"action_id": "CAM",
 			"label": "Camel Case",
 			"key": "M"
 		},
 		{
-			"case_id": "PCL",
+			"action_id": "PCL",
 			"label": "Pascal Case",
 			"key": "P"
 		},
 		{
-			"case_id": "INV",
+			"action_id": "INV",
 			"label": "Inversion",
 			"key": "i"
 		},
 		{
-			"case_id": "RPL",
+			"action_id": "RPL",
 			"label": "Remplacer",
 			"shift": true,
 			"key": "H"
@@ -35,23 +35,23 @@
 	],
 	"state": [
 		{
-			"case_id": "BEF",
+			"state_id": "BEF",
 			"label": "État précédent",
 			"key": "Z"
 		},
 		{
-			"case_id": "AFT",
+			"state_id": "AFT",
 			"label": "État suivant",
 			"shift": true,
 			"key": "Z"
 		},
 		{
-			"case_id": "DEL",
+			"state_id": "DEL",
 			"label": "Nouveau",
 			"key": "Q"
 		},
 		{
-			"case_id": "MUL",
+			"state_id": "MUL",
 			"label": "Multiselection",
 			"key": "D"
 		}

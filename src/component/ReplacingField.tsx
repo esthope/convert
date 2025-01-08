@@ -1,11 +1,10 @@
-import {EditorState, ContentState} from "draft-js";
-import {useState} from "react";
+import {EditorState} from "draft-js";
+import {ReactElement, useState} from "react";
 import {Selection} from 'constant/interfaces';
-import {getCurrentRaws} from 'util/editorHandler';
+import {getCurrentRaws, formatSelection} from 'util/editorHandler';
 import TestButton from 'component/TestButton';
-import circle from 'assets/circle.svg';
 
-const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorState:EditorState}) => {
+const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorState:EditorState}): ReactElement => {
 	const [choice, setChoice] = useState<string>('');
 
 	/**
@@ -15,6 +14,7 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 	const getSelection = (blocks:any[]):any[] => {
 		let selections:Selection[] = [];
 
+		// multi selections
 		blocks.forEach((block, index):void => {
 			const {key, inlineStyleRanges} = block;
 			if (inlineStyleRanges.length <= 0) return;
@@ -27,18 +27,11 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 			block.inlineStyleRanges = [];
 		})
 
-		debugger
-		if (selections.length <= 0) 
+		// only one selection
+		const editorSel = editorState.getSelection().toJS();
+		if (selections.length <= 0 && (editorSel.focusOffset !== editorSel.anchorOffset)) 
 		{
-			const {anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorState.getSelection().toJS();
-
-			let currentSel = {
-				block_key: (!isBackward) ? anchorKey : focusKey,
-				offset: (!isBackward) ? anchorOffset : focusOffset,
-				length: (!isBackward) ? (focusOffset - anchorOffset) : (anchorOffset - focusOffset)  
-			}
-
-			selections.push(currentSel)
+			selections.push(formatSelection(editorSel));
 		}
 
 		return selections;
@@ -98,65 +91,14 @@ const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorSt
 	 * 3. update states
 	 */
 	const replaceSelection = ():void => {
-		try
-		{
-			let mergedStart:any;
-			let updatedBlockMap:any;
-			let merged:any;
+		const currentRaws = getCurrentRaws(editorState),
+			{blocks} = currentRaws,
+			selections = getSelection(blocks);
 
-			// data test
-			const 
-				// currentRaws = getCurrentRaws(editorState)
-			      	// ,{blocks} = currentRaws
-			      	contentState = editorState.getCurrentContent()
-				,blockMap = contentState.getBlockMap()
-			      	,startBlock = contentState.getBlockForKey('ihct')
-				,endBlock = contentState.getBlockForKey('dfr9n');
+		if (selections.length === 0) return;
 
-			// merge the texts
-			const  mergedTexts = startBlock.getText() + endBlock.getText(),
-				characterList = startBlock.getCharacterList().concat(endBlock.getCharacterList());
-
-			mergedStart = startBlock.merge(
-			{
-			    text: mergedTexts,
-			    characterList: characterList
-			})
-
-			// uupdate blocks
-			updatedBlockMap = blockMap.set('ihct', mergedStart);
-			updatedBlockMap = updatedBlockMap.remove('dfr9n');
-
-			merged = contentState.merge({
-			    blockMap: updatedBlockMap,
-			    // selectionBefore: selectionState,
-			    //selectionAfter: selectionState.merge({
-			      // anchorKey: startKey,
-			      // anchorOffset: mergedStart.getLength(),
-			      // focusKey: startKey,
-			      // focusOffset: mergedStart.getLength(),
-			      // isBackward: false
-			})
-
-			// factoriser pour multiselection
-			// à partir d'ici : hors boucle pour mettre à jour l'éditeur d'un coup
-
-			// afterRemoval.set('selectionBefore', selection)
-			// selection.isCollapsed() ? 'backspace-character' : 
-			// tester directgement sur l'objet editorState de l'éditeur
-			EditorState.push(editorState, merged, 'remove-range');
-
-			// si ne met pas à jour : ?récupérer les block, maj raws. 
-			// si action redondante : éditer manutellement les blocks + maj raws
-
-
-			debugger
-			// changeRaws(currentRaws);
-		}
-		catch(err)
-		{
-			console.log(err)
-		}
+		transformTexts(selections, blocks)
+		changeRaws(currentRaws);
 	}
 
 	return (

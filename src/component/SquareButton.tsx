@@ -1,4 +1,4 @@
-import {useState, ReactElement} from "react";
+import {ReactElement} from "react";
 
 const SquareButton = ({content, onClick}: {content: string|Function, onClick: any}): ReactElement => {
 
