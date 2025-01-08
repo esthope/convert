@@ -6,7 +6,6 @@ import "draft-js/dist/Draft.css";
 // import './style/customEditor.scss';
 
 /* [!]
-déplacer les fonctions dans utils / organiser / renommer
 document
 changer case de la sélection seulement
 selectionne bleu → outfocus → remplace → corriger

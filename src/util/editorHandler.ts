@@ -1,12 +1,23 @@
 import {convertToRaw, convertFromRaw, EditorState} from "draft-js";
 import {Raw, Selection, EditorSelection} from 'constant/interfaces';
 
+/**
+ * Get the current content of the editor, formatted to raws
+ * @param  {EditorState} 	editorState : current editor state
+ * @return {Raw} 			current raws containing the blocks
+ */
 export const getCurrentRaws = (editorState:EditorState):Raw => {
 	const contentState = editorState.getCurrentContent(),
 		  currentRaws = convertToRaw(contentState);
 	return currentRaws;
 }
 
+/**
+ * Get the object of a specific block
+ * @param {string} 		blockKey : ID of the block we need
+ * @param {EditorState}	editorState : current editor state
+ * @return {object} 	block content
+ */
 export const getBlock = (blockKey:string, editorState:EditorState):any => {
 	const currentRaws = getCurrentRaws(editorState),
 		  block = currentRaws.blocks.find((block)=>block.key === blockKey);
@@ -14,8 +25,8 @@ export const getBlock = (blockKey:string, editorState:EditorState):any => {
 }
 
 /**
- * [initContent description]
- * @type {[type]}
+ * For test, init the editor content
+ * @param {Function} changeRaws : function to change the editor content
  */
 export const initContent = (changeRaws:Function) => {
 
@@ -47,8 +58,9 @@ export const initContent = (changeRaws:Function) => {
 }
 
 /**
- * [formatSelection description]
- * @type {[type]}
+ * Get and format a selection
+ * @param  {EditorSelection} 	editorSel : current selection
+ * @return {Selection} 			formatted selection
  */
 export const formatSelection = (editorSel:EditorSelection):Selection => {
 	const {anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorSel;
