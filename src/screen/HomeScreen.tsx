@@ -3,11 +3,13 @@ import {EditorState, convertFromRaw} from "draft-js";
 import SquareContainer from 'component/SquareContainer';
 import ReplacingField from 'component/ReplacingField';
 import CustomEditor from 'component/CustomEditor';
+import {Raw} from 'constant/interfaces';
 
 const Home = () => {
 
   const [hasMounted, setHasMounted] = useState<boolean>(false),
         [raws, setRaws] = useState<any>(),
+        [changed, setChanged] = useState<boolean>(false),
         [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
 
   /*
@@ -35,21 +37,30 @@ const Home = () => {
     toggleInlineStyle
   */
 
+  const changeRaws = (currentRaws:Raw):void => {
+    setRaws(currentRaws);
+    setChanged(true);
+  }
+
   useEffect(()=>{
     if (!hasMounted) {
       setHasMounted(true);
-      return
+      return;
     }
 
     const contentRaws = convertFromRaw(raws);
     setEditorState(EditorState.createWithContent(contentRaws));
-  // eslint-disable-next-line
-  }, [raws])
+
+    if (changed) {
+      setChanged(false);
+    }
+    // eslint-disable-next-line
+  }, [changed])
 
   return (
     <main>
-      <SquareContainer changeRaws={setRaws} editorState={editorState} />
-      <ReplacingField changeRaws={setRaws} editorState={editorState} />
+      <SquareContainer changeRaws={changeRaws} editorState={editorState} />
+      <ReplacingField changeRaws={changeRaws} editorState={editorState} />
       <CustomEditor editorState={editorState} setEditorState={setEditorState}/>
     </main>
   )

@@ -25,8 +25,7 @@ const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorS
 		{
 			if (selections.length > 0) 
 			{
-				console.log(selections)
-		  		// transformTexts(selections, )
+		  		transformTexts(selections, blocks, undefined, action);
 			}
 			else
 			{
@@ -37,6 +36,8 @@ const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorS
 					// change text case
 			  		block.text = changeCase(action, block.text)
 			  	})
+
+				changeRaws(currentRaws)
 			}
 	  	}
 		catch (err)
@@ -45,7 +46,6 @@ const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorS
 			console.log(err);
 		}
 
-		changeRaws(currentRaws)
 	}
 
 	const actionProps = [

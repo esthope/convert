@@ -47,7 +47,7 @@ export const changeCase = (action:string, text:string):string => {
 			text = text.toLowerCase();
 			break;
 		default:
-			text = changeComplexCase(action, text)
+			text = changeComplexCase(action, text);
 	}
 	return text;
 }
