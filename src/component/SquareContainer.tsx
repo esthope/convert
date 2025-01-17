@@ -37,8 +37,10 @@ const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorS
 			  		block.text = changeCase(action, block.text)
 			  	})
 
-				changeRaws(currentRaws)
 			}
+
+			debugger;
+			changeRaws(currentRaws)
 	  	}
 		catch (err)
 		{
