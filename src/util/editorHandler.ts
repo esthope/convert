@@ -63,6 +63,16 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 	
 }
 
+export const initSelection = (editorState:EditorState):void => {
+	const selectionLength = editorState?.getSelection()?.getFocusOffset(),
+		  documentSel = document.getSelection();
+
+    if (selectionLength <= 0 && documentSel) 
+    {
+    	documentSel.removeAllRanges();
+    }
+}
+
 /**
 * Get all the selections of each Block
 * @return {array} selection
@@ -94,7 +104,6 @@ export const getSelection = (blocks:any[], editorState:EditorState):any[] => {
 
 	return selections;
 }
-
 
 /**
  * Get the current content of the editor, formatted to raws

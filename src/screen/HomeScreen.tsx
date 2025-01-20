@@ -3,6 +3,7 @@ import {EditorState, convertFromRaw} from "draft-js";
 import SquareContainer from 'component/SquareContainer';
 import ReplacingField from 'component/ReplacingField';
 import CustomEditor from 'component/CustomEditor';
+import {initSelection} from 'util/editorHandler';
 import {Raw} from 'constant/interfaces';
 
 const Home = () => {
@@ -50,6 +51,8 @@ const Home = () => {
 
     const contentRaws = convertFromRaw(raws);
     setEditorState(EditorState.createWithContent(contentRaws));
+
+    initSelection(editorState);
 
     if (changed) {
       setChanged(false);
