@@ -12,9 +12,13 @@ export const Case = {
 	inversion: "INV"
 }
 
-export const state = {
+// [!] renommer ?
+export const State = {
+	copy : "CPY", 
+	past : "PST", 
+	cut : "CPY",
+	delete: "DEL",
 	before: "BEF",
 	after: "AFT",
-	delete: "DEL",
 	multi: "MUL"
 }

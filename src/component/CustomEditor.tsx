@@ -28,6 +28,8 @@ const CustomEditor = ({editorState, setEditorState}:{editorState:EditorState, se
   const onCancelDelete = (command:string, editorState:EditorState):any => {
     const event = window.event;
 
+    console.log(command)
+
     if (command === 'delete' &&
         (event instanceof KeyboardEvent
         && event?.ctrlKey

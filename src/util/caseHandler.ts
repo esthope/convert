@@ -8,7 +8,7 @@ import {Case} from 'constant/Cases';
  */
 export const changeComplexCase = (action:string, text:string):string => {
 	let changedText:string = '',
-		caseRegex:RegExp = /./,
+		caseRegex:RegExp = /./g,
 		lowerRegex = new RegExp('\\p{Lower}', 'u');
 
 	// camel case and capitalize
@@ -49,5 +49,6 @@ export const changeCase = (action:string, text:string):string => {
 		default:
 			text = changeComplexCase(action, text);
 	}
+
 	return text;
 }

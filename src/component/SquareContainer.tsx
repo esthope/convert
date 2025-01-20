@@ -23,6 +23,13 @@ const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorS
 
 		try
 		{
+			if (action === 'UNDO')
+			{
+				console.log('undo')
+				EditorState.undo(editorState);
+				return
+			}
+
 			if (selections.length > 0) 
 			{
 		  		transformTexts(selections, blocks, undefined, action);
@@ -39,7 +46,6 @@ const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorS
 
 			}
 
-			debugger;
 			changeRaws(currentRaws)
 	  	}
 		catch (err)
@@ -51,6 +57,7 @@ const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorS
 	}
 
 	const actionProps = [
+		{ content: 'Test', action: 'UNDO' },
 		{ content: 'AB', action: Case.upper },
 		{ content: 'ab', action: Case.lower },
 		{ content: 'abCd', action: Case.camel },
