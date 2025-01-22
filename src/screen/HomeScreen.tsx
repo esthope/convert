@@ -64,7 +64,7 @@ const Home = () => {
     <main>
       <SquareContainer changeRaws={changeRaws} editorState={editorState} />
       <ReplacingField changeRaws={changeRaws} editorState={editorState} />
-      <CustomEditor editorState={editorState} setEditorState={setEditorState}/>
+      <CustomEditor changeRaws={changeRaws} editorState={editorState} setEditorState={setEditorState}/>
     </main>
   )
 }

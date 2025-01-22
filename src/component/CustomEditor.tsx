@@ -1,11 +1,10 @@
-import {RichUtils, Editor, EditorState} from 'draft-js';
+import {RichUtils, Editor, EditorState, convertToRaw} from 'draft-js';
 import {ReactElement, useRef, useState, useEffect} from "react";
 import {getContentLength} from 'util/editorHandler';
 import TestButton from 'component/TestButton';
 import style from "constant/style.scss";
 import "draft-js/dist/Draft.css";
 // import './style/customEditor.scss';
-import createUndoPlugin from "@draft-js-plugins/undo";
 
 /* [!]
 document
@@ -13,10 +12,7 @@ changer case de la sélection seulement
 selectionne bleu → outfocus → remplace → corriger
 */
 
-const undoPlugin = createUndoPlugin();
-const { UndoButton, RedoButton } = undoPlugin;
-
-const CustomEditor = ({editorState, setEditorState}:{editorState:EditorState, setEditorState:Function}): ReactElement => {
+const CustomEditor = ({changeRaws, editorState, setEditorState}:{changeRaws:Function, editorState:EditorState, setEditorState:Function}): ReactElement => {
 
   const [selectionClass, setSelectionClass] = useState<string>(''),
         [selectMode, setSelectMode] = useState<boolean>(false),
@@ -104,14 +100,18 @@ const CustomEditor = ({editorState, setEditorState}:{editorState:EditorState, se
    * @param {Function} changeRaws : function to change the editor content
    */
   const resetContent = () => {
-    const initialState = EditorState.createEmpty()
-    setEditorState(initialState)
+    const initialState = EditorState.createEmpty();
+    changeRaws(convertToRaw(initialState.getCurrentContent()))
   }
 
   useEffect(()=>{
     let className = selectMode ? 'selectMode' : '';
     setSelectionClass(className);
   }, [selectMode])
+
+  useEffect(()=>{
+    // console.log('ch')
+  }, [editorState])
 
   return (
     <div id="editor-container" onClick={():void => editor.current.focus()}>
@@ -131,13 +131,10 @@ const CustomEditor = ({editorState, setEditorState}:{editorState:EditorState, se
         editorState={editorState}
         handleKeyCommand={onCancelDelete}
         customStyleMap={{ HIGHLIGHT: { backgroundColor: colors.ocher } }}
-        // plugins={[undoPlugin]}
         onChange={onChange} />
       </div>
 
       <TestButton onClick={()=>resetContent()} color={'#fff'} />
-      <UndoButton />
-      <RedoButton />
     </div>
   )
 }
