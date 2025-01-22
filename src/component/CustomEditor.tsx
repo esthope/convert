@@ -1,9 +1,11 @@
-import {RichUtils, Editor, EditorState} from "draft-js";
+import {RichUtils, Editor, EditorState} from 'draft-js';
 import {ReactElement, useRef, useState, useEffect} from "react";
+import {getContentLength} from 'util/editorHandler';
 import TestButton from 'component/TestButton';
 import style from "constant/style.scss";
 import "draft-js/dist/Draft.css";
 // import './style/customEditor.scss';
+import createUndoPlugin from "@draft-js-plugins/undo";
 
 /* [!]
 document
@@ -11,10 +13,14 @@ changer case de la sélection seulement
 selectionne bleu → outfocus → remplace → corriger
 */
 
+const undoPlugin = createUndoPlugin();
+const { UndoButton, RedoButton } = undoPlugin;
+
 const CustomEditor = ({editorState, setEditorState}:{editorState:EditorState, setEditorState:Function}): ReactElement => {
 
   const [selectionClass, setSelectionClass] = useState<string>(''),
-        [selectMode, setSelectMode] = useState<boolean>(false);;
+        [selectMode, setSelectMode] = useState<boolean>(false),
+        [contentLength, setContentLength] = useState<number>(0);;
 
   const editor = useRef<any>(null),
         colors:any = style;
@@ -82,11 +88,24 @@ const CustomEditor = ({editorState, setEditorState}:{editorState:EditorState, se
     // update text state
     setEditorState(editorState);
 
+    // update the content length
+    const currentContent = editorState.getCurrentContent();
+    setContentLength(getContentLength(currentContent));
+
     // handle multi selection
     let event:any;
     event = window.event;
     let instance = event?.constructor?.name;
     if (instance === 'MouseEvent') handleSelection(event, editorState);
+  }
+
+  /**
+   * For test, init the editor content
+   * @param {Function} changeRaws : function to change the editor content
+   */
+  const resetContent = () => {
+    const initialState = EditorState.createEmpty()
+    setEditorState(initialState)
   }
 
   useEffect(()=>{
@@ -99,7 +118,9 @@ const CustomEditor = ({editorState, setEditorState}:{editorState:EditorState, se
 
       <TestButton onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
 
-      <div 
+      <span>{contentLength} charactères</span>
+
+      <div
       className={`editor quicksand-font green-background ${selectionClass}`} 
       onKeyUp={(event:any):void => {handleSelection(event, editorState)}}
       >
@@ -110,8 +131,13 @@ const CustomEditor = ({editorState, setEditorState}:{editorState:EditorState, se
         editorState={editorState}
         handleKeyCommand={onCancelDelete}
         customStyleMap={{ HIGHLIGHT: { backgroundColor: colors.ocher } }}
+        // plugins={[undoPlugin]}
         onChange={onChange} />
       </div>
+
+      <TestButton onClick={()=>resetContent()} color={'#fff'} />
+      <UndoButton />
+      <RedoButton />
     </div>
   )
 }

@@ -1,66 +1,37 @@
-import {convertToRaw, convertFromRaw, EditorState} from "draft-js";
+import {convertToRaw, convertFromRaw, EditorState, ContentState} from "draft-js";
 import {Raw, Selection, EditorSelection} from 'constant/interfaces';
-import {changeCase} from 'util/caseHandler';
-
-let currentBlock:any,
-	workText:string,
-	newText = '',
-	anchor = 0;
-
-const updateText = () => {
-	newText += workText.slice(anchor);
-	currentBlock.text = newText;
-}
 
 /**
- * Split the selection, then concat with chosen text
- * @param  {array} 	selections 	All positions of the selection
- * @param  {array} 	blocks 		the text blocks from Draftjs
- * @param  {string} value 		A changed text for case update
+ * For test, init the editor content
+ * @param {Function} changeRaws : function to change the editor content
  */
-export const transformTexts = (selections:Selection[], blocks:any[], value?:string, caseAction?:string):void => {
-	let selectionsLength = selections.length,
-		selectedText:string;
+export const initContent = (changeRaws:Function) => {
 
-	selections.forEach((selection, index):void => {
-		const {offset, length, block_key} = selection;
+	const initialState = EditorState.createWithContent(
+		convertFromRaw({
+			blocks: [{
+			    key: "9adb5",
+			    text: "OUI non OUI OUI non non OUI àäâa èee éee ùuu",
+			    type: "",
+			    depth: 0,
+			    inlineStyleRanges: [],
+			    entityRanges: [],
+			    data: {},
+			},{
+			    key: "11111",
+			    text: "oğuzhan özyakup",
+			    type: "",
+			    depth: 0,
+			    inlineStyleRanges: [],
+			    entityRanges: [],
+			    data: {},
+			}],
+			entityMap: {}
+		})
+	)
 
-		if (block_key)
-		{
-			// For the last iteration : add the rest of its sentence, then update
-			if (newText !== '') 
-			{
-				updateText();
-			}
-
-			// get the current block with its passed key
-			currentBlock = blocks.find((block)=>block.key === block_key);
-			workText = currentBlock.text;
-
-			// init
-			newText = '';
-			anchor = 0;
-		}
-
-		// case mode
-		if (caseAction)
-		{
-			selectedText = workText.slice(offset, offset + length);
-			value = changeCase(caseAction, selectedText);
-		}
-
-		// get the section and add the replacing text
-		newText += workText.slice(anchor, offset) + value;
-		// define the start position for next|last iteration
-		anchor = offset + length;
-
-		// on last iteration, add the rest of the sentence, then update
-		if (selectionsLength === (index+1))
-		{
-			updateText();
-		}
-	})
-	
+	const initialContent = initialState.getCurrentContent();
+	changeRaws(convertToRaw(initialContent))
 }
 
 export const initSelection = (editorState:EditorState):void => {
@@ -106,6 +77,24 @@ export const getSelection = (blocks:any[], editorState:EditorState):any[] => {
 }
 
 /**
+ * Get and format a selection
+ * @param  {EditorSelection} 	editorSel : current selection
+ * @return {Selection} 			formatted selection
+ */
+export const formatSelection = (editorSel:EditorSelection):Selection => {
+	const {anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorSel;
+
+	const formatedSel = {
+		block_key: (isBackward) ? focusKey : anchorKey,
+		ending_key: (isBackward) ? anchorKey : focusKey,
+		offset: (isBackward) ? focusOffset : anchorOffset,
+		length: (isBackward) ? (anchorOffset - focusOffset) : (focusOffset - anchorOffset)
+	}
+
+	return formatedSel;
+}
+
+/**
  * Get the current content of the editor, formatted to raws
  * @param  {EditorState} 	editorState : current editor state
  * @return {Raw} 			current raws containing the blocks
@@ -128,53 +117,13 @@ export const getBlock = (blockKey:string, editorState:EditorState):any => {
 	return block;
 }
 
-/**
- * For test, init the editor content
- * @param {Function} changeRaws : function to change the editor content
- */
-export const initContent = (changeRaws:Function) => {
+export const getContentLength = (currentContent:ContentState):number => {
+	let textLength = 0;
 
-	const initialState = EditorState.createWithContent(
-		convertFromRaw({
-			blocks: [{
-			    key: "9adb5",
-			    text: "OUI non OUI OUI non non OUI àäâa èee éee ùuu",
-			    type: "",
-			    depth: 0,
-			    inlineStyleRanges: [],
-			    entityRanges: [],
-			    data: {},
-			},{
-			    key: "11111",
-			    text: "oğuzhan özyakup",
-			    type: "",
-			    depth: 0,
-			    inlineStyleRanges: [],
-			    entityRanges: [],
-			    data: {},
-			}],
-			entityMap: {}
-		})
-	)
+	const blocks = currentContent.getBlocksAsArray();
+	blocks.forEach((block) => {
+		textLength += block.getLength();
+	})
 
-	const initialContent = initialState.getCurrentContent();
-	changeRaws(convertToRaw(initialContent))
-}
-
-/**
- * Get and format a selection
- * @param  {EditorSelection} 	editorSel : current selection
- * @return {Selection} 			formatted selection
- */
-export const formatSelection = (editorSel:EditorSelection):Selection => {
-	const {anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorSel;
-
-	const formatedSel = {
-		block_key: (isBackward) ? focusKey : anchorKey,
-		ending_key: (isBackward) ? anchorKey : focusKey,
-		offset: (isBackward) ? focusOffset : anchorOffset,
-		length: (isBackward) ? (anchorOffset - focusOffset) : (focusOffset - anchorOffset)
-	}
-
-	return formatedSel;
+	return textLength;
 }

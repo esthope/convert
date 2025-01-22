@@ -1,7 +1,8 @@
 import {EditorState} from "draft-js";
 import {ReactElement, useState} from "react";
 import {Selection} from 'constant/interfaces';
-import {getCurrentRaws, formatSelection, getSelection, transformTexts} from 'util/editorHandler';
+import {getCurrentRaws, formatSelection, getSelection} from 'util/editorHandler';
+import {transformTexts} from 'util/textHandler';
 import TestButton from 'component/TestButton';
 
 const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorState:EditorState}): ReactElement => {

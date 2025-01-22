@@ -1,7 +1,7 @@
 import {ReactElement} from "react";
 import {EditorState} from "draft-js";
-import {getCurrentRaws, initContent, getSelection, transformTexts} from 'util/editorHandler';
-import {changeCase} from 'util/caseHandler';
+import {getCurrentRaws, initContent, getSelection} from 'util/editorHandler';
+import {transformTexts, changeCase} from 'util/textHandler';
 import {Block} from 'constant/interfaces';
 import {Case} from 'constant/Cases';
 import SquareButton from './SquareButton';
@@ -23,13 +23,6 @@ const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorS
 
 		try
 		{
-			if (action === 'UNDO')
-			{
-				console.log('undo')
-				EditorState.undo(editorState);
-				return
-			}
-
 			if (selections.length > 0) 
 			{
 		  		transformTexts(selections, blocks, undefined, action);
@@ -57,7 +50,6 @@ const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorS
 	}
 
 	const actionProps = [
-		{ content: 'Test', action: 'UNDO' },
 		{ content: 'AB', action: Case.upper },
 		{ content: 'ab', action: Case.lower },
 		{ content: 'abCd', action: Case.camel },
