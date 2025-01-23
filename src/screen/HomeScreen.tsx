@@ -62,12 +62,11 @@ const Home = () => {
   }, [changed])
 
   return (
-
     <EditorContext.Provider value={editorState}>
       <main>
           <SquareContainer changeRaws={changeRaws} />
           <ReplacingField changeRaws={changeRaws} />
-          <CustomEditor setEditorState={setEditorState}/>
+          <CustomEditor changeRaws={changeRaws} setEditorState={setEditorState}/>
       </main>
     </EditorContext.Provider>
   )
