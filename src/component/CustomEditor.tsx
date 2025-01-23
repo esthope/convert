@@ -1,11 +1,12 @@
 import {RichUtils, Editor, EditorState} from 'draft-js';
-import {ReactElement, useRef, useState, useEffect} from "react";
+import {ReactElement, useRef, useState, useEffect, useContext} from "react";
 import {getContentLength} from 'util/editorHandler';
 import TestButton from 'component/TestButton';
 import style from "constant/style.scss";
 import "draft-js/dist/Draft.css";
 // import './style/customEditor.scss';
-import createUndoPlugin from "@draft-js-plugins/undo";
+// import createUndoPlugin from "@draft-js-plugins/undo";
+import EditorContext from 'service/context';
 
 /* [!]
 document
@@ -13,14 +14,16 @@ changer case de la sélection seulement
 selectionne bleu → outfocus → remplace → corriger
 */
 
-const undoPlugin = createUndoPlugin();
-const { UndoButton, RedoButton } = undoPlugin;
+// const undoPlugin = createUndoPlugin();
+// const { UndoButton, RedoButton } = undoPlugin;
 
-const CustomEditor = ({editorState, setEditorState}:{editorState:EditorState, setEditorState:Function}): ReactElement => {
+const CustomEditor = ({setEditorState}:{setEditorState:Function}): ReactElement => {
 
   const [selectionClass, setSelectionClass] = useState<string>(''),
         [selectMode, setSelectMode] = useState<boolean>(false),
         [contentLength, setContentLength] = useState<number>(0);;
+
+  const editorState = useContext(EditorContext);
 
   const editor = useRef<any>(null),
         colors:any = style;
@@ -136,8 +139,8 @@ const CustomEditor = ({editorState, setEditorState}:{editorState:EditorState, se
       </div>
 
       <TestButton onClick={()=>resetContent()} color={'#fff'} />
-      <UndoButton />
-      <RedoButton />
+      {/*<UndoButton />*/}
+      {/*<RedoButton />*/}
     </div>
   )
 }

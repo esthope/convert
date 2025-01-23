@@ -3,6 +3,7 @@ import {EditorState, convertFromRaw} from "draft-js";
 import SquareContainer from 'component/SquareContainer';
 import ReplacingField from 'component/ReplacingField';
 import CustomEditor from 'component/CustomEditor';
+import EditorContext from 'service/context';
 import {initSelection} from 'util/editorHandler';
 import {Raw} from 'constant/interfaces';
 
@@ -61,11 +62,14 @@ const Home = () => {
   }, [changed])
 
   return (
-    <main>
-      <SquareContainer changeRaws={changeRaws} editorState={editorState} />
-      <ReplacingField changeRaws={changeRaws} editorState={editorState} />
-      <CustomEditor editorState={editorState} setEditorState={setEditorState}/>
-    </main>
+
+    <EditorContext.Provider value={editorState}>
+      <main>
+          <SquareContainer changeRaws={changeRaws} />
+          <ReplacingField changeRaws={changeRaws} />
+          <CustomEditor setEditorState={setEditorState}/>
+      </main>
+    </EditorContext.Provider>
   )
 }
 

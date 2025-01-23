@@ -1,12 +1,15 @@
 import {EditorState} from "draft-js";
-import {ReactElement, useState} from "react";
+import {ReactElement, useState, useContext} from "react";
 import {Selection} from 'constant/interfaces';
 import {getCurrentRaws, formatSelection, getSelection} from 'util/editorHandler';
 import {transformTexts} from 'util/textHandler';
 import TestButton from 'component/TestButton';
+import EditorContext from 'service/context';
 
-const ReplacingField = ({changeRaws, editorState}:{changeRaws:Function, editorState:EditorState}): ReactElement => {
+const ReplacingField = ({changeRaws}:{changeRaws:Function}): ReactElement => {
 	const [choice, setChoice] = useState<string>('');
+
+  	const editorState = useContext(EditorContext);
 
 	/**
 	 * Replace the text from selected string

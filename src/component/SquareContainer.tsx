@@ -1,4 +1,4 @@
-import {ReactElement} from "react";
+import {ReactElement, useContext} from "react";
 import {EditorState} from "draft-js";
 import {getCurrentRaws, initContent, getSelection} from 'util/editorHandler';
 import {transformTexts, changeCase} from 'util/textHandler';
@@ -6,9 +6,10 @@ import {Block} from 'constant/interfaces';
 import {Case} from 'constant/Cases';
 import SquareButton from './SquareButton';
 import SquareInverse from './SquareInverse';
+import EditorContext from 'service/context';
 
-const SquareContainer = ({changeRaws, editorState}:{changeRaws:Function, editorState:EditorState}): ReactElement => {
-
+const SquareContainer = ({changeRaws}:{changeRaws:Function}): ReactElement => {
+  	const editorState = useContext(EditorContext);
 
 	/**
 	 * Choose the case treatment depending of the selected action

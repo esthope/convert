@@ -8,7 +8,7 @@ module.exports = function override(config, env) {
     component: path.resolve(__dirname, 'src/component/'),
     style: path.resolve(__dirname, 'src/component/style'),
     constant: path.resolve(__dirname, 'src/constant/'),
-    service: path.resolve(__dirname, 'src/network/service/'),
+    service: path.resolve(__dirname, 'src/service/'),
     screen: path.resolve(__dirname, 'src/screen/'),
     util: path.resolve(__dirname, 'src/util/'),
   };
