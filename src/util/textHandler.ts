@@ -1,5 +1,9 @@
 import {Case} from 'constant/Cases';
 import {Selection} from 'constant/interfaces';
+import {useContext} from "react";
+import EditorContext from 'service/context';
+
+const editorState = useContext(EditorContext);
 
 let currentBlock:any,
 	workText:string,

@@ -1,5 +1,4 @@
 import {ReactElement, useContext} from "react";
-import {EditorState} from "draft-js";
 import {getCurrentRaws, initContent, getSelection} from 'util/editorHandler';
 import {transformTexts, changeCase} from 'util/textHandler';
 import {Block} from 'constant/interfaces';

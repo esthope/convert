@@ -1,7 +1,5 @@
-import {EditorState} from "draft-js";
 import {ReactElement, useState, useContext} from "react";
-import {Selection} from 'constant/interfaces';
-import {getCurrentRaws, formatSelection, getSelection} from 'util/editorHandler';
+import {getCurrentRaws, getSelection} from 'util/editorHandler';
 import {transformTexts} from 'util/textHandler';
 import TestButton from 'component/TestButton';
 import EditorContext from 'service/context';
