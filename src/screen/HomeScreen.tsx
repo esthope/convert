@@ -12,7 +12,8 @@ const Home = () => {
   const [hasMounted, setHasMounted] = useState<boolean>(false),
         [raws, setRaws] = useState<any>(),
         [changed, setChanged] = useState<boolean>(false),
-        [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
+        [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
+        ;
 
   /*
   content.getBlockForKey(selection.getStartKey()) // block before

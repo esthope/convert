@@ -1,6 +1,7 @@
 import {convertToRaw, convertFromRaw, EditorState, ContentState} from "draft-js";
 import {Raw, Selection, EditorSelection} from 'constant/interfaces';
 
+
 /**
  * For test, init the editor content
  * @param {Function} changeRaws : function to change the editor content
