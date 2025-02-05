@@ -1,12 +1,16 @@
+// main
 import {useEffect, useState} from "react";
-import {EditorState, convertFromRaw} from "draft-js";
-import SquareContainer from 'component/SquareContainer';
-import ReplacingField from 'component/ReplacingField';
-import CustomEditor from 'component/CustomEditor';
-
+import {EditorState} from "draft-js";
+// util
 import {EditorContext} from 'service/context';
-import {initSelection, getRaws, getContentLength} from 'util/editorHandler';
-import {Raw} from 'constant/interfaces';
+import {initSelection} from 'util/editorHandler';
+import {getContentLength} from 'util/textHandler';
+// element
+import CaseContainer from 'component/CaseContainer';
+import ActionContainer from 'component/ActionContainer';
+import ReplaceField from 'component/ReplaceField';
+import TextEditor from 'component/TextEditor';
+import CustomButton from 'component/CustomButton';
 
 const Home = () => {
 
@@ -28,14 +32,16 @@ const Home = () => {
     // prevent selection bugs
     initSelection(editorState);
 
+  // eslint-disable-next-line
   }, [editorState])
 
   return (
     <EditorContext.Provider value={[editorState, setEditorState]}>
       <main>
-          <SquareContainer />
-          <ReplacingField />
-          <CustomEditor contentLength={contentLength} />
+          <CaseContainer />
+          <ReplaceField />
+          <TextEditor contentLength={contentLength} />
+          <ActionContainer contentLength={contentLength} />
       </main>
     </EditorContext.Provider>
   )

@@ -1,6 +1,5 @@
-import {convertToRaw, convertFromRaw, EditorState, ContentState} from "draft-js";
+import {convertToRaw, convertFromRaw, EditorState} from "draft-js";
 import {Raw, Selection, EditorSelection} from 'constant/interfaces';
-
 
 export const createContent = (raws:Raw):EditorState => {
 	const contentRaws = convertFromRaw(raws);
@@ -69,10 +68,9 @@ export const getSelection = (blocks:any[], editorState:EditorState):any[] => {
 		block.inlineStyleRanges = [];
 	})
 
-
 	// only one selection
 	const editorSel = editorState.getSelection().toJS();
-	if (selections.length <= 0 && (editorSel.focusOffset !== editorSel.anchorOffset)) 
+	if ((selections.length <= 0) && editorSel.hasFocus && (editorSel.focusOffset !== editorSel.anchorOffset)) 
 	{
 		selections.push(formatSelection(editorSel));
 	}
@@ -119,15 +117,4 @@ export const getBlock = (blockKey:string, editorState:EditorState):any => {
 	const currentRaws = getRaws(editorState),
 		  block = currentRaws.blocks.find((block)=>block.key === blockKey);
 	return block;
-}
-
-export const getContentLength = (currentContent:ContentState):number => {
-	let textLength = 0;
-
-	const blocks = currentContent.getBlocksAsArray();
-	blocks.forEach((block) => {
-		textLength += block.getLength();
-	})
-
-	return textLength;
 }

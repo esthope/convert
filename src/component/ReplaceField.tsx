@@ -1,14 +1,15 @@
+// main
 import {ReactElement, useState, useContext} from "react";
-import TestButton from 'component/TestButton';
-
+// util
+import {EditorContext} from 'service/context';
 import {getRaws, getSelection, createContent} from 'util/editorHandler';
 import {transformTexts} from 'util/textHandler';
-import {EditorContext} from 'service/context';
+// element
+import CustomButton from 'component/CustomButton';
 
-const ReplacingField = (): ReactElement => {
-	const [choice, setChoice] = useState<string>('');
-
-  	const [editorState, setEditorState] = useContext(EditorContext);
+const ReplaceField = (): ReactElement => {
+	const 	[choice, setChoice] = useState<string>(''),
+			[editorState, setEditorState] = useContext(EditorContext);
 
 	/**
 	 * Replace the text from selected string
@@ -36,9 +37,9 @@ const ReplacingField = (): ReactElement => {
 			placeholder="Saisir le caratère"
 			onChange={({target})=>{setChoice(target.value)}} />
 
-			<TestButton onClick={replaceSelection} />
+			<CustomButton onClick={replaceSelection} />
       </div>
 	)
 }
 
-export default ReplacingField;
+export default ReplaceField;

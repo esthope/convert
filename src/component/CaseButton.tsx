@@ -1,6 +1,6 @@
 import {ReactElement} from "react";
 
-const SquareButton = ({content, onClick}: {content: string|Function, onClick: any}): ReactElement => {
+const CaseButton = ({content, onClick}: {content: string|Function, onClick: any}): ReactElement => {
 
 	return (
 		<button
@@ -18,4 +18,4 @@ const SquareButton = ({content, onClick}: {content: string|Function, onClick: an
 	)
 }
 
-export default SquareButton;
+export default CaseButton;

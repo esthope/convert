@@ -1,19 +1,18 @@
+// main
 import {ReactElement, useState, useEffect, useContext} from "react";
-import {RichUtils, Editor, EditorState, convertToRaw} from 'draft-js';
-import {getRaws} from 'util/editorHandler';
-
-import {EditorContext} from 'service/context';
-import TestButton from 'component/TestButton';
-import style from "constant/style.scss";
+import {RichUtils, Editor, EditorState} from 'draft-js';
 import "draft-js/dist/Draft.css";
+// util
+import {EditorContext} from 'service/context';
+// element
+import style from "constant/style.scss";
+import CustomButton from 'component/CustomButton';
 
 /* [!]
-document
-changer case de la sélection seulement
-selectionne bleu → outfocus → remplace → corriger
+
 */
 
-const CustomEditor = ({contentLength}:{contentLength:number}): ReactElement => {
+const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
 
   const [selectionClass, setSelectionClass] = useState<string>(''),
         [selectMode, setSelectMode] = useState<boolean>(false)
@@ -91,17 +90,7 @@ const CustomEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     if (instance === 'MouseEvent') handleSelection(event, editorState);
   }
 
-  /**
-   * Clear the editor content
-   */
-  const clearContent = () => {
-    const initialState = EditorState.createEmpty();
-    setEditorState(initialState)
-  }
-
   useEffect(()=>{
-    if (contentLength === 0) return;
-
     let className = selectMode ? 'selectMode' : '';
     setSelectionClass(className);
   }, [selectMode])
@@ -109,7 +98,7 @@ const CustomEditor = ({contentLength}:{contentLength:number}): ReactElement => {
   return (
     <div id="editor-container">
 
-      <TestButton onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
+      <CustomButton onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
 
       <span>{contentLength} caractères</span>
 
@@ -125,10 +114,8 @@ const CustomEditor = ({contentLength}:{contentLength:number}): ReactElement => {
         customStyleMap={{ HIGHLIGHT: { backgroundColor: colors.ocher } }}
         onChange={onChange} />
       </div>
-
-      <TestButton onClick={()=>clearContent()} color={'#fff'} />
     </div>
   )
 }
 
-export default CustomEditor;
+export default TextEditor;

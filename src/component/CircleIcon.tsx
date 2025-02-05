@@ -2,7 +2,7 @@ import {ReactElement} from "react";
 import style from "constant/style.scss";
 
 const colors:any = style;
-const Circle = ({color=colors.lightOrange, parentSize='21', ellipseSize='10'}:{color?:string, parentSize?:string, ellipseSize?:string}):ReactElement => {
+const CircleIcon = ({color=colors.lightOrange, parentSize='21', ellipseSize='10'}:{color?:string, parentSize?:string, ellipseSize?:string}):ReactElement => {
 
 
 	return (
@@ -12,4 +12,4 @@ const Circle = ({color=colors.lightOrange, parentSize='21', ellipseSize='10'}:{c
 	)
 }
 
-export default Circle;
+export default CircleIcon;

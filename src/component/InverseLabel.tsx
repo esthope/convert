@@ -1,7 +1,7 @@
 import {ReactElement} from "react";
 import inversionArrows from 'assets/inverse.svg';
 
-const SquareInverse = (): ReactElement => {
+const InverseLabel = (): ReactElement => {
     return (
       <div id="inversionText" className="flex-center">
         <span>A</span>
@@ -11,4 +11,4 @@ const SquareInverse = (): ReactElement => {
     )
 }
 
-export default SquareInverse;
+export default InverseLabel;

@@ -1,17 +1,24 @@
+// main
 import {ReactElement, useContext} from "react";
-
-import {convertFromRaw} from "draft-js";
+// util
 import {EditorContext} from 'service/context';
 import {getRaws, initContent, getSelection, createContent} from 'util/editorHandler';
 import {transformTexts, changeCase} from 'util/textHandler';
-
+// element
 import {Block} from 'constant/interfaces';
 import {Case} from 'constant/Cases';
-import SquareButton from './SquareButton';
-import SquareInverse from './SquareInverse';
+import CaseButton from './CaseButton';
+import InverseLabel from './InverseLabel';
 
+const caseProps = [
+	{ content: 'AB', action: Case.upper },
+	{ content: 'ab', action: Case.lower },
+	{ content: 'abCd', action: Case.camel },
+	{ content: 'Ab Cd', action: Case.capital },
+	{ content: InverseLabel, action: Case.inversion }
+]
 
-const SquareContainer = (): ReactElement => {
+const CaseContainer = (): ReactElement => {
   	const [editorState, setEditorState] = useContext(EditorContext);
 
 	/**
@@ -53,20 +60,12 @@ const SquareContainer = (): ReactElement => {
 
 	}
 
-	const actionProps = [
-		{ content: 'AB', action: Case.upper },
-		{ content: 'ab', action: Case.lower },
-		{ content: 'abCd', action: Case.camel },
-		{ content: 'Ab Cd', action: Case.capital },
-		{ content: SquareInverse, action: Case.inversion }
-	]
-
 	return (
 		<section className="square-container flex">
-			<SquareButton content="init" onClick={()=>initContent(setEditorState)} />
+			<CaseButton content="init" onClick={()=>initContent(setEditorState)} />
 			{
-				actionProps.map((property, index)=>
-					<SquareButton
+				caseProps.map((property, index)=>
+					<CaseButton
 						key={index}
 						content={property.content}
 						onClick={() => updateText(property.action)} />
@@ -76,4 +75,4 @@ const SquareContainer = (): ReactElement => {
 	)
 }
 
-export default SquareContainer;
+export default CaseContainer;

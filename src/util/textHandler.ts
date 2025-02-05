@@ -1,7 +1,6 @@
-import {Case} from 'constant/Cases';
+import {ContentState} from "draft-js";
 import {Selection} from 'constant/interfaces';
-import {useContext} from "react";
-import {EditorContext} from 'service/context';
+import {Case} from 'constant/Cases';
 
 let currentBlock:any,
 	workText:string,
@@ -116,4 +115,15 @@ export const changeCase = (action:string, text:string):string => {
 	}
 
 	return text;
+}
+
+export const getContentLength = (currentContent:ContentState):number => {
+	let textLength = 0;
+
+	const blocks = currentContent.getBlocksAsArray();
+	blocks.forEach((block) => {
+		textLength += block.getLength();
+	})
+
+	return textLength;
 }
