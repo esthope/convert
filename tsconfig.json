@@ -4,6 +4,8 @@
     "target": "es6", // regex
     // "target": "es5", // regex
     "lib": [
+      // "es5",
+      // "es6",
       "dom",
       "dom.iterable",
       "esnext"

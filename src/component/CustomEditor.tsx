@@ -1,8 +1,8 @@
-import {ReactElement, useRef, useState, useEffect, useContext} from "react";
+import {ReactElement, useState, useEffect, useContext} from "react";
 import {RichUtils, Editor, EditorState, convertToRaw} from 'draft-js';
-import {getContentLength} from 'util/editorHandler';
+import {getRaws} from 'util/editorHandler';
 
-import EditorContext from 'service/context';
+import {EditorContext} from 'service/context';
 import TestButton from 'component/TestButton';
 import style from "constant/style.scss";
 import "draft-js/dist/Draft.css";
@@ -13,16 +13,13 @@ changer case de la sélection seulement
 selectionne bleu → outfocus → remplace → corriger
 */
 
-const CustomEditor = ({changeRaws, setEditorState}:{changeRaws:Function, setEditorState:Function}): ReactElement => {
+const CustomEditor = ({contentLength}:{contentLength:number}): ReactElement => {
 
   const [selectionClass, setSelectionClass] = useState<string>(''),
-        [selectMode, setSelectMode] = useState<boolean>(false),
-        [contentLength, setContentLength] = useState<number>(0);;
+        [selectMode, setSelectMode] = useState<boolean>(false)
 
-  const editorState = useContext(EditorContext);
-
-  const editor = useRef<any>(null),
-        colors:any = style;
+  const [editorState, setEditorState] = useContext(EditorContext);
+  const colors:any = style;
 
   /**
    * Listen the delete command of DraftJS to cancel it 
@@ -85,11 +82,7 @@ const CustomEditor = ({changeRaws, setEditorState}:{changeRaws:Function, setEdit
    */
   const onChange = (editorState:EditorState):any => {
     // update text state
-    setEditorState(editorState);
-
-    // update the content length
-    const currentContent = editorState.getCurrentContent();
-    setContentLength(getContentLength(currentContent));
+    setEditorState(editorState)
 
     // handle multi selection
     let event:any;
@@ -99,29 +92,26 @@ const CustomEditor = ({changeRaws, setEditorState}:{changeRaws:Function, setEdit
   }
 
   /**
-   * For test, init the editor content
-   * @param {Function} changeRaws : function to change the editor content
+   * Clear the editor content
    */
-  const resetContent = () => {
+  const clearContent = () => {
     const initialState = EditorState.createEmpty();
-    changeRaws(convertToRaw(initialState.getCurrentContent()))
+    setEditorState(initialState)
   }
 
   useEffect(()=>{
+    if (contentLength === 0) return;
+
     let className = selectMode ? 'selectMode' : '';
     setSelectionClass(className);
   }, [selectMode])
 
-  useEffect(()=>{
-    // console.log('ch')
-  }, [editorState])
-
   return (
-    <div id="editor-container" onClick={():void => editor.current.focus()}>
+    <div id="editor-container">
 
       <TestButton onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
 
-      <span>{contentLength} charactères</span>
+      <span>{contentLength} caractères</span>
 
       <div
       className={`editor quicksand-font green-background ${selectionClass}`} 
@@ -129,7 +119,6 @@ const CustomEditor = ({changeRaws, setEditorState}:{changeRaws:Function, setEdit
       >
 
         <Editor
-        ref={editor}
         placeholder="Inscrire le texte"
         editorState={editorState}
         handleKeyCommand={onCancelDelete}
@@ -137,7 +126,7 @@ const CustomEditor = ({changeRaws, setEditorState}:{changeRaws:Function, setEdit
         onChange={onChange} />
       </div>
 
-      <TestButton onClick={()=>resetContent()} color={'#fff'} />
+      <TestButton onClick={()=>clearContent()} color={'#fff'} />
     </div>
   )
 }

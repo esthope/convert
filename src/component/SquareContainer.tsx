@@ -1,14 +1,18 @@
 import {ReactElement, useContext} from "react";
-import {getCurrentRaws, initContent, getSelection} from 'util/editorHandler';
+
+import {convertFromRaw} from "draft-js";
+import {EditorContext} from 'service/context';
+import {getRaws, initContent, getSelection, createContent} from 'util/editorHandler';
 import {transformTexts, changeCase} from 'util/textHandler';
+
 import {Block} from 'constant/interfaces';
 import {Case} from 'constant/Cases';
 import SquareButton from './SquareButton';
 import SquareInverse from './SquareInverse';
-import EditorContext from 'service/context';
 
-const SquareContainer = ({changeRaws}:{changeRaws:Function}): ReactElement => {
-  	const editorState = useContext(EditorContext);
+
+const SquareContainer = (): ReactElement => {
+  	const [editorState, setEditorState] = useContext(EditorContext);
 
 	/**
 	 * Choose the case treatment depending of the selected action
@@ -16,7 +20,7 @@ const SquareContainer = ({changeRaws}:{changeRaws:Function}): ReactElement => {
 	 * @param  {string} action 	constant from Cases
 	 */
 	const updateText = (action:string):void => {
-		const currentRaws = getCurrentRaws(editorState),
+		const currentRaws = getRaws(editorState),
 			  {blocks} = currentRaws;
 
 		const selections = getSelection(blocks, editorState)
@@ -39,7 +43,7 @@ const SquareContainer = ({changeRaws}:{changeRaws:Function}): ReactElement => {
 
 			}
 
-			changeRaws(currentRaws)
+			setEditorState(createContent(currentRaws))
 	  	}
 		catch (err)
 		{
@@ -59,7 +63,7 @@ const SquareContainer = ({changeRaws}:{changeRaws:Function}): ReactElement => {
 
 	return (
 		<section className="square-container flex">
-			<SquareButton content="init" onClick={()=>initContent(changeRaws)} />
+			<SquareButton content="init" onClick={()=>initContent(setEditorState)} />
 			{
 				actionProps.map((property, index)=>
 					<SquareButton

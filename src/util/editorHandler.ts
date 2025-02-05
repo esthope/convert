@@ -2,14 +2,18 @@ import {convertToRaw, convertFromRaw, EditorState, ContentState} from "draft-js"
 import {Raw, Selection, EditorSelection} from 'constant/interfaces';
 
 
+export const createContent = (raws:Raw):EditorState => {
+	const contentRaws = convertFromRaw(raws);
+	return EditorState.createWithContent(contentRaws);
+}
+
 /**
  * For test, init the editor content
- * @param {Function} changeRaws : function to change the editor content
+ * @param {Function} setEditorState : function to change the editor content
  */
-export const initContent = (changeRaws:Function) => {
+export const initContent = (setEditorState:Function) => {
 
-	const initialState = EditorState.createWithContent(
-		convertFromRaw({
+	const initialState = {
 			blocks: [{
 			    key: "9adb5",
 			    text: "OUI non OUI OUI non non OUI àäâa èee éee ùuu",
@@ -28,11 +32,10 @@ export const initContent = (changeRaws:Function) => {
 			    data: {},
 			}],
 			entityMap: {}
-		})
-	)
+		}
 
-	const initialContent = initialState.getCurrentContent();
-	changeRaws(convertToRaw(initialContent))
+	const newState = createContent(initialState)
+	setEditorState(newState)
 }
 
 export const initSelection = (editorState:EditorState):void => {
@@ -100,7 +103,7 @@ export const formatSelection = (editorSel:EditorSelection):Selection => {
  * @param  {EditorState} 	editorState : current editor state
  * @return {Raw} 			current raws containing the blocks
  */
-export const getCurrentRaws = (editorState:EditorState):Raw => {
+export const getRaws = (editorState:EditorState):Raw => {
 	const contentState = editorState.getCurrentContent(),
 		  currentRaws = convertToRaw(contentState);
 	return currentRaws;
@@ -113,7 +116,7 @@ export const getCurrentRaws = (editorState:EditorState):Raw => {
  * @return {object} 	block content
  */
 export const getBlock = (blockKey:string, editorState:EditorState):any => {
-	const currentRaws = getCurrentRaws(editorState),
+	const currentRaws = getRaws(editorState),
 		  block = currentRaws.blocks.find((block)=>block.key === blockKey);
 	return block;
 }

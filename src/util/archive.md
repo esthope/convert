@@ -77,7 +77,7 @@ try
 
 	// data test
 	const 
-		// currentRaws = getCurrentRaws(editorState)
+		// currentRaws = getRaws(editorState)
 	    // ,{blocks} = currentRaws
 	     contentState = editorState.getCurrentContent()
 		,blockMap = contentState.getBlockMap()

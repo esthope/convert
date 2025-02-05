@@ -1,13 +1,14 @@
 import {ReactElement, useState, useContext} from "react";
-import {getCurrentRaws, getSelection} from 'util/editorHandler';
-import {transformTexts} from 'util/textHandler';
 import TestButton from 'component/TestButton';
-import EditorContext from 'service/context';
 
-const ReplacingField = ({changeRaws}:{changeRaws:Function}): ReactElement => {
+import {getRaws, getSelection, createContent} from 'util/editorHandler';
+import {transformTexts} from 'util/textHandler';
+import {EditorContext} from 'service/context';
+
+const ReplacingField = (): ReactElement => {
 	const [choice, setChoice] = useState<string>('');
 
-  	const editorState = useContext(EditorContext);
+  	const [editorState, setEditorState] = useContext(EditorContext);
 
 	/**
 	 * Replace the text from selected string
@@ -16,14 +17,14 @@ const ReplacingField = ({changeRaws}:{changeRaws:Function}): ReactElement => {
 	 * 3. update states
 	 */
 	const replaceSelection = ():void => {
-		const currentRaws = getCurrentRaws(editorState),
+		const currentRaws = getRaws(editorState),
 			{blocks} = currentRaws,
 			selections = getSelection(blocks, editorState);
 
 		if (selections.length === 0) return;
 
 		transformTexts(selections, blocks, choice)
-		changeRaws(currentRaws);
+		setEditorState(createContent(currentRaws))
 	}
 
 	return (
