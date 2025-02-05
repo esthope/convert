@@ -1,9 +1,9 @@
-import {convertToRaw, convertFromRaw, EditorState} from "draft-js";
+import {convertToRaw, convertFromRaw, EditorState, ContentState} from "draft-js";
 import {Raw, Selection, EditorSelection} from 'constant/interfaces';
 
-export const createContent = (raws:Raw):EditorState => {
-	const contentRaws = convertFromRaw(raws);
-	return EditorState.createWithContent(contentRaws);
+export const createContent = (content:Raw|string):EditorState => {
+	const contentState = (typeof content === 'string') ? ContentState.createFromText(content) : convertFromRaw(content);
+	return EditorState.createWithContent(contentState);
 }
 
 /**

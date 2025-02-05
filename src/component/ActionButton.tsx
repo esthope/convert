@@ -6,7 +6,7 @@ const ActionButton = ({content, onClick}: {content: string, onClick: any}):React
 		<button
 			type="button"
 			onClick={onClick} 
-			className="test-button flex-center"
+			className="squareButton green-background flex-center"
 			>
 			<span>{content}</span>
 	    </button>
