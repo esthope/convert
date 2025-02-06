@@ -26,7 +26,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
    * @param  {string}       command     The command name 
    * @param  {EditorState}  editorState The current state of the editor content
    */
-  const onCancelDelete = (command:string, editorState:EditorState):any => {
+  const onPreventDelete = (command:string, editorState:EditorState):any => {
     const event = window.event;
 
     console.log(command)
@@ -103,14 +103,14 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
       <span>{contentLength} caractères</span>
 
       <div
-      className={`editor quicksand-font green-background ${selectionClass}`} 
-      onKeyUp={(event:any):void => {handleSelection(event, editorState)}}
+        className={`editor quicksand-font green-background ${selectionClass}`} 
+        onKeyUp={(event:any):void => {handleSelection(event, editorState)}}
       >
 
         <Editor
         placeholder="Inscrire le texte"
         editorState={editorState}
-        handleKeyCommand={onCancelDelete}
+        handleKeyCommand={onPreventDelete}
         customStyleMap={{ HIGHLIGHT: { backgroundColor: colors.ocher } }}
         onChange={onChange} />
       </div>

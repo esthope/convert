@@ -7,7 +7,6 @@ import {createContent} from 'util/editorHandler';
 // element
 import ActionButton from 'component/ActionButton';
 import {Action} from 'constant/Cases';
-// import {Block} from 'constant/interfaces';
 
 const actions = [
 	{ content: 'copy', action: Action.copy },
@@ -16,7 +15,7 @@ const actions = [
 	{ content: 'reset', action: Action.reset },
 	// { content: 'undo', action: Action.undo },
 	// { content: 'redo', action: Action.redo },
-	{ content: 'multi', action: Action.multi }
+	// { content: 'multi', action: Action.multi }
 ]
 
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
@@ -26,13 +25,18 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 	/**
 	* Clear the editor content
 	*/
-	const clearContent = () => {
+	const clearContent = ():void => {
 		if (contentLength === 0) return;
 		const initialState = EditorState.createEmpty();
 		setEditorState(initialState)
 	}
 
 
+	/**
+	 * Excecute the user action
+	 * Update the editor content and/or use the clipboard
+	 * @param  {string} action code to decide the action we will do
+	 */
 	const clipboardAction = (action:string):void =>
 	{
 		const {clipboard} = navigator;
