@@ -29,6 +29,8 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
+    "src/**/*.json",
+    "src/**/*.svg",
     "custom.d.ts"
   ]
   // "files": [erreur si non trouvés],

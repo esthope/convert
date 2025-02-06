@@ -1,0 +1,100 @@
+{
+	"modes": [
+		{
+			"data_id": "CAS",
+			"entry": "case"
+		},
+		{
+			"data_id": "RPL",
+			"entry": "replace",
+			"label": "Remplacer",
+			"shift": true,
+			"key": "H"
+		},
+		{
+			"data_id": "STA",
+			"entry": "state"
+		}
+	],
+	"cases": [
+		{
+			"data_id": "UPP",
+			"entry": "upper",
+			"label": "Majuscule",
+			"key": "E"
+		},
+		{
+			"data_id": "LOW",
+			"entry": "lower",
+			"label": "Minuscule",
+			"shift": true,
+			"key": "E"
+		},
+		{
+			"data_id": "CAM",
+			"entry": "camel",
+			"label": "Camel Case",
+			"key": "M"
+		},
+		{
+			"data_id": "CPI",
+			"entry": "capital",
+			"label": "Capital",
+			"key": "P"
+		},
+		{
+			"data_id": "INV",
+			"entry": "inversion",
+			"label": "Inversion",
+			"key": "i"
+		}
+	],
+	"actions": [
+		{
+			"data_id": "CPY",
+			"entry": "copy",
+			"label": "copier",
+			"key": "Q"
+		},
+		{
+			"data_id": "PST",
+			"entry": "past",
+			"label": "coller",
+			"key": "Q"
+		},
+		{
+			"data_id": "CUT",
+			"entry": "cut",
+			"label": "couper",
+			"key": "Q"
+		},
+		{
+			"data_id": "RST",
+			"entry": "reset",
+			"label": "nouveau",
+			"key": "Q"
+		},
+		{
+			"data_id": "UDO",
+			"entry": "undo",
+			"unactive": true,
+			"label": "état précédent",
+			"key": "Z"
+		},
+		{
+			"data_id": "RDO",
+			"entry": "redo",
+			"unactive": true,
+			"label": "état suivant",
+			"shift": true,
+			"key": "Z"
+		},
+		{
+			"data_id": "MUL",
+			"entry": "multi",
+			"unactive": true,
+			"label": "Mmlti-selection",
+			"key": "D"
+		}
+	]
+}

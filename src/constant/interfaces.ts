@@ -19,3 +19,16 @@ export type EditorSelection = {
 	hasFocus: boolean,
 	isBackward: boolean
 }
+
+export interface StringIndex {
+    [index: string]: any
+}
+
+export interface Interaction {
+	data_id:string,
+	entry:string,
+	unactive?:boolean,
+	label?:string,
+	shift?:boolean,
+	key?:string
+}

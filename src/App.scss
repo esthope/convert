@@ -82,11 +82,10 @@ main {
   }
 }
 
-.labelContainer {
-// .labelContainer:hover {
+.labelContainer:hover {
   label {
     opacity: 1;
-    transform: translateY(100%);
+    transform: translateY(190%);
     transition: opacity .2s, transform .3s;
   }
 }

@@ -2,22 +2,15 @@
 import {ReactElement, useContext} from "react";
 import {EditorState} from 'draft-js';
 // util
-import {EditorContext} from 'service/context';
+import {fetchData} from 'util/dataHandler';
 import {createContent} from 'util/editorHandler';
+import {Interaction} from 'constant/interfaces';
+import {EditorContext} from 'service/context';
 // element
 import ActionButton from 'component/ActionButton';
-import {Action} from 'constant/UserInteraction';
-import iconFile from 'assets/circle.svg';
+import {Action} from 'constant/interactionKey';
 
-const actions = [
-	{ label: 'copy', action: Action.copy },
-	{ label: 'past', action: Action.past },
-	{ label: 'cut', action: Action.cut },
-	{ label: 'reset', action: Action.reset },
-	// { label: 'undo', action: Action.undo },
-	// { label: 'redo', action: Action.redo },
-	// { label: 'multi', action: Action.multi }
-]
+const actions = fetchData('actions');
 
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
@@ -74,13 +67,15 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
   return (
 	<section className="actionContainer flex">
   	{
-		actions.map((property, index)=>
-			<ActionButton
-				key={index}
-				label={property.label}
-				icon={iconFile}
-				onClick={() => clipboardAction(property.action)} />
-		)
+		actions.map((item:Interaction):any => {
+			if (!item.unactive)
+			return (
+				<ActionButton
+					key={item.data_id}
+					icon={item.entry}
+					label={item.label}
+					onClick={() => clipboardAction(item.data_id)} />
+		)})
 	}
 	</section>
 )}

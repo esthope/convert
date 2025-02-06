@@ -1,6 +1,6 @@
 import {ContentState} from "draft-js";
 import {Selection} from 'constant/interfaces';
-import {Case} from 'constant/UserInteraction';
+import {Case} from 'constant/interactionKey';
 
 let currentBlock:any,
 	workText:string,
@@ -66,7 +66,7 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 
 /**
  * Change the case with more option
- * @param  {string} action 	constant from UserInteraction
+ * @param  {string} action 	constant from interactionKey
  * @param  {string} text 	text to change
  * @return {string} 		changedText changed text
  */

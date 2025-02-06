@@ -1,15 +1,26 @@
+import {useState, useEffect} from 'react';
 import {ReactElement} from "react";
+import CircleIncon from "assets/circle.svg"
 
-const ActionButton = ({label, onClick, icon}: {label:string, onClick:any, icon:string}):ReactElement => {
+const ActionButton = ({icon, label, onClick}:{icon:string, label?:string, onClick:any}):ReactElement => {
+
+	const [iconPath, setIconPath] = useState<string>(CircleIncon);
+
+	useEffect(()=>{
+		const promise = import(`../assets/${icon}.svg`)
+		promise.then((image) => {
+			setIconPath(image.default)
+		})
+	})
 
 	return (
 		<button
 			type="button"
-			onClick={onClick} 
-			className="bb actionButton labelContainer flex-center no-border no-bg"
+			onClick={onClick}
+			className=" actionButton labelContainer flex-center no-border no-bg"
 		>
-        	<img src={icon} className="bb" alt={label} />
-			<label className="bb ">{label}</label>
+        	<img src={iconPath} className="" alt={label} />
+			<label className=" ">{label}</label>
 	    </button>
 	)
 }
