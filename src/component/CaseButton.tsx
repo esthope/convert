@@ -6,7 +6,7 @@ const CaseButton = ({content, onClick}: {content: string|Function, onClick: any}
 		<button
 			type="button"
 			onClick={onClick}
-			className="squareButton green-background flex-center"
+			className="caseButton green-background flex-center"
         	onMouseDown={(e) => e.preventDefault()}
 			> 
 

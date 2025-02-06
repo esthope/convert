@@ -1,5 +1,5 @@
 {
-	"action": [
+	"case": [
 		{
 			"action_id": "UPP",
 			"label": "Majuscule",
@@ -33,7 +33,7 @@
 			"key": "H"
 		}
 	],
-	"state": [
+	"action": [
 		{
 			"state_id": "BEF",
 			"label": "État précédent",

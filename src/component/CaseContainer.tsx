@@ -6,7 +6,7 @@ import {getRaws, initContent, getSelection, createContent} from 'util/editorHand
 import {transformTexts, changeCase} from 'util/textHandler';
 // element
 import {Block} from 'constant/interfaces';
-import {Case} from 'constant/Cases';
+import {Case} from 'constant/UserInteraction';
 import CaseButton from './CaseButton';
 import InverseLabel from './InverseLabel';
 
@@ -24,7 +24,7 @@ const CaseContainer = (): ReactElement => {
 	/**
 	 * Choose the case treatment depending of the selected action
 	 * Change case, then updtate states
-	 * @param  {string} action 	constant from Cases
+	 * @param  {string} action 	constant from UserInteraction
 	 */
 	const updateText = (action:string):void => {
 		const currentRaws = getRaws(editorState),
@@ -61,7 +61,7 @@ const CaseContainer = (): ReactElement => {
 	}
 
 	return (
-		<section className="square-container flex">
+		<section className="caseContainer flex">
 			<CaseButton content="init" onClick={()=>initContent(setEditorState)} />
 			{
 				caseProps.map((property, index)=>

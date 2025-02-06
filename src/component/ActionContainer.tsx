@@ -6,16 +6,16 @@ import {EditorContext} from 'service/context';
 import {createContent} from 'util/editorHandler';
 // element
 import ActionButton from 'component/ActionButton';
-import {Action} from 'constant/Cases';
+import {Action} from 'constant/UserInteraction';
 
 const actions = [
-	{ content: 'copy', action: Action.copy },
-	{ content: 'past', action: Action.past },
-	{ content: 'cut', action: Action.cut },
-	{ content: 'reset', action: Action.reset },
-	// { content: 'undo', action: Action.undo },
-	// { content: 'redo', action: Action.redo },
-	// { content: 'multi', action: Action.multi }
+	{ label: 'copy', action: Action.copy },
+	{ label: 'past', action: Action.past },
+	{ label: 'cut', action: Action.cut },
+	{ label: 'reset', action: Action.reset },
+	// { label: 'undo', action: Action.undo },
+	// { label: 'redo', action: Action.redo },
+	// { label: 'multi', action: Action.multi }
 ]
 
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
@@ -31,11 +31,10 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 		setEditorState(initialState)
 	}
 
-
 	/**
 	 * Excecute the user action
 	 * Update the editor content and/or use the clipboard
-	 * @param  {string} action code to decide the action we will do
+	 * @param  {string} action code to decide the action to excecute
 	 */
 	const clipboardAction = (action:string):void =>
 	{
@@ -72,12 +71,12 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 	}
 
   return (
-	<section className="square-container flex">
+	<section className="caseContainer flex">
   	{
 		actions.map((property, index)=>
 			<ActionButton
 				key={index}
-				content={property.content}
+				label={property.label}
 				onClick={() => clipboardAction(property.action)} />
 		)
 	}

@@ -1,5 +1,5 @@
 import {ReactElement} from "react";
-import style from "constant/style.scss";
+import style from "constant/base.scss";
 
 const colors:any = style;
 const CircleIcon = ({color=colors.lightOrange, parentSize='21', ellipseSize='10'}:{color?:string, parentSize?:string, ellipseSize?:string}):ReactElement => {

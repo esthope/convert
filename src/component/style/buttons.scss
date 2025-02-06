@@ -1,0 +1,37 @@
+@use 'constant/base.scss' as cst ;
+
+/*---test--------------------------------------------*/
+.test-button {
+  background: none;
+  border: none;
+
+  img {
+    width: 20px;
+    height: auto;
+  }
+} 
+
+.caseContainer {
+  column-gap: 35px;
+
+  #inversionLabel {
+    column-gap: 6px;
+  }
+}
+
+/*---case button--------------------------------------------*/
+.caseButton {
+  min-width: 64px;
+  height: 64px;
+  border: none;
+  padding: 10px;
+  box-shadow: -3.5px -3.5px 0 cst.$klein;
+
+  span {
+    font-family: cst.$RozhaOne;
+    font-size: 22pt;
+    line-height: 0pt;
+  }
+}
+
+/*---case button--------------------------------------------*/

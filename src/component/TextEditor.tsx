@@ -5,9 +5,10 @@ import "draft-js/dist/Draft.css";
 // util
 import {EditorContext} from 'service/context';
 // element
-import style from "constant/style.scss";
+import style from "constant/base.scss";
 import CustomButton from 'component/CustomButton';
 
+const colors:any = style;
 /* [!]
 
 */
@@ -18,7 +19,6 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
         [selectMode, setSelectMode] = useState<boolean>(false)
 
   const [editorState, setEditorState] = useContext(EditorContext);
-  const colors:any = style;
 
   /**
    * Listen the delete command of DraftJS to cancel it 

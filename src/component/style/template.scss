@@ -1,5 +1,7 @@
-@use 'constant/style.scss' as cst ;
-@use 'style/customEditor.scss' as * ;
+@use 'constant/base.scss' as cst ;
+@use 'style/editor.scss' as * ;
+@use 'style/buttons.scss' as * ;
+@use 'style/fields.scss' as * ;
 
 .convert_logo {
 	margin: 38px;

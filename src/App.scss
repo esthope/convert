@@ -1,4 +1,4 @@
-@use 'constant/style.scss' as cst;
+@use 'constant/base.scss' as cst;
 
 /*---base---------------------------------------------*/
 .bb {
@@ -75,57 +75,6 @@ main {
     text-shadow: none;
   }
 
-}
-
-/*---component----------------------------------------*/
-.square-container {
-  column-gap: 35px;
-
-  #inversionText {
-    column-gap: 6px;
-  }
-}
-
-.squareButton {
-  min-width: 64px;
-  height: 64px;
-  border: none;
-  padding: 10px;
-  box-shadow: -3.5px -3.5px 0 cst.$klein;
-
-  span {
-    font-family: cst.$RozhaOne;
-    font-size: 22pt;
-    line-height: 0pt;
-  }
-}
-
-#replace-container {
-  margin-top: 38px;
-}
-
-
-.test-button {
-  background: none;
-  border: none;
-
-  img {
-    width: 20px;
-    height: auto;
-  }
-} 
-
-input[type="text"] {
-  border: none;
-  min-width: 239px;
-  min-height: 64px;
-  padding: 0px 11px;
-}
-
-input::placeholder {
-  color: #EBEFEF;
-  font-style: italic;
-  opacity: .6;
 }
 
 /*---react--------------------------------------------*/

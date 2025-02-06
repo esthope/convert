@@ -1,14 +1,15 @@
 import {ReactElement} from "react";
 import CircleIcon from 'component/CircleIcon';
 
-const ActionButton = ({content, onClick}: {content: string, onClick: any}):ReactElement => {
+const ActionButton = ({label, onClick}: {label:string, onClick:any}):ReactElement => {
 	return (
 		<button
 			type="button"
 			onClick={onClick} 
-			className="squareButton green-background flex-center"
+			className="caseButton green-background flex-center"
 			>
-			<span>{content}</span>
+			
+			<span>{label}</span>
 	    </button>
 	)
 }
