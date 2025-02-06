@@ -1,16 +1,14 @@
 @use 'constant/base.scss' as cst ;
 
 /*---test--------------------------------------------*/
-.test-button {
-  background: none;
-  border: none;
-
+.customButton {
   img {
     width: 20px;
     height: auto;
   }
 } 
 
+/*---cases--------------------------------------------*/
 .caseContainer {
   column-gap: 35px;
 
@@ -19,7 +17,6 @@
   }
 }
 
-/*---case button--------------------------------------------*/
 .caseButton {
   min-width: 64px;
   height: 64px;
@@ -34,4 +31,15 @@
   }
 }
 
-/*---case button--------------------------------------------*/
+/*---actions--------------------------------------------*/
+.actionContainer {
+  column-gap: 1rem;
+}
+
+.actionButton {
+
+  img {
+    width: 20px;
+    height: auto;
+  }
+}

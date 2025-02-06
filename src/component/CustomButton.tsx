@@ -5,7 +5,7 @@ const CustomButton = ({onClick, color}:{onClick:any, color?:string}):ReactElemen
 	return (
 		<button
 			type="button"
-			className="test-button flex-center"
+			className="customButton flex-center no-border no-bg"
 			onClick={onClick} >
 			<CircleIcon color={color} />
 	    </button>

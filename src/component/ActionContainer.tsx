@@ -7,6 +7,7 @@ import {createContent} from 'util/editorHandler';
 // element
 import ActionButton from 'component/ActionButton';
 import {Action} from 'constant/UserInteraction';
+import iconFile from 'assets/circle.svg';
 
 const actions = [
 	{ label: 'copy', action: Action.copy },
@@ -71,12 +72,13 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 	}
 
   return (
-	<section className="caseContainer flex">
+	<section className="actionContainer flex">
   	{
 		actions.map((property, index)=>
 			<ActionButton
 				key={index}
 				label={property.label}
+				icon={iconFile}
 				onClick={() => clipboardAction(property.action)} />
 		)
 	}

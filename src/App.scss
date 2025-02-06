@@ -6,11 +6,8 @@
   border: red solid 1px;
 }
 
-.no-border {border: none;}
-
-.m {
-  padding: 20px
-}
+.no-border {border: none}
+.no-bg {background: none}
 
 .flex-center {
   display: flex;
@@ -75,6 +72,23 @@ main {
     text-shadow: none;
   }
 
+}
+
+/*---common--------------------------------------------*/
+.labelContainer {
+  label {
+    opacity: 0;
+    position: absolute;
+  }
+}
+
+.labelContainer {
+// .labelContainer:hover {
+  label {
+    opacity: 1;
+    transform: translateY(100%);
+    transition: opacity .2s, transform .3s;
+  }
 }
 
 /*---react--------------------------------------------*/
