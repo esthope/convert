@@ -1,13 +1,20 @@
 @use 'constant/base.scss' as cst;
 
 /*---base---------------------------------------------*/
-.bb {
-  box-sizing: border-box;
-  border: red solid 1px;
-}
+.bb {border: red solid 1px}
+.bv {border: green solid 1px}
+.bbb {background-color: rgba(255, 255, 255, .1)}
+.bbr {background-color: rgba(255, 0, 0, .1)}
+
+.m-0 {margin: 0}
+.p-0 {padding: 0}
 
 .no-border {border: none}
 .no-bg {background: none}
+
+.flex {display: flex}
+.column {flex-direction: column}
+.column-reverse {flex-direction: column-reverse}
 
 .flex-center {
   display: flex;
@@ -15,21 +22,19 @@
   align-items: center;
 }
 
-.flex {
-  display: flex;
-}
+.block {display: block}
+.inline {display: inline}
+.none {display: none}
 
-.inline {
-  display: inline;
-}
-
-.none {
-  display: none;
-}
+.relative {position: relative};
 
 .fit-content {
   width: fit-content;
   height: fit-content;
+}
+
+.pointer {
+  cursor: pointer;
 }
 
 /*.lemonada-btn {
@@ -51,6 +56,7 @@
 }
 
 
+/*---overwrite--------------------------------------------*/
 *:focus {
   outline: none;
 }
@@ -72,23 +78,13 @@ main {
     text-shadow: none;
   }
 
+  label {
+    font-size: .8rem;
+  }
 }
 
 /*---common--------------------------------------------*/
-.labelContainer {
-  label {
-    opacity: 0;
-    position: absolute;
-  }
-}
 
-.labelContainer:hover {
-  label {
-    opacity: 1;
-    transform: translateY(190%);
-    transition: opacity .2s, transform .3s;
-  }
-}
 
 /*---react--------------------------------------------*/
 .App-logo {

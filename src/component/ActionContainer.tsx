@@ -61,20 +61,21 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 		}
 
 		if (action === Action.reset || action === Action.cut) 
-			clearContent()
+			clearContent();
 	}
 
   return (
 	<section className="actionContainer flex">
   	{
 		actions.map((item:Interaction):any => {
-			if (!item.unactive)
-			return (
-				<ActionButton
-					key={item.data_id}
-					icon={item.entry}
-					label={item.label}
-					onClick={() => clipboardAction(item.data_id)} />
+		if (!item.unactive)
+		return (
+			<ActionButton
+				key={item.data_id}
+				icon={item.entry}
+				label={item.label}
+				board_key={item.key}
+				onClick={() => clipboardAction(item.data_id)} />
 		)})
 	}
 	</section>

@@ -54,19 +54,19 @@
 			"data_id": "CPY",
 			"entry": "copy",
 			"label": "copier",
-			"key": "Q"
+			"key": "C"
 		},
 		{
 			"data_id": "PST",
 			"entry": "past",
 			"label": "coller",
-			"key": "Q"
+			"key": "V"
 		},
 		{
 			"data_id": "CUT",
 			"entry": "cut",
 			"label": "couper",
-			"key": "Q"
+			"key": "X"
 		},
 		{
 			"data_id": "RST",

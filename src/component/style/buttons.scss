@@ -1,5 +1,20 @@
 @use 'constant/base.scss' as cst ;
 
+@keyframes translate {
+  0%, 33.33% {
+    // transform: translateY(50%);
+    transform: translateY(0);
+  }
+  50%, 83.33% {
+    // transform: translateY(0);
+    transform: translateY(50%);
+  }
+  100% {
+    // transform: translateY(50%);
+    transform: translateY(0);
+  }
+}
+
 /*---test--------------------------------------------*/
 .customButton {
   img {
@@ -37,9 +52,63 @@
 }
 
 .actionButton {
+  margin-bottom: 5px;
 
   img {
     width: 20px;
     height: auto;
+    z-index: 1;
+  }
+
+}
+
+.labelContainer {
+  overflow: hidden;
+  max-height: 1rem;
+
+  label {
+    line-height: 1rem;
+    text-align: center;
+    cursor: pointer;
+
+    transform: translateY(-250%);
+    opacity: 0;
+    transition: opacity .6s 1s, transform .5s 1s;
+  }
+}
+
+label.label-switch {
+  transform: translateY(-100%);
+  opacity: 1;
+  transition: opacity .6s, transform .5s 1s;
+}
+
+label.label-animation {
+  transform: translateY(0%);
+  opacity: 1;
+  transition: opacity .6s, transform .5s;
+  // animation: switch 5s 5s infinite;
+}
+
+/*
+  transform: translateY(50%);
+  -o-transition: transform .5s;
+  -ms-transition: transform .5s;
+  -moz-transition: transform .5s;
+  -webkit-transition: transform .5s;
+
+*/
+
+@keyframes switch {
+  0%, 33% {
+    transform: translateY(0%);
+  }
+
+  33%, 83% {
+    transform: translateY(-100%);
+  }
+
+  83%, 100% {
+    transform: translateY(0%);
   }
 }
