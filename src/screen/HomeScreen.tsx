@@ -14,7 +14,8 @@ import CustomButton from 'component/CustomButton';
 
 const Home = () => {
 
-  const [hasMounted, setHasMounted] = useState<boolean>(false),
+  const 
+        [hasMounted, setHasMounted] = useState<boolean>(false),
         [contentLength, setContentLength] = useState<number>(0),
         [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
         ;

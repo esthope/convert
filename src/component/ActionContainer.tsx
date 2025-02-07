@@ -75,6 +75,7 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 				entry={item.entry}
 				label={item.label}
 				board_key={item.key}
+				length={contentLength}
 				onClick={() => clipboardAction(item.data_id)} />
 		)})
 	}

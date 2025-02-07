@@ -1,26 +1,43 @@
-import {useState, useEffect} from 'react';
+// main
 import {ReactElement} from "react";
+import {useState, useEffect, useContext} from 'react';
+// util
+import {EditorContext} from 'service/context';
+// element
 import CircleIncon from "assets/circle.svg"
 
-const ActionButton = ({entry, label, board_key, onClick}:{entry:string, label?:string, board_key?:string, onClick:any}):ReactElement => {
+const ActionButton = ({entry, label, board_key, length, onClick}:{entry:string, label?:string, board_key?:string, length:number, onClick:any}):ReactElement => {
 
 	const 	[iconPath, setIconPath] = useState<string>(CircleIncon),
-			[positionStyle, setPositionStyle] = useState<string>(''),
+	        [hasMounted, setHasMounted] = useState<boolean>(false),
+	        [started, setStarted] = useState<boolean>(false),
+			[positionStyle, setPositionStyle] = useState<string>('key-label'),
 			[interval, setStyleInterval] = useState<ReturnType<typeof setTimeout>>()
 
+	const [editorState, setEditorState] = useContext(EditorContext);
+
+	// get the button icon
 	useEffect(()=>{
-		// get the button icon
 		const promise = import(`../assets/${entry}.svg`)
 		promise.then((image) => {
 			setIconPath(image.default)
 		})
-
-		// show the keyboard shortcut for few seconds
-		setPositionStyle('second-label')
-		const styleInterval = setTimeout(() => {
-			setPositionStyle('')
-	    }, 2500)
 	}, [])
+
+	// Display the keyboard shortcuts on arrival
+	useEffect(()=>{
+		if (!hasMounted) {
+	      setHasMounted(true);
+	      return;
+	    }
+
+	    if (length > 1) 
+    	{
+    		setPositionStyle('')
+    		setStarted(true)
+    	}
+
+	}, [length])
 
 	/**
 	 * show label when the button is over
@@ -28,13 +45,13 @@ const ActionButton = ({entry, label, board_key, onClick}:{entry:string, label?:s
 	 */
 	const show_label = ():void => {
 		// first state is the name label
-		let label_state = 'first-label'; 
+		let label_state = 'name-label'; 
 		setPositionStyle(label_state)
 
 		// second state is the key shortcut, switch between
 		const styleInterval = setInterval(() => {
 			setPositionStyle((current:any) => {
-      			let style = (current.includes('first-label')) ? 'second-label' : 'first-label';
+      			let style = (current.includes('name-label')) ? 'key-label' : 'name-label';
       			return style
       		})
 	    }, 2500)
@@ -48,7 +65,12 @@ const ActionButton = ({entry, label, board_key, onClick}:{entry:string, label?:s
 	 */
 	const hide_label = ():void => {
 		clearInterval(interval)
-		setPositionStyle('')
+
+		// hide if the content of editorState is initial
+		if (!started)
+			setPositionStyle('key-label')
+		else
+			setPositionStyle('')
 	}
 
 	return (
