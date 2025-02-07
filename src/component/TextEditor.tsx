@@ -7,15 +7,12 @@ import {EditorContext} from 'service/context';
 // element
 import style from "constant/base.scss";
 import CustomButton from 'component/CustomButton';
-
 const colors:any = style;
-/* [!]
-
-*/
 
 const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
 
   const [selectionClass, setSelectionClass] = useState<string>(''),
+        [selectCount, setSelectCount] = useState<number>(0),
         [selectMode, setSelectMode] = useState<boolean>(false)
 
   const [editorState, setEditorState] = useContext(EditorContext);
@@ -55,9 +52,12 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
       // switch selection mode
       if (ctrlKey && code === 'KeyD') setSelectMode(!selectMode)
 
-      // highlight the selection 
-      if (selectMode && (type === 'mouseup' || code.includes('Shift'))) {
+      // highlight selection 
+      if (selectMode && (type === 'mouseup' || code.includes('Shift')))
+      {
         setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'));
+
+        // get the number of selected characters
 
         const currentSel = editorState.getSelection().toJS();
         if (currentSel.anchorKey !== currentSel.focusKey) 
@@ -66,6 +66,9 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
           console.log('Sélection multiligne nest pas disponible');
         }
       }
+
+      // count selection
+      setSelectCount(window?.getSelection()?.toString()?.length ?? 0)
     }
     catch(err)
     {
@@ -100,7 +103,15 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
 
       <CustomButton onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
 
-      <span>{contentLength} caractères</span>
+      <div>
+        <span>{contentLength} caractères</span>
+        {(selectCount > 0) ?
+          <>
+            <span> – </span>
+            <span>{selectCount} sélectionnés</span>
+          </>
+        : null}
+      </div>
 
       <div
         className={`editor quicksand-font green-background ${selectionClass}`} 

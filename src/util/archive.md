@@ -125,3 +125,28 @@ try
 
 
 ```
+
+# récupération nombre de caractères sans saut de ligne
+``` tsx
+export const getContentLength = (currentContent:ContentState):number => {
+	let textLength = 0;
+
+	const blocks = currentContent.getBlocksAsArray();
+	blocks.forEach((block) => {
+		textLength += block.getLength();
+	})
+
+	return textLength;
+}
+
+/**
+ * get the number of highlighted text
+ * @param {EditorState}	editorState : current editor state
+ * @return {number} count
+ */
+export const getSelectionCount = (editorState:EditorState):number => {
+	let blocks = getRaws(editorState).blocks;
+    const selections = getSelection(blocks, editorState)
+    return selections.reduce((acc, curr)=>curr.length + acc, 0)
+}
+```

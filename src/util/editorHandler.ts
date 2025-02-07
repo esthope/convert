@@ -39,7 +39,7 @@ export const initContent = (setEditorState:Function) => {
 
 export const initSelection = (editorState:EditorState):void => {
 	const selectionLength = editorState?.getSelection()?.getFocusOffset(),
-		  documentSel = document.getSelection();
+		  documentSel = window.getSelection();
 
     if (selectionLength <= 0 && documentSel) 
     {

@@ -31,7 +31,7 @@ const Home = () => {
     setContentLength(getContentLength(currentContent));
 
     // prevent selection bugs
-    initSelection(editorState);
+    // initSelection(editorState);
 
   // eslint-disable-next-line
   }, [editorState])

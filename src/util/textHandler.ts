@@ -118,12 +118,5 @@ export const changeCase = (action:string, text:string):string => {
 }
 
 export const getContentLength = (currentContent:ContentState):number => {
-	let textLength = 0;
-
-	const blocks = currentContent.getBlocksAsArray();
-	blocks.forEach((block) => {
-		textLength += block.getLength();
-	})
-
-	return textLength;
+	return currentContent.getPlainText().length
 }

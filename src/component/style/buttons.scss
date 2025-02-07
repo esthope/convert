@@ -1,6 +1,6 @@
 @use 'constant/base.scss' as cst ;
 
-// document.documentElement.style.setProperty('--label-gap', '2rem')
+// window.documentElement.style.setProperty('--label-gap', '2rem')
 :root {
   --label-gap: 1rem;
 }
