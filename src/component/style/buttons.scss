@@ -1,18 +1,8 @@
 @use 'constant/base.scss' as cst ;
 
-@keyframes translate {
-  0%, 33.33% {
-    // transform: translateY(50%);
-    transform: translateY(0);
-  }
-  50%, 83.33% {
-    // transform: translateY(0);
-    transform: translateY(50%);
-  }
-  100% {
-    // transform: translateY(50%);
-    transform: translateY(0);
-  }
+// document.documentElement.style.setProperty('--label-gap', '2rem')
+:root {
+  --label-gap: 1rem;
 }
 
 /*---test--------------------------------------------*/
@@ -59,56 +49,38 @@
     height: auto;
     z-index: 1;
   }
-
 }
 
-.labelContainer {
+.labelBox {
   overflow: hidden;
-  max-height: 1rem;
+  max-height: var(--label-gap);
 
   label {
-    line-height: 1rem;
+    line-height: var(--label-gap);
     text-align: center;
-    cursor: pointer;
+  }
 
-    transform: translateY(-250%);
-    opacity: 0;
-    transition: opacity .6s 1s, transform .5s 1s;
+  label:first-child {
+    margin-bottom: var(--label-gap);
+  }
+
+  div {
+    // cursor: pointer;
+    transform: translateY(-33.33%);
+    transition: transform .3s ease-in-out .3s;
+    -o-transition: transform .3s ease-in-out .3s;
+    -ms-transition: transform .3s ease-in-out .3s;
+    -moz-transition: transform .3s ease-in-out .3s;
+    -webkit-transition: transform .3s ease-in-out .3s;
   }
 }
 
-label.label-switch {
-  transform: translateY(-100%);
-  opacity: 1;
-  transition: opacity .6s, transform .5s 1s;
-}
-
-label.label-animation {
+div.first-label {
   transform: translateY(0%);
-  opacity: 1;
-  transition: opacity .6s, transform .5s;
-  // animation: switch 5s 5s infinite;
+  cursor: pointer;
 }
 
-/*
-  transform: translateY(50%);
-  -o-transition: transform .5s;
-  -ms-transition: transform .5s;
-  -moz-transition: transform .5s;
-  -webkit-transition: transform .5s;
-
-*/
-
-@keyframes switch {
-  0%, 33% {
-    transform: translateY(0%);
-  }
-
-  33%, 83% {
-    transform: translateY(-100%);
-  }
-
-  83%, 100% {
-    transform: translateY(0%);
-  }
+div.second-label {
+  transform: translateY(-66.66%);
+  cursor: pointer;
 }

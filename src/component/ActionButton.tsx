@@ -2,39 +2,59 @@ import {useState, useEffect} from 'react';
 import {ReactElement} from "react";
 import CircleIncon from "assets/circle.svg"
 
-const ActionButton = ({icon, label, board_key, onClick}:{icon:string, label?:string, board_key?:string, onClick:any}):ReactElement => {
+const ActionButton = ({entry, label, board_key, onClick}:{entry:string, label?:string, board_key?:string, onClick:any}):ReactElement => {
 
 	const 	[iconPath, setIconPath] = useState<string>(CircleIncon),
-			[hasMounted, setHasMounted] = useState<boolean>(false),
-			[animation, setAnimation] = useState<boolean>(false),
-			[showLabel, setShowLabel] = useState<boolean>(false),
-			[labelClass, setLabelClass] = useState<string>('')
+			[positionStyle, setPositionStyle] = useState<string>(''),
+			[interval, setStyleInterval] = useState<ReturnType<typeof setTimeout>>()
 
 	useEffect(()=>{
-		const promise = import(`../assets/${icon}.svg`)
+		// get the button icon
+		const promise = import(`../assets/${entry}.svg`)
 		promise.then((image) => {
 			setIconPath(image.default)
 		})
-	})
 
-	function log(...variable:any) {
-		console.log(...variable)
+		// show the keyboard shortcut for few seconds
+		setPositionStyle('second-label')
+		const styleInterval = setTimeout(() => {
+			setPositionStyle('')
+	    }, 2500)
+	}, [])
+
+	/**
+	 * show label when the button is over
+	 * Switch on name and shortcut
+	 */
+	const show_label = ():void => {
+		// first state is the name label
+		let label_state = 'first-label'; 
+		setPositionStyle(label_state)
+
+		// second state is the key shortcut, switch between
+		const styleInterval = setInterval(() => {
+			setPositionStyle((current:any) => {
+      			let style = (current.includes('first-label')) ? 'second-label' : 'first-label';
+      			return style
+      		})
+	    }, 2500)
+
+		// set interval to stop the switch on over out
+	    setStyleInterval(styleInterval)
 	}
 
-	useEffect(() => {
-		if (!hasMounted) {
-	      setHasMounted(true);
-	      return;
-	    }
+	/**
+	 * hide the labels when the mouse leaves the nbutton
+	 */
+	const hide_label = ():void => {
+		clearInterval(interval)
+		setPositionStyle('')
+	}
 
-		let style = (showLabel) ? 'label-switch' : ''
-		setLabelClass(style)
-	}, [showLabel])
-
-	// · no-border
 	return (
 	<div
 		className="flex-center column"
+		onMouseLeave={hide_label}			
 	>
 		<button
 			type="button"
@@ -43,21 +63,14 @@ const ActionButton = ({icon, label, board_key, onClick}:{icon:string, label?:str
 		>
         	<img
         	src={iconPath}
-			onMouseOver={()=>setShowLabel(true)}
-			onMouseOut={()=>setShowLabel(false)}
+			onMouseOver={show_label}
         	alt={label} />
 	    </button>
-    	<div className="labelContainer">
-			<label 
-				className={`block ${labelClass}`}
-				onMouseOver={()=>setShowLabel(true)}
-				onMouseOut={()=>setShowLabel(false)}
-				>{`ctrl · ${board_key}`}</label>
-			<label
-				className={`block ${labelClass}`}
-				onMouseOver={()=>setShowLabel(true)}
-				onMouseOut={()=>setShowLabel(false)}			
-				>{label}</label>
+    	<div className="labelBox" >
+	    	<div className={positionStyle} >
+				<label className='block'>{label}</label>
+				<label className='block'>{`ctrl · ${board_key}`}</label>
+			</div>
 		</div>
 	</div>
 	)

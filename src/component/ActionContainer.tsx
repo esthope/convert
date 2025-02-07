@@ -72,7 +72,7 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 		return (
 			<ActionButton
 				key={item.data_id}
-				icon={item.entry}
+				entry={item.entry}
 				label={item.label}
 				board_key={item.key}
 				onClick={() => clipboardAction(item.data_id)} />
