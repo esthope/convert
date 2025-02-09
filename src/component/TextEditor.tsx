@@ -5,8 +5,8 @@ import "draft-js/dist/Draft.css";
 // util
 import {EditorContext} from 'service/context';
 // element
-import style from "constant/base.scss";
 import CustomButton from 'component/CustomButton';
+import style from "constant/base.scss";
 const colors:any = style;
 
 const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
@@ -99,7 +99,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
   }, [selectMode])
 
   return (
-    <div id="editor-container">
+    <section id="editor-container">
 
       <CustomButton onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
 
@@ -125,7 +125,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
         customStyleMap={{ HIGHLIGHT: { backgroundColor: colors.ocher } }}
         onChange={onChange} />
       </div>
-    </div>
+    </section>
   )
 }
 

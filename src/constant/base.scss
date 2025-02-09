@@ -19,3 +19,9 @@ $quicksand : 'Quicksand', Roboto, Verdana, sans-serif;
 	klein:$klein;
 	lightOrange: $light-orange;
 }
+
+// window.documentElement.style.setProperty('--label-gap', '2rem')
+:root {
+  --label-gap: 1rem;
+  --fade-anchor: 3rem;
+}

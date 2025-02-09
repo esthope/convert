@@ -1,5 +1,8 @@
+// main
 import {ReactElement} from "react";
 import {Outlet} from 'react-router-dom';
+// util
+// element
 import prov_logo from 'assets/circle.svg';
 import './style/template.scss';
 
@@ -16,4 +19,5 @@ const Template = (): ReactElement => {
 	</>
 	)
 }
+
 export default Template;

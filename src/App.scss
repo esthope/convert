@@ -14,7 +14,8 @@
 
 .flex {display: flex}
 .column {flex-direction: column}
-.column-reverse {flex-direction: column-reverse}
+.row-reverse {flex-direction: row-reverse}
+.gap-1 {gap: 1rem}
 
 .flex-center {
   display: flex;
@@ -25,6 +26,7 @@
 .block {display: block}
 .inline {display: inline}
 .none {display: none}
+.hidden {visibility: hidden}
 
 .relative {position: relative};
 
@@ -33,9 +35,8 @@
   height: fit-content;
 }
 
-.pointer {
-  cursor: pointer;
-}
+.no-pointer {pointer-events: none}
+.pointer {cursor: pointer}
 
 /*.lemonada-btn {
   font-family: "Lemonada", cursive;
@@ -84,25 +85,20 @@ main {
 }
 
 /*---common--------------------------------------------*/
-
-
-/*---react--------------------------------------------*/
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.fade-element {
+  transition: opacity .7s ease-out, transform .5s ease-out;
+  transform: translateX(var(--fade-anchor));
+  opacity: 0;
 }
 
+.fade-animation {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/*---react--------------------------------------------*/
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
   }
 }

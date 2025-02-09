@@ -1,17 +1,47 @@
 @use 'constant/base.scss' as cst ;
 
-// window.documentElement.style.setProperty('--label-gap', '2rem')
-:root {
-  --label-gap: 1rem;
-}
-
-/*---test--------------------------------------------*/
+/*---common--------------------------------------------*/
 .customButton {
   img {
     width: 20px;
     height: auto;
   }
 } 
+
+// Two labels
+.labelBox {
+  overflow: hidden;
+  max-height: var(--label-gap);
+
+  label {
+    line-height: var(--label-gap);
+    text-align: center;
+  }
+
+  label:first-child {
+    margin-bottom: var(--label-gap);
+  }
+
+  div {
+    // cursor: pointer;
+    transform: translateY(-33.33%);
+    transition: transform .3s ease-in-out .3s;
+    -o-transition: transform .3s ease-in-out .3s;
+    -ms-transition: transform .3s ease-in-out .3s;
+    -moz-transition: transform .3s ease-in-out .3s;
+    -webkit-transition: transform .3s ease-in-out .3s;
+  }
+}
+
+div.name-label {
+  transform: translateY(0%);
+  cursor: pointer;
+}
+
+div.key-label {
+  transform: translateY(-66.66%);
+  cursor: pointer;
+}
 
 /*---cases--------------------------------------------*/
 .caseContainer {
@@ -49,38 +79,4 @@
     height: auto;
     z-index: 1;
   }
-}
-
-.labelBox {
-  overflow: hidden;
-  max-height: var(--label-gap);
-
-  label {
-    line-height: var(--label-gap);
-    text-align: center;
-  }
-
-  label:first-child {
-    margin-bottom: var(--label-gap);
-  }
-
-  div {
-    // cursor: pointer;
-    transform: translateY(-33.33%);
-    transition: transform .3s ease-in-out .3s;
-    -o-transition: transform .3s ease-in-out .3s;
-    -ms-transition: transform .3s ease-in-out .3s;
-    -moz-transition: transform .3s ease-in-out .3s;
-    -webkit-transition: transform .3s ease-in-out .3s;
-  }
-}
-
-div.name-label {
-  transform: translateY(0%);
-  cursor: pointer;
-}
-
-div.key-label {
-  transform: translateY(-66.66%);
-  cursor: pointer;
 }

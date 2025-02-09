@@ -32,3 +32,9 @@ export interface Interaction {
 	shift?:boolean,
 	key?:string
 }
+
+export interface Message {
+	type?:string,
+	message?:string,
+	displayed:boolean|null,
+}

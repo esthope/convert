@@ -2,14 +2,18 @@
 import {useEffect, useState} from "react";
 import {EditorState} from "draft-js";
 // util
-import {EditorContext} from 'service/context';
-import {initSelection} from 'util/editorHandler';
+import {EditorContext, MessageContext} from 'service/context';
 import {getContentLength} from 'util/textHandler';
+import {initSelection} from 'util/editorHandler';
+import {initialMessage} from "util/errorHandler";
+import {Message} from 'constant/interfaces';
 // element
 import CaseContainer from 'component/CaseContainer';
-import ActionContainer from 'component/ActionContainer';
 import ReplaceField from 'component/ReplaceField';
 import TextEditor from 'component/TextEditor';
+import ActionContainer from 'component/ActionContainer';
+import AlertMessage from 'component/AlertMessage';
+
 import CustomButton from 'component/CustomButton';
 
 const Home = () => {
@@ -17,6 +21,7 @@ const Home = () => {
   const 
         [hasMounted, setHasMounted] = useState<boolean>(false),
         [contentLength, setContentLength] = useState<number>(0),
+        [alertMessage, setAlertMessage] = useState<Message>(initialMessage),
         [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
         ;
 
@@ -30,7 +35,7 @@ const Home = () => {
     const currentContent = editorState.getCurrentContent();
     setContentLength(getContentLength(currentContent));
 
-    // prevent selection bugs
+    // [!] prevent selection bugs
     // initSelection(editorState);
 
   // eslint-disable-next-line
@@ -38,12 +43,16 @@ const Home = () => {
 
   return (
     <EditorContext.Provider value={[editorState, setEditorState]}>
+      <MessageContext.Provider value={[alertMessage, setAlertMessage]}>
       <main>
           <CaseContainer />
           <ReplaceField />
           <TextEditor contentLength={contentLength} />
           <ActionContainer contentLength={contentLength} />
+          <CustomButton onClick={()=>setAlertMessage({message:'Le lorem ipsum est, en imprimerie, une suite de mots\nsans signification utilisée à titre provisoire pour calibrer une mise en page', displayed: true})} />
+          <AlertMessage />
       </main>
+      </MessageContext.Provider>
     </EditorContext.Provider>
   )
 }
