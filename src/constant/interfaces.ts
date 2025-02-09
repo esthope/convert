@@ -34,7 +34,7 @@ export interface Interaction {
 }
 
 export interface Message {
-	type?:string,
-	message?:string,
+	level?:string|null,
+	message?:string|null,
 	displayed:boolean|null,
 }

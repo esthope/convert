@@ -3,11 +3,14 @@ import {ReactElement, useState, useEffect, useContext} from "react";
 import {RichUtils, Editor, EditorState} from 'draft-js';
 import "draft-js/dist/Draft.css";
 // util
-import {EditorContext} from 'service/context';
+import {EditorContext, MessageContext} from 'service/context';
+import {create_error} from 'util/errorHandler';
+import {Message} from 'constant/interfaces';
 // element
 import CustomButton from 'component/CustomButton';
 import style from "constant/base.scss";
 const colors:any = style;
+let errorMsg:Message;
 
 const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
 
@@ -15,7 +18,9 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
         [selectCount, setSelectCount] = useState<number>(0),
         [selectMode, setSelectMode] = useState<boolean>(false)
 
-  const [editorState, setEditorState] = useContext(EditorContext);
+  const 
+        [editorState, setEditorState] = useContext(EditorContext),
+        [alertMessage, setAlertMessage] = useContext(MessageContext)
 
   /**
    * Listen the delete command of DraftJS to cancel it 
@@ -57,13 +62,14 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
       {
         setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'));
 
-        // get the number of selected characters
-
+        // warn unavailability of multi-line selection
         const currentSel = editorState.getSelection().toJS();
         if (currentSel.anchorKey !== currentSel.focusKey) 
         {
           // [!] MSG
-          console.log('Sélection multiligne nest pas disponible');
+          // 'La sélection multi-lignes n\'est pas disponible.'
+          errorMsg = create_error('--- nouveau')
+          setAlertMessage(errorMsg)
         }
       }
 
@@ -73,7 +79,8 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     catch(err)
     {
       // [!] MSG
-      console.log('SEL : ', err)
+      errorMsg = create_error('SEL : ' + err)
+      setAlertMessage(errorMsg)
     }
   }
 

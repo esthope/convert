@@ -49,7 +49,7 @@ const Home = () => {
           <ReplaceField />
           <TextEditor contentLength={contentLength} />
           <ActionContainer contentLength={contentLength} />
-          <CustomButton onClick={()=>setAlertMessage({message:'Le lorem ipsum est, en imprimerie, une suite de mots\nsans signification utilisée à titre provisoire pour calibrer une mise en page', displayed: true})} />
+          <CustomButton onClick={()=>setAlertMessage({level: 'error', message:'••• ancien', displayed: true})} />
           <AlertMessage />
       </main>
       </MessageContext.Provider>
