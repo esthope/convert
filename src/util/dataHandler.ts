@@ -44,3 +44,5 @@ export const createKeyEntries = (slice:string):StringIndex => {
 
 	return interactions;
 }
+
+// -------------------------------------------------

@@ -1,24 +1,12 @@
 // main
 import {ReactElement} from "react";
 import {useState, useEffect} from 'react';
-// element
-import CircleIncon from "assets/circle.svg"
 
-const ActionButton = ({entry, label, board_key, length, onClick}:{entry:string, label?:string, board_key?:string, length:number, onClick:any}):ReactElement => {
-
-	const 	[iconPath, setIconPath] = useState<string>(CircleIncon),
-	        [hasMounted, setHasMounted] = useState<boolean>(false),
+const TemplateButton = () => {
+	const   [hasMounted, setHasMounted] = useState<boolean>(false),
 	        [started, setStarted] = useState<boolean>(false),
 			[positionStyle, setPositionStyle] = useState<string>('key-label'),
 			[interval, setStyleInterval] = useState<ReturnType<typeof setTimeout>>()
-
-	// get the button icon
-	useEffect(()=>{
-		const promise = import(`../assets/${entry}.svg`)
-		promise.then((image) => {
-			setIconPath(image.default)
-		})
-	}, [])
 
 	// Display the keyboard shortcuts on arrival
 	useEffect(()=>{
@@ -70,28 +58,19 @@ const ActionButton = ({entry, label, board_key, length, onClick}:{entry:string, 
 	}
 
 	return (
-	<div
-		className="flex-center column"
-		onMouseLeave={hide_label}
-	>
-		<button
-			type="button"
-			onClick={onClick}
-			className="actionButton flex-center column no-bg no-border"
+		<div
+			className="flex-center column"
+			onMouseLeave={hide_label}
 		>
-        	<img
-        	src={iconPath}
-			onMouseOver={show_label}
-        	alt={label} />
-	    </button>
-    	<div className="labelBox" >
-	    	<div className={positionStyle} >
-				<label className='block'>{label}</label>
-				<label className='block'>{`ctrl · ${board_key}`}</label>
+			{/*<ButtonComponent />*/}
+			<div className="labelBox" >
+		    	<div className={positionStyle} >
+					<label className='block'>{label}</label>
+					<label className='block'>{`ctrl · ${board_key}`}</label>
+				</div>
 			</div>
 		</div>
-	</div>
 	)
 }
 
-export default ActionButton;
+export TemplateButton

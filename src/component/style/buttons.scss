@@ -10,7 +10,7 @@
 
 // Two labels
 .labelBox {
-  overflow: hidden;
+  // overflow: hidden;
   max-height: var(--label-gap);
 
   label {
@@ -54,6 +54,7 @@ div.key-label {
 
 .caseButton {
   min-width: 64px;
+  width: max-content;
   height: 64px;
   border: none;
   padding: 10px;

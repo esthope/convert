@@ -45,7 +45,7 @@ const Home = () => {
     <EditorContext.Provider value={[editorState, setEditorState]}>
       <MessageContext.Provider value={[alertMessage, setAlertMessage]}>
       <main>
-          <CaseContainer />
+          <CaseContainer contentLength={contentLength} />
           <ReplaceField />
           <TextEditor contentLength={contentLength} />
           <ActionContainer contentLength={contentLength} />

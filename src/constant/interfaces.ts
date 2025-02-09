@@ -29,6 +29,7 @@ export interface Interaction {
 	entry:string,
 	unactive?:boolean,
 	label?:string,
+	title?:string,
 	shift?:boolean,
 	key?:string
 }

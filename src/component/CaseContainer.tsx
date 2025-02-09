@@ -1,28 +1,23 @@
 // main
-import {ReactElement, useContext} from "react";
+import {ReactElement, useContext,useEffect} from "react";
 // util
 import {EditorContext, MessageContext} from 'service/context';
 import {getRaws, initContent, getSelection, createContent} from 'util/editorHandler';
 import {transformTexts, changeCase} from 'util/textHandler';
+import {fetchData} from 'util/dataHandler';
 // element
 import {Block} from 'constant/interfaces';
 import {Case} from 'constant/interactionKey';
 import CaseButton from './CaseButton';
 import InverseLabel from './InverseLabel';
 // alert 
-import {Message} from 'constant/interfaces';
+import {Message, Interaction} from 'constant/interfaces';
 import {create_error} from 'util/errorHandler';
 let errorMsg:Message;
 
-const caseProps = [
-	{ content: 'AB', action: Case.upper },
-	{ content: 'ab', action: Case.lower },
-	{ content: 'abCd', action: Case.camel },
-	{ content: 'Ab Cd', action: Case.capital },
-	{ content: InverseLabel, action: Case.inversion }
-]
+const cases = fetchData('cases');
 
-const CaseContainer = (): ReactElement => {
+const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => {
   	const [editorState, setEditorState] = useContext(EditorContext),
           [alertMessage, setAlertMessage] = useContext(MessageContext)
 
@@ -63,18 +58,21 @@ const CaseContainer = (): ReactElement => {
 			errorMsg = create_error(`Le texte n'a pas pu être mis à jour : ${err}`)
 			setAlertMessage(errorMsg)
 		}
-
 	}
 
 	return (
 		<section className="caseContainer flex">
-			<CaseButton content="init" onClick={()=>initContent(setEditorState)} />
+			<CaseButton entry='INIT' label='init' content="init" length={contentLength} onClick={()=>initContent(setEditorState)} />
 			{
-				caseProps.map((property, index)=>
+				cases.map((item:Interaction)=>
 					<CaseButton
-						key={index}
-						content={property.content}
-						onClick={() => updateText(property.action)} />
+						key={item.data_id}
+						entry={item.entry}
+						label={item.label}
+						content={(item.data_id === Case.inversion) ? InverseLabel : item.title}
+						board_key={item.key}
+						length={contentLength}
+						onClick={() => updateText(item.data_id)} />
 				)
 			}
 		</section>
