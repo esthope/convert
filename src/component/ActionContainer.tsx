@@ -2,19 +2,24 @@
 import {ReactElement, useContext} from "react";
 import {EditorState} from 'draft-js';
 // util
-import {fetchData} from 'util/dataHandler';
+import {EditorContext, MessageContext} from 'service/context';
 import {createContent} from 'util/editorHandler';
+import {fetchData} from 'util/dataHandler';
 import {Interaction} from 'constant/interfaces';
-import {EditorContext} from 'service/context';
 // element
 import ActionButton from 'component/ActionButton';
 import {Action} from 'constant/interactionKey';
+// alert 
+import {Message} from 'constant/interfaces';
+import {create_error} from 'util/errorHandler';
+let errorMsg:Message;
 
 const actions = fetchData('actions');
 
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
-	const [editorState, setEditorState] = useContext(EditorContext);
+	const [editorState, setEditorState] = useContext(EditorContext),
+          [alertMessage, setAlertMessage] = useContext(MessageContext)
 
 	/**
 	* Clear the editor content
@@ -55,8 +60,9 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 					setEditorState(createContent(text))
 				}
 			}).catch((err:any) => {
-				// [!] MSG
-				console.log(err)
+				// [ERR]
+				errorMsg = create_error(`L'action n'a pas pu être effectuée : ${err}`)
+				setAlertMessage(errorMsg)
 			})
 		}
 

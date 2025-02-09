@@ -1,7 +1,7 @@
 // main
 import {ReactElement, useContext} from "react";
 // util
-import {EditorContext} from 'service/context';
+import {EditorContext, MessageContext} from 'service/context';
 import {getRaws, initContent, getSelection, createContent} from 'util/editorHandler';
 import {transformTexts, changeCase} from 'util/textHandler';
 // element
@@ -9,6 +9,10 @@ import {Block} from 'constant/interfaces';
 import {Case} from 'constant/interactionKey';
 import CaseButton from './CaseButton';
 import InverseLabel from './InverseLabel';
+// alert 
+import {Message} from 'constant/interfaces';
+import {create_error} from 'util/errorHandler';
+let errorMsg:Message;
 
 const caseProps = [
 	{ content: 'AB', action: Case.upper },
@@ -19,7 +23,8 @@ const caseProps = [
 ]
 
 const CaseContainer = (): ReactElement => {
-  	const [editorState, setEditorState] = useContext(EditorContext);
+  	const [editorState, setEditorState] = useContext(EditorContext),
+          [alertMessage, setAlertMessage] = useContext(MessageContext)
 
 	/**
 	 * Choose the case treatment depending of the selected action
@@ -54,8 +59,9 @@ const CaseContainer = (): ReactElement => {
 	  	}
 		catch (err)
 		{
-			// [!] MSG handling error + send error
-			console.log(err);
+			// [ERR]
+			errorMsg = create_error(`Le texte n'a pas pu être mis à jour : ${err}`)
+			setAlertMessage(errorMsg)
 		}
 
 	}

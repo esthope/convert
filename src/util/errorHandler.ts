@@ -1,23 +1,34 @@
 import {Message} from 'constant/interfaces';
 
-export const initialMessage:Message = {
+const initialMessage:Message = {
 	level: null,
 	message: null,
 	displayed: null
 }
 
-export const create_error = (message:string):Message => {
+
+const create_message = (level:string, message:string):Message => {
 	return {
-		level: 'error',
+		level: 'warning',
 		message: message,
 		displayed: true
 	}
 }
 
-export const reset_alert = (setAlertMessage:Function):void => {
+const create_warning = (message:string):Message => {
+	return create_message('warning', message)
+}
+
+const create_error = (message:string):Message => {
+	return create_message('error', message)
+}
+
+const reset_alert = (setAlertMessage:Function):void => {
 	setAlertMessage(initialMessage)
 }
 
-export const time_out = (miliseconds:number):Promise<any> => {
+const time_out = (miliseconds:number):Promise<any> => {
 	return new Promise(resolve => setTimeout(resolve, miliseconds));
 }
+
+export {initialMessage, create_warning, create_error, reset_alert, time_out}

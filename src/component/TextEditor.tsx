@@ -4,13 +4,15 @@ import {RichUtils, Editor, EditorState} from 'draft-js';
 import "draft-js/dist/Draft.css";
 // util
 import {EditorContext, MessageContext} from 'service/context';
-import {create_error} from 'util/errorHandler';
-import {Message} from 'constant/interfaces';
 // element
 import CustomButton from 'component/CustomButton';
 import style from "constant/base.scss";
-const colors:any = style;
+// alert
+import {create_error, create_warning} from 'util/errorHandler';
+import {Message} from 'constant/interfaces';
 let errorMsg:Message;
+
+const colors:any = style;
 
 const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
 
@@ -66,9 +68,8 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
         const currentSel = editorState.getSelection().toJS();
         if (currentSel.anchorKey !== currentSel.focusKey) 
         {
-          // [!] MSG
-          // 'La sélection multi-lignes n\'est pas disponible.'
-          errorMsg = create_error('--- nouveau')
+          // [ERR]
+          errorMsg = create_error('La sélection multi-lignes n\'est pas disponible.')
           setAlertMessage(errorMsg)
         }
       }
@@ -78,8 +79,8 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     }
     catch(err)
     {
-      // [!] MSG
-      errorMsg = create_error('SEL : ' + err)
+      // [ERR]
+      errorMsg = create_error(`La sélection n'a pas pu être effectuée : ${err}`)
       setAlertMessage(errorMsg)
     }
   }

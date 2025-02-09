@@ -72,7 +72,6 @@ const AlertMessage = ():ReactElement => {
 	 * @dependences {interval} 	  when the interval is changed
 	 */
 	useEffect(()=>{
-		console.log(hidingDelay, keap)
 		// when 10s as passed, hide
 		if (hidingDelay === 10 && !keap) 
 		{
