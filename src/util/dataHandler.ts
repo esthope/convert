@@ -1,7 +1,7 @@
 import {StringIndex, Interaction} from 'constant/interfaces';
 import interactionData from 'service/data_interaction.json';
 // alert
-import {create_error, create_warning} from 'util/errorHandler';
+import {create_error} from 'util/errorHandler';
 import {Message} from 'constant/interfaces';
 let errorMsg:Message;
 
@@ -44,5 +44,3 @@ export const createKeyEntries = (slice:string):StringIndex => {
 
 	return interactions;
 }
-
-// -------------------------------------------------

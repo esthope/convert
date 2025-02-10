@@ -7,8 +7,9 @@ import {createContent} from 'util/editorHandler';
 import {fetchData} from 'util/dataHandler';
 import {Interaction} from 'constant/interfaces';
 // element
-import ActionButton from 'component/ActionButton';
 import {Action} from 'constant/interactionKey';
+import ActionButton from 'component/ActionButton';
+import TemplateButton from './TemplateButton';
 // alert 
 import {Message} from 'constant/interfaces';
 import {create_error} from 'util/errorHandler';
@@ -19,7 +20,7 @@ const actions = fetchData('actions');
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
 	const [editorState, setEditorState] = useContext(EditorContext),
-          [alertMessage, setAlertMessage] = useContext(MessageContext)
+          [setAlertMessage] = useContext(MessageContext)
 
 	/**
 	* Clear the editor content
@@ -73,17 +74,19 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
   return (
 	<section className="actionContainer flex">
   	{
-		actions.map((item:Interaction):any => {
+		actions.forEach((item:Interaction):any => {
 		if (!item.unactive)
-		return (
-			<ActionButton
-				key={item.data_id}
-				entry={item.entry}
-				label={item.label}
-				board_key={item.key}
-				length={contentLength}
-				onClick={() => clipboardAction(item.data_id)} />
-		)})
+			return (
+				<TemplateButton
+					key={item.data_id}
+					label={item.label}
+					length={contentLength} board_key={item.key} >
+					<ActionButton
+						entry={item.entry}
+						label={item.label}
+						onClick={() => clipboardAction(item.data_id)} />
+				</TemplateButton>)
+		})
 	}
 	</section>
 )}
