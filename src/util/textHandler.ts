@@ -1,5 +1,5 @@
 import {ContentState} from "draft-js";
-import {Selection} from 'constant/interfaces';
+import {Selection, Interaction} from 'constant/interfaces';
 import {Case} from 'constant/interactionKey';
 
 let currentBlock:any,
@@ -121,19 +121,33 @@ export const getContentLength = (currentContent:ContentState):number => {
 	return currentContent.getPlainText().length
 }
 
-export const handle_press = (event:any, keys:string[]):void => {
+export const handle_press = (event:any, keys:string[], interactions:Interaction[]):void => {
 	try
 	{
 		// get the needed properties
-		const {key, type, ctrlKey} = event;
+		const {key, type, ctrlKey, shiftKey} = event;
+		let interKey:string,
+			pressedKey = key.toLowerCase()
 
-			// switch selection mode
-		if (ctrlKey && keys.includes(key))
-			console.log(key)
+		if (pressedKey !== 'control') console.log(event)
 
+		// check shorcut
+		if (!keys.includes(pressedKey))
+		{
+			console.log('bloup')
+			return
+		}
+
+		// select action
+		const interaction_id = interactions.filter((inter) => {
+			interKey = inter.key.toLowerCase(); 
+			return interKey === pressedKey
+		})
+		console.log(interaction_id)
 	}
 	catch(err)
 	{
+		// [!] ERR
 		console.log(err)
 	}
 }

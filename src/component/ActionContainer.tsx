@@ -23,8 +23,8 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
           [setAlertMessage] = useContext(MessageContext)
 
-    const keys = ['e', 'm']
-    const handleKeyPress = useCallback((event:Event) => handle_press(event, keys), [keys])
+    const keys = ['c', 'v', 'x', 'q', 'z', 'z', 'd' ]; // [!]
+    const key_listener = useCallback((event:Event) => handle_press(event, keys, actions), [keys])
 
 	/**
 	* Clear the editor content
@@ -76,15 +76,16 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 	}
 
 	useEffect(()=>{
-    	if (editorRef.current) 
-    	{
-    		console.log(editorRef.current.focus())
-    	}
+		console.log(actions)
+    	const editor = editorRef.current;
+    	const editorFocus = editorState.getSelection().hasFocus;
 
-    	const targetNode = editorRef.current ?? document;
+    	const targetNode = document; // editorRef.current ??
 
     	if (targetNode)
-      		targetNode.addEventListener("keydown", handleKeyPress);
+      		targetNode.addEventListener('keydown', key_listener);
+
+      	return () => targetNode.removeEventListener('keydown', key_listener);
     }, [])
 
 	return (

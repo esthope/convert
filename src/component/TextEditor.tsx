@@ -122,12 +122,12 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
       </div>
 
       <div
-        ref={editorRef}
         className={`editor quicksand-font green-background ${selectionClass}`} 
         onKeyUp={(event:any):void => {handleSelection(event, editorState)}}
       >
 
         <Editor
+        ref={editorRef}
         placeholder="Inscrire le texte"
         editorState={editorState}
         handleKeyCommand={onPreventDelete}
