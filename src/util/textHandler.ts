@@ -120,3 +120,20 @@ export const changeCase = (action:string, text:string):string => {
 export const getContentLength = (currentContent:ContentState):number => {
 	return currentContent.getPlainText().length
 }
+
+export const handle_press = (event:any, keys:string[]):void => {
+	try
+	{
+		// get the needed properties
+		const {key, type, ctrlKey} = event;
+
+			// switch selection mode
+		if (ctrlKey && keys.includes(key))
+			console.log(key)
+
+	}
+	catch(err)
+	{
+		console.log(err)
+	}
+}

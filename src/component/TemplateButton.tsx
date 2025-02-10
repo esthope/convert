@@ -6,14 +6,17 @@ interface TemplateProp {
 	children:ReactElement,
 	label?:string,
 	length:number,
-	board_key?:string
+	shift:boolean,
+	board_key:string
 }
 
-const TemplateButton = ({children, label, length, board_key}:TemplateProp) => {
+const TemplateButton = ({children, label, length, shift, board_key}:TemplateProp) => {
 	const   [hasMounted, setHasMounted] = useState<boolean>(false),
 	        [started, setStarted] = useState<boolean>(false),
 			[positionStyle, setPositionStyle] = useState<string>('key-label'),
 			[interval, setStyleInterval] = useState<ReturnType<typeof setTimeout>>()
+
+	const keyLabel = `ctrl · ${shift ? `maj · ${board_key}` : board_key}`;
 
 	// Display the keyboard shortcuts on arrival
 	useEffect(()=>{
@@ -77,7 +80,7 @@ const TemplateButton = ({children, label, length, board_key}:TemplateProp) => {
 			<div className="labelBox" >
 		    	<div className={positionStyle} >
 					<label className='block'>{label}</label>
-					<label className='block'>{`ctrl · ${board_key}`}</label>
+					<label className='block'>{keyLabel}</label>
 				</div>
 			</div>
 		</div>

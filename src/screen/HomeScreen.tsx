@@ -1,5 +1,5 @@
 // main
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef} from "react";
 import {EditorState} from "draft-js";
 // util
 import {EditorContext, MessageContext} from 'service/context';
@@ -25,6 +25,8 @@ const Home = () => {
         [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
         ;
 
+  const editorRef = useRef(null)
+
   useEffect(()=>{
     if (!hasMounted) {
       setHasMounted(true);
@@ -42,7 +44,7 @@ const Home = () => {
   }, [editorState])
 
   return (
-    <EditorContext.Provider value={[editorState, setEditorState]}>
+    <EditorContext.Provider value={[editorState, setEditorState, editorRef]}>
       <MessageContext.Provider value={[alertMessage, setAlertMessage]}>
       <main>
           <CaseContainer contentLength={contentLength} />

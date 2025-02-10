@@ -1,10 +1,11 @@
 // main
-import {ReactElement, useContext} from "react";
+import {ReactElement, useContext, useEffect, useCallback} from "react";
 import {EditorState} from 'draft-js';
 // util
 import {EditorContext, MessageContext} from 'service/context';
 import {createContent} from 'util/editorHandler';
 import {fetchData} from 'util/dataHandler';
+import {handle_press} from 'util/textHandler';
 import {Interaction} from 'constant/interfaces';
 // element
 import {Action} from 'constant/interactionKey';
@@ -19,8 +20,11 @@ const actions = fetchData('actions');
 
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
-	const [editorState, setEditorState] = useContext(EditorContext),
+	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
           [setAlertMessage] = useContext(MessageContext)
+
+    const keys = ['e', 'm']
+    const handleKeyPress = useCallback((event:Event) => handle_press(event, keys), [keys])
 
 	/**
 	* Clear the editor content
@@ -71,24 +75,39 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 			clearContent();
 	}
 
-  return (
-	<section className="actionContainer flex">
-  	{
-		actions.forEach((item:Interaction):any => {
-		if (!item.unactive)
-			return (
-				<TemplateButton
+	useEffect(()=>{
+    	if (editorRef.current) 
+    	{
+    		console.log(editorRef.current.focus())
+    	}
+
+    	const targetNode = editorRef.current ?? document;
+
+    	if (targetNode)
+      		targetNode.addEventListener("keydown", handleKeyPress);
+    }, [])
+
+	return (
+		<section className="actionContainer flex">
+  		{
+			actions.map((item:Interaction):any => (
+			  	(!item.unactive)
+			  	? <TemplateButton
 					key={item.data_id}
 					label={item.label}
-					length={contentLength} board_key={item.key} >
+					length={contentLength}
+					shift={item.shift ?? false}
+					board_key={item.key} >
 					<ActionButton
 						entry={item.entry}
 						label={item.label}
 						onClick={() => clipboardAction(item.data_id)} />
-				</TemplateButton>)
-		})
-	}
-	</section>
-)}
+				</TemplateButton>
+			  	: null
+			))
+  		}
+		</section>
+	)
+}
 
 export default ActionContainer;

@@ -21,7 +21,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
         [selectMode, setSelectMode] = useState<boolean>(false)
 
   const 
-        [editorState, setEditorState] = useContext(EditorContext),
+        [editorState, setEditorState, editorRef] = useContext(EditorContext),
         [alertMessage, setAlertMessage] = useContext(MessageContext)
 
   /**
@@ -122,6 +122,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
       </div>
 
       <div
+        ref={editorRef}
         className={`editor quicksand-font green-background ${selectionClass}`} 
         onKeyUp={(event:any):void => {handleSelection(event, editorState)}}
       >

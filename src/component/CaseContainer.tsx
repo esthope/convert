@@ -63,7 +63,7 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
 
 	return (
 		<section className="caseContainer flex">
-			<TemplateButton label='init' length={contentLength} board_key='none' >
+			<TemplateButton label='init' length={contentLength} shift={false} board_key='none' >
 				<CaseButton
 					content="init"
 					onClick={()=>initContent(setEditorState)} />
@@ -71,12 +71,14 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
 			{
 				cases.map((item:Interaction)=>
 				<TemplateButton
-				key={item.data_id}
-				label={item.label}
-				length={contentLength} board_key={item.key} >
-					<CaseButton
-					content={(item.data_id === Case.inversion) ? InverseLabel : item.title}
-					onClick={() => updateText(item.data_id)} />
+					key={item.data_id}
+					label={item.label}
+					length={contentLength}
+					shift={item.shift ?? false}
+					board_key={item.key} >
+						<CaseButton
+						content={(item.data_id === Case.inversion) ? InverseLabel : item.title}
+						onClick={() => updateText(item.data_id)} />
 				</TemplateButton>
 				)
 			}
