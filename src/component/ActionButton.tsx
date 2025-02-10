@@ -4,14 +4,14 @@ import {useState, useEffect} from 'react';
 // element
 import CircleIncon from "assets/circle.svg"
 
-interface ActionInterface {
+interface ActionProp {
 	entry?:string,
 	label?:string,
 	onMouseEnter?:any,
 	onClick:any
 }
 
-const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionInterface):ReactElement => {
+const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactElement => {
 
 	const 	[iconPath, setIconPath] = useState<string>(CircleIncon)
 

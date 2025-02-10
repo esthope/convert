@@ -1,12 +1,12 @@
 import {ReactElement} from "react";
 
-interface CaseInterface {
+interface CaseProp {
 	content?:string|Function,
 	onMouseEnter?:any,
 	onClick:any
 }
 
-const CaseButton = ({content, onMouseEnter, onClick}:CaseInterface): ReactElement => {
+const CaseButton = ({content, onMouseEnter, onClick}:CaseProp): ReactElement => {
 
 	return (
 			<button

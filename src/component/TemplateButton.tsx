@@ -2,7 +2,14 @@
 import {ReactElement, cloneElement, isValidElement} from "react";
 import {useState, useEffect} from 'react';
 
-const TemplateButton = ({children, label, length, board_key}:{children:ReactElement, label?:string, length:number,  board_key?:string}) => {
+interface TemplateProp {
+	children:ReactElement,
+	label?:string,
+	length:number,
+	board_key?:string
+}
+
+const TemplateButton = ({children, label, length, board_key}:TemplateProp) => {
 	const   [hasMounted, setHasMounted] = useState<boolean>(false),
 	        [started, setStarted] = useState<boolean>(false),
 			[positionStyle, setPositionStyle] = useState<string>('key-label'),

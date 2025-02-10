@@ -1,7 +1,13 @@
 import {ReactElement} from "react";
 import CircleIcon from 'component/CircleIcon';
 
-const CustomButton = ({onClick, color, className}:{onClick:any, color?:string, className?:string}):ReactElement => {
+interface ButtonProp {
+	onClick:any,
+	color?:string,
+	className?:string
+}
+
+const CustomButton = ({onClick, color, className}:ButtonProp):ReactElement => {
 	return (
 		<button
 			type="button"
