@@ -1,4 +1,4 @@
-// main
+	// main
 import {ReactElement} from "react";
 import {useState, useEffect} from 'react';
 
@@ -62,7 +62,7 @@ const TemplateButton = () => {
 			className="flex-center column"
 			onMouseLeave={hide_label}
 		>
-			{/*<ButtonComponent />*/}
+			{/*<Child />*/}
 			<div className="labelBox" >
 		    	<div className={positionStyle} >
 					<label className='block'>{label}</label>
