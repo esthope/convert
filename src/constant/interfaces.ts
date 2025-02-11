@@ -30,8 +30,9 @@ export interface Interaction {
 	unactive?:boolean,
 	label?:string,
 	title?:string,
-	shift?:boolean,
-	key?:string
+	shift:boolean,
+	must_focus:boolean,
+	key:string
 }
 
 export interface Message {

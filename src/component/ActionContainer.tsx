@@ -1,25 +1,34 @@
 // main
-import {ReactElement, useContext} from "react";
+import {ReactElement, useContext, useEffect, useCallback} from "react";
 import {EditorState} from 'draft-js';
 // util
 import {EditorContext, MessageContext} from 'service/context';
 import {createContent} from 'util/editorHandler';
-import {fetchData} from 'util/dataHandler';
+import {fetchData, getInteractionsKeys} from 'util/dataHandler';
+import {handle_press} from 'util/textHandler';
 import {Interaction} from 'constant/interfaces';
 // element
-import ActionButton from 'component/ActionButton';
 import {Action} from 'constant/interactionKey';
+import ActionButton from 'component/ActionButton';
+import TemplateButton from './TemplateButton';
 // alert 
 import {Message} from 'constant/interfaces';
 import {create_error} from 'util/errorHandler';
 let errorMsg:Message;
 
 const actions = fetchData('actions');
+const keys = getInteractionsKeys(actions);
 
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
-	const [editorState, setEditorState] = useContext(EditorContext),
-          [alertMessage, setAlertMessage] = useContext(MessageContext)
+	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
+          [setAlertMessage] = useContext(MessageContext)
+
+	const key_listener = useCallback((event:Event) => {
+    	const editorFocus = editorState.getSelection().hasFocus;
+		const askedAction = handle_press(event, keys, actions, editorFocus);
+
+	}, [keys])
 
 	/**
 	* Clear the editor content
@@ -70,22 +79,32 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 			clearContent();
 	}
 
-  return (
-	<section className="actionContainer flex">
-  	{
-		actions.map((item:Interaction):any => {
-		if (!item.unactive)
-		return (
-			<ActionButton
-				key={item.data_id}
-				entry={item.entry}
-				label={item.label}
-				board_key={item.key}
-				length={contentLength}
-				onClick={() => clipboardAction(item.data_id)} />
-		)})
-	}
-	</section>
-)}
+	useEffect(()=>{
+    	document.addEventListener('keydown', key_listener)
+      	return () => document.addEventListener('keydown', key_listener)
+    }, [])
+
+	return (
+		<section className="actionContainer flex">
+  		{
+			actions.map((item:Interaction):any => (
+			  	(!item.unactive)
+			  	? <TemplateButton
+					key={item.data_id}
+					label={item.label}
+					length={contentLength}
+					shift={item.shift ?? false}
+					board_key={item.key} >
+					<ActionButton
+						entry={item.entry}
+						label={item.label}
+						onClick={() => clipboardAction(item.data_id)} />
+				</TemplateButton>
+			  	: null
+			))
+  		}
+		</section>
+	)
+}
 
 export default ActionContainer;

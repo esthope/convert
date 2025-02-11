@@ -1,7 +1,7 @@
 import {StringIndex, Interaction} from 'constant/interfaces';
 import interactionData from 'service/data_interaction.json';
 // alert
-import {create_error, create_warning} from 'util/errorHandler';
+import {create_error} from 'util/errorHandler';
 import {Message} from 'constant/interfaces';
 let errorMsg:Message;
 
@@ -45,4 +45,16 @@ export const createKeyEntries = (slice:string):StringIndex => {
 	return interactions;
 }
 
-// -------------------------------------------------
+export const getInteractionsKeys = (interactions:Interaction[]|string):any => {
+
+	let keys:string[] = [],
+		filteredData:Interaction[];
+
+	const data = (typeof interactions === 'object') ? interactions : fetchData(interactions);
+
+	// the interaction must be active
+	filteredData = data.filter((item:Interaction)=>(!item.unactive));
+	keys = filteredData.map((item:any) => item.key.toLowerCase());
+
+	return keys;
+}

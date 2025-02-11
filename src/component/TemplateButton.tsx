@@ -1,12 +1,22 @@
-	// main
-import {ReactElement} from "react";
+// main
+import {ReactElement, cloneElement, isValidElement} from "react";
 import {useState, useEffect} from 'react';
 
-const TemplateButton = () => {
+interface TemplateProp {
+	children:ReactElement,
+	label?:string,
+	length:number,
+	shift:boolean,
+	board_key:string
+}
+
+const TemplateButton = ({children, label, length, shift, board_key}:TemplateProp) => {
 	const   [hasMounted, setHasMounted] = useState<boolean>(false),
 	        [started, setStarted] = useState<boolean>(false),
 			[positionStyle, setPositionStyle] = useState<string>('key-label'),
 			[interval, setStyleInterval] = useState<ReturnType<typeof setTimeout>>()
+
+	const keyLabel = `ctrl · ${shift ? `maj · ${board_key}` : board_key}`;
 
 	// Display the keyboard shortcuts on arrival
 	useEffect(()=>{
@@ -20,8 +30,7 @@ const TemplateButton = () => {
     		setPositionStyle('')
     		setStarted(true)
     	}
-
-	}, [length])
+	}, [length, hasMounted])
 
 	/**
 	 * show label when the button is over
@@ -38,7 +47,7 @@ const TemplateButton = () => {
       			let style = (current.includes('name-label')) ? 'key-label' : 'name-label';
       			return style
       		})
-	    }, 2500)
+	    }, 1400)
 
 		// set interval to stop the switch on over out
 	    setStyleInterval(styleInterval)
@@ -49,6 +58,7 @@ const TemplateButton = () => {
 	 */
 	const hide_label = ():void => {
 		clearInterval(interval)
+	    setStyleInterval(undefined)
 
 		// hide if the content of editorState is initial
 		if (!started)
@@ -57,20 +67,24 @@ const TemplateButton = () => {
 			setPositionStyle('')
 	}
 
+	useEffect(()=>{
+		return () => clearInterval(interval)
+	}, [interval])
+
 	return (
 		<div
 			className="flex-center column"
 			onMouseLeave={hide_label}
 		>
-			{/*<Child />*/}
+			{isValidElement(children) ? cloneElement(children as ReactElement, { onMouseEnter: show_label }) : children}
 			<div className="labelBox" >
 		    	<div className={positionStyle} >
 					<label className='block'>{label}</label>
-					<label className='block'>{`ctrl · ${board_key}`}</label>
+					<label className='block'>{keyLabel}</label>
 				</div>
 			</div>
 		</div>
 	)
 }
 
-export TemplateButton
+export default TemplateButton

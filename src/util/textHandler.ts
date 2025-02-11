@@ -1,5 +1,5 @@
 import {ContentState} from "draft-js";
-import {Selection} from 'constant/interfaces';
+import {Selection, Interaction} from 'constant/interfaces';
 import {Case} from 'constant/interactionKey';
 
 let currentBlock:any,
@@ -119,4 +119,48 @@ export const changeCase = (action:string, text:string):string => {
 
 export const getContentLength = (currentContent:ContentState):number => {
 	return currentContent.getPlainText().length
+}
+
+export const handle_press = (event:any, keys:string[], interactions:Interaction[], hasFocus?:boolean):void => {
+	try
+	{
+		// get the needed properties
+		const {key, type, ctrlKey, shiftKey} = event;
+		hasFocus = !!hasFocus;
+		let interKey:string,
+			interShift:boolean,
+			interFocus:boolean,
+			pressedKey = key.toLowerCase()
+
+		// if (pressedKey === 'control') return; //console.log(event)
+
+		// check shorcut
+		if (!keys.includes(pressedKey))
+		{
+			// console.log('bloup')
+			return
+		}
+
+		// select action
+		// focusProp
+		// key
+		const interaction_id = interactions.filter((inter) => {
+			interKey = inter.key.toLowerCase();
+			interShift = !!inter.shift;
+
+			console.log(interFocus == false)
+			// console.log(inter, hasFocus, interShift)
+
+			return (inter.must_focus == hasFocus
+				 && interShift == shiftKey
+				 && interKey === pressedKey)
+		})
+
+		console.log(interaction_id)
+	}
+	catch(err)
+	{
+		// [!] ERR
+		console.log(err)
+	}
 }

@@ -21,7 +21,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
         [selectMode, setSelectMode] = useState<boolean>(false)
 
   const 
-        [editorState, setEditorState] = useContext(EditorContext),
+        [editorState, setEditorState, editorRef] = useContext(EditorContext),
         [alertMessage, setAlertMessage] = useContext(MessageContext)
 
   /**
@@ -127,6 +127,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
       >
 
         <Editor
+        ref={editorRef}
         placeholder="Inscrire le texte"
         editorState={editorState}
         handleKeyCommand={onPreventDelete}
