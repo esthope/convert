@@ -1,4 +1,4 @@
-import {ReactElement} from "react";
+import {ReactElement, memo} from "react";
 import style from "constant/base.scss";
 
 const colors:any = style;
@@ -11,4 +11,5 @@ const CircleIcon = ({color=colors.lightOrange, parentSize='21', ellipseSize='10'
 	)
 }
 
-export default CircleIcon;
+const CircleIconMemo = memo(CircleIcon);
+export default CircleIconMemo;

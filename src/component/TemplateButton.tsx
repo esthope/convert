@@ -1,5 +1,5 @@
 // main
-import {ReactElement, cloneElement, isValidElement} from "react";
+import {ReactElement, cloneElement, isValidElement, memo} from "react";
 import {useState, useEffect} from 'react';
 
 interface TemplateProp {
@@ -87,4 +87,5 @@ const TemplateButton = ({children, label, length, shift, board_key}:TemplateProp
 	)
 }
 
+// const TemplateButtonMemo = memo(TemplateButton);
 export default TemplateButton

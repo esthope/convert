@@ -1,65 +1,26 @@
 // main
-import {ReactElement, useContext} from "react";
+import {ReactElement, useContext, useEffect} from "react";
 // util
 import {EditorContext, MessageContext} from 'service/context';
-import {getRaws, initContent, getSelection, createContent} from 'util/editorHandler';
-import {transformTexts, changeCase} from 'util/textHandler';
+import {initContent} from 'util/editorHandler';
+import {updateTextCase} from 'util/textHandler';
 import {fetchData} from 'util/dataHandler';
 // element
-import {Block} from 'constant/interfaces';
-import {Case} from 'constant/interactionKey';
+import {Case, casesData} from 'constant/Interactions';
 import TemplateButton from './TemplateButton';
 import InverseLabel from './InverseLabel';
 import CaseButton from './CaseButton';
 // alert 
-import {Message, Interaction} from 'constant/interfaces';
-import {create_error} from 'util/errorHandler';
-let errorMsg:Message;
-
-const cases = fetchData('cases');
+import {Interaction} from 'constant/interfaces';
 
 const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => {
-  	const [editorState, setEditorState] = useContext(EditorContext),
+  	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
           [setAlertMessage] = useContext(MessageContext)
 
-	/**
-	 * Choose the case treatment depending of the selected action
-	 * Change case, then updtate states
-	 * @param  {string} action 	constant from interactionKey
-	 */
-	const updateText = (action:string):void => {
-		const currentRaws = getRaws(editorState),
-			  {blocks} = currentRaws;
-
-		const selections = getSelection(blocks, editorState)
-
-		try
-		{
-			if (selections.length > 0) 
-			{
-		  		transformTexts(selections, blocks, undefined, action);
-			}
-			else
-			{
-			  	blocks.forEach((block:Block):void => {
-			  		// verify text
-					if (typeof block.text !== 'string' || block.text === '') return;
-
-					// change text case
-			  		block.text = changeCase(action, block.text)
-			  	})
-
-			}
-
-			setEditorState(createContent(currentRaws))
-	  	}
-		catch (err)
-		{
-			// [ERR]
-			errorMsg = create_error(`Le texte n'a pas pu être mis à jour : ${err}`)
-			setAlertMessage(errorMsg)
-		}
-	}
+    const handle_text = (action:string)=>{
+    	const newContent = updateTextCase(action, editorState);
+    	setEditorState(newContent)
+    }
 
 	return (
 		<section className="caseContainer flex">
@@ -69,7 +30,7 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
 					onClick={()=>initContent(setEditorState)} />
 			</TemplateButton>
 			{
-				cases.map((item:Interaction)=>
+				casesData.map((item:Interaction)=>
 				<TemplateButton
 					key={item.data_id}
 					label={item.label}
@@ -78,7 +39,7 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
 					board_key={item.key} >
 						<CaseButton
 						content={(item.data_id === Case.inversion) ? InverseLabel : item.title}
-						onClick={() => updateText(item.data_id)} />
+						onClick={() => handle_text(item.data_id)} />
 				</TemplateButton>
 				)
 			}

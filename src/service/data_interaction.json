@@ -58,27 +58,28 @@
 			"data_id": "CPY",
 			"entry": "copy",
 			"label": "copier",
-			"must_focus": true,
+			"focus": false,
 			"key": "C"
 		},
 		{
 			"data_id": "PST",
 			"entry": "past",
 			"label": "coller",
-			"must_focus": true,
+			"focus": false,
 			"key": "V"
 		},
 		{
 			"data_id": "CUT",
 			"entry": "cut",
 			"label": "couper",
-			"must_focus": true,
+			"focus": false,
 			"key": "X"
 		},
 		{
 			"data_id": "RST",
 			"entry": "reset",
 			"label": "nouveau",
+			"focus": null,
 			"key": "Q"
 		},
 		{
@@ -86,7 +87,7 @@
 			"entry": "undo",
 			"unactive": true,
 			"label": "état précédent",
-			"must_focus": true,
+			"focus": true,
 			"key": "Z"
 		},
 		{
@@ -94,7 +95,7 @@
 			"entry": "redo",
 			"unactive": true,
 			"label": "état suivant",
-			"must_focus": true,
+			"focus": true,
 			"shift": true,
 			"key": "Z"
 		},
@@ -103,7 +104,7 @@
 			"entry": "multi",
 			"unactive": true,
 			"label": "Mmlti-selection",
-			"must_focus": true,
+			"focus": true,
 			"key": "D"
 		}
 	]

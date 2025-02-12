@@ -1,13 +1,18 @@
 import {ContentState} from "draft-js";
-import {Selection, Interaction} from 'constant/interfaces';
-import {Case} from 'constant/interactionKey';
+import {Selection, Interaction, Block} from 'constant/interfaces';
+import {Case} from 'constant/Interactions';
+
+// util
+import {create_error} from 'util/errorHandler';
+import {getRaws, getSelection, createContent} from 'util/editorHandler';
+
 
 let currentBlock:any,
 	workText:string,
 	newText = '',
 	anchor = 0;
 
-const updateText = () => {
+const addLastIteration = () => {
 	newText += workText.slice(anchor);
 	currentBlock.text = newText;
 }
@@ -31,7 +36,7 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 			// For the last iteration : add the rest of its sentence, then update
 			if (newText !== '') 
 			{
-				updateText();
+				addLastIteration();
 			}
 
 			// get the current block with its passed key
@@ -58,7 +63,7 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 		// on last iteration, add the rest of the sentence, then update
 		if (selectionsLength === (index+1))
 		{
-			updateText();
+			addLastIteration();
 		}
 	})
 	
@@ -66,7 +71,7 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 
 /**
  * Change the case with more option
- * @param  {string} action 	constant from interactionKey
+ * @param  {string} action 	constant from interactions
  * @param  {string} text 	text to change
  * @return {string} 		changedText changed text
  */
@@ -121,46 +126,41 @@ export const getContentLength = (currentContent:ContentState):number => {
 	return currentContent.getPlainText().length
 }
 
-export const handle_press = (event:any, keys:string[], interactions:Interaction[], hasFocus?:boolean):void => {
+/**
+ * Choose the case treatment depending of the selected action
+ * Change case, then updtate states
+ * @param  {string} action 	constant from interactions
+ */
+export const updateTextCase = (action:string, editorState:any):any => {
+	const currentRaws = getRaws(editorState),
+		  {blocks} = currentRaws;
+
+	const selections = getSelection(blocks, editorState)
+	console.log(action)
+
 	try
 	{
-		// get the needed properties
-		const {key, type, ctrlKey, shiftKey} = event;
-		hasFocus = !!hasFocus;
-		let interKey:string,
-			interShift:boolean,
-			interFocus:boolean,
-			pressedKey = key.toLowerCase()
-
-		// if (pressedKey === 'control') return; //console.log(event)
-
-		// check shorcut
-		if (!keys.includes(pressedKey))
+		if (selections.length > 0) 
 		{
-			// console.log('bloup')
-			return
+	  		transformTexts(selections, blocks, undefined, action);
+		}
+		else
+		{
+		  	blocks.forEach((block:Block):void => {
+		  		// verify text
+				if (typeof block.text !== 'string' || block.text === '') return;
+
+				// change text case
+		  		block.text = changeCase(action, block.text)
+		  	})
+
 		}
 
-		// select action
-		// focusProp
-		// key
-		const interaction_id = interactions.filter((inter) => {
-			interKey = inter.key.toLowerCase();
-			interShift = !!inter.shift;
-
-			console.log(interFocus == false)
-			// console.log(inter, hasFocus, interShift)
-
-			return (inter.must_focus == hasFocus
-				 && interShift == shiftKey
-				 && interKey === pressedKey)
-		})
-
-		console.log(interaction_id)
-	}
-	catch(err)
+		return createContent(currentRaws);
+  	}
+	catch (err)
 	{
-		// [!] ERR
-		console.log(err)
+		// [ERR] return type err
+		let errorMsg = create_error(`Le texte n'a pas pu être mis à jour : ${err}`)
 	}
 }

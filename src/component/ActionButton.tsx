@@ -1,5 +1,5 @@
 // main
-import {ReactElement} from "react";
+import {ReactElement, memo} from "react";
 import {useState, useEffect} from 'react';
 // element
 import CircleIncon from "assets/circle.svg"
@@ -37,4 +37,5 @@ const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactEle
 	)
 }
 
+// const ActionButtonMemo = memo(ActionButton);
 export default ActionButton;

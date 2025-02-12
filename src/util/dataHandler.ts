@@ -58,3 +58,43 @@ export const getInteractionsKeys = (interactions:Interaction[]|string):any => {
 
 	return keys;
 }
+
+export const handle_press = (event:any, keys:string[], interactions:Interaction[], hasFocus:boolean):string => {
+
+	let interID:string = '';
+
+	try
+	{
+		// get the needed properties
+		const {key, type, ctrlKey, shiftKey} = event;
+		let interKey:string,
+			checkedFocus:boolean,
+			pressedKey = key.toLowerCase()
+
+		// check shorcut
+		if (!keys.includes(pressedKey))
+		{
+			// console.log('bloup')
+			return interID;
+		}
+
+		// select action
+		const interaction_id = interactions.filter((inter) => {
+			interKey = inter.key.toLowerCase();
+			checkedFocus = (typeof inter.focus === 'boolean') ? (inter.focus === hasFocus) : true;
+
+			return ( checkedFocus
+				 && !!inter.shift == shiftKey
+				 && interKey === pressedKey)
+		})
+
+		interID = interaction_id[0]?.data_id ?? ''; 
+		return interID;
+	}
+	catch(err)
+	{
+		// [!] ERR
+		console.log(err)
+		return interID;
+	}
+}

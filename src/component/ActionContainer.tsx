@@ -1,14 +1,13 @@
 // main
-import {ReactElement, useContext, useEffect, useCallback} from "react";
+import {ReactElement, useContext, useEffect, useCallback, useMemo, memo} from "react";
 import {EditorState} from 'draft-js';
 // util
 import {EditorContext, MessageContext} from 'service/context';
 import {createContent} from 'util/editorHandler';
 import {fetchData, getInteractionsKeys} from 'util/dataHandler';
-import {handle_press} from 'util/textHandler';
 import {Interaction} from 'constant/interfaces';
 // element
-import {Action} from 'constant/interactionKey';
+import {Action} from 'constant/Interactions';
 import ActionButton from 'component/ActionButton';
 import TemplateButton from './TemplateButton';
 // alert 
@@ -17,23 +16,16 @@ import {create_error} from 'util/errorHandler';
 let errorMsg:Message;
 
 const actions = fetchData('actions');
-const keys = getInteractionsKeys(actions);
 
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
 	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
           [setAlertMessage] = useContext(MessageContext)
 
-	const key_listener = useCallback((event:Event) => {
-    	const editorFocus = editorState.getSelection().hasFocus;
-		const askedAction = handle_press(event, keys, actions, editorFocus);
-
-	}, [keys])
-
 	/**
 	* Clear the editor content
 	*/
-	const clearContent = ():void => {
+	const clearContent = (action:string):void => {
 		if (contentLength === 0) return;
 		const initialState = EditorState.createEmpty();
 		setEditorState(initialState)
@@ -53,7 +45,7 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 		{
 			case Action.copy:
 			case Action.cut:
-				let currentContent = editorState.getCurrentContent().getPlainText();
+				let currentContent = editorRef.current.editor.innerText;
 				promise = clipboard.writeText(currentContent)
 				break;
 			case Action.past:
@@ -76,13 +68,8 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 		}
 
 		if (action === Action.reset || action === Action.cut) 
-			clearContent();
+			clearContent(action);
 	}
-
-	useEffect(()=>{
-    	document.addEventListener('keydown', key_listener)
-      	return () => document.addEventListener('keydown', key_listener)
-    }, [])
 
 	return (
 		<section className="actionContainer flex">
@@ -106,5 +93,5 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 		</section>
 	)
 }
-
+// const ActionContainerMemo = memo(ActionContainer);
 export default ActionContainer;

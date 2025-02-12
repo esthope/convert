@@ -31,7 +31,7 @@ export interface Interaction {
 	label?:string,
 	title?:string,
 	shift:boolean,
-	must_focus:boolean,
+	focus:boolean|null,
 	key:string
 }
 
