@@ -78,6 +78,8 @@ export const handle_press = (event:any, keys:string[], interactions:Interaction[
 			return interID;
 		}
 
+    	event.preventDefault();
+
 		// select action
 		const interaction_id = interactions.filter((inter) => {
 			interKey = inter.key.toLowerCase();

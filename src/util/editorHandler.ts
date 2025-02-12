@@ -6,6 +6,10 @@ export const createContent = (content:Raw|string):EditorState => {
 	return EditorState.createWithContent(contentState);
 }
 
+export const clearContent = ():EditorState => {
+	return EditorState.createEmpty();
+}
+
 /**
  * For test, init the editor content
  * @param {Function} setEditorState : function to change the editor content

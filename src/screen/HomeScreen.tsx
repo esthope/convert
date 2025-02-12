@@ -39,7 +39,6 @@ const Home = () => {
 
   const key_listener = (event:KeyboardEvent) => {
     if (!event.ctrlKey || !editorRef?.current) return;
-    event.preventDefault();
 
     const hasFocus = editorRef.current.editor === document.activeElement;
     const askedInter = handle_press(event, keys, interactionsData, hasFocus);

@@ -1,16 +1,18 @@
-import {ContentState} from "draft-js";
-import {Selection, Interaction, Block} from 'constant/interfaces';
-import {Case} from 'constant/Interactions';
+import {ContentState, EditorState} from "draft-js";
+import {Selection, Interaction, Block, Message} from 'constant/interfaces';
+import {Case, Action} from 'constant/Interactions';
 
 // util
 import {create_error} from 'util/errorHandler';
-import {getRaws, getSelection, createContent} from 'util/editorHandler';
+import {getRaws, getSelection, createContent, clearContent} from 'util/editorHandler';
 
 
 let currentBlock:any,
 	workText:string,
 	newText = '',
-	anchor = 0;
+	anchor = 0,
+	errorMsg:Message
+	;
 
 const addLastIteration = () => {
 	newText += workText.slice(anchor);
@@ -161,6 +163,36 @@ export const updateTextCase = (action:string, editorState:any):any => {
 	catch (err)
 	{
 		// [ERR] return type err
-		let errorMsg = create_error(`Le texte n'a pas pu être mis à jour : ${err}`)
+		errorMsg = create_error(`Le texte n'a pas pu être mis à jour : ${err}`)
 	}
+}
+
+/**
+ * Excecute the user action
+ * Update the editor content and/or use the clipboard
+ * @param  {string} action code to decide the action to excecute
+ */
+export const clipboardAction = async (action:string, editorRef:any):Promise<any> =>
+{
+	const {clipboard} = navigator;
+	let pastPromise:any = null,
+		nexContent:any;
+
+	switch (action)
+	{
+		case Action.copy:
+		case Action.cut:
+			let currentContent = editorRef.current.editor.innerText;
+			if (!(currentContent == '\n'))
+				clipboard.writeText(currentContent).catch ((err:any) => {/*[ERR]*/});;
+			break;
+		case Action.past:
+			nexContent = await clipboard.readText().then((text:any) => createContent(text)).catch ((err:any) => {/*[ERR]*/});
+			break;
+	}
+
+	if (action === Action.reset || action === Action.cut)
+		nexContent = clearContent();
+
+	return nexContent;
 }
