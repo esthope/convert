@@ -10,12 +10,12 @@ import {getRaws, getSelection, createContent, clearContent} from 'util/editorHan
 let currentBlock:any,
 	workText:string,
 	newText = '',
-	anchor = 0
-	//errorMsg:Message
+	initial = 0,
+	errorMsg:Message
 	;
 
 const addLastIteration = () => {
-	newText += workText.slice(anchor);
+	newText += workText.slice(initial);
 	currentBlock.text = newText;
 }
 
@@ -31,9 +31,9 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 		selectedText:string;
 
 	selections.forEach((selection, index):void => {
-		const {offset, length, block_key} = selection;
+		const {offset, length, anchor_key} = selection;
 
-		if (block_key)
+		if (anchor_key)
 		{
 			// For the last iteration : add the rest of its sentence, then update
 			if (newText !== '') 
@@ -42,12 +42,12 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 			}
 
 			// get the current block with its passed key
-			currentBlock = blocks.find((block)=>block.key === block_key);
+			currentBlock = blocks.find((block)=>block.key === anchor_key);
 			workText = currentBlock.text;
 
 			// init
 			newText = '';
-			anchor = 0;
+			initial = 0;
 		}
 
 		// case mode
@@ -58,9 +58,9 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 		}
 
 		// get the section and add the replacing text
-		newText += workText.slice(anchor, offset) + value;
+		newText += workText.slice(initial, offset) + value;
 		// define the start position for next|last iteration
-		anchor = offset + length;
+		initial = offset + length;
 
 		// on last iteration, add the rest of the sentence, then update
 		if (selectionsLength === (index+1))
@@ -68,6 +68,9 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 			addLastIteration();
 		}
 	})
+}
+
+export const transformMultiLine = (selection:Selection[]):void => {
 	
 }
 
@@ -137,8 +140,8 @@ export const updateTextCase = (action:string, editorState:any):any => {
 	const currentRaws = getRaws(editorState),
 		  {blocks} = currentRaws;
 
+
 	const selections = getSelection(blocks, editorState)
-	console.log(action)
 
 	try
 	{
@@ -155,10 +158,9 @@ export const updateTextCase = (action:string, editorState:any):any => {
 				// change text case
 		  		block.text = changeCase(action, block.text)
 		  	})
-
 		}
 
-		return createContent(currentRaws);
+			return createContent(currentRaws);
   	}
 	catch (err)
 	{
@@ -186,6 +188,7 @@ export const clipboardAction = async (action:string, editorRef:any):Promise<any>
 				clipboard.writeText(currentContent).catch ((err:any) => {/*[ERR]*/});;
 			break;
 		case Action.past:
+			// [ERR] type warning si rien n'a coller
 			nexContent = await clipboard.readText().then((text:any) => createContent(text)).catch ((err:any) => {/*[ERR]*/});
 			break;
 	}

@@ -35,10 +35,10 @@ const Home = () => {
   const key_listener = async (event:KeyboardEvent):Promise<void> => {
     if (!event.ctrlKey || !editorRef?.current) return;
 
-    const hasFocus = editorRef.current.editor === document.activeElement;
-    let newState:any = null;
+    const hasFocus = editorRef.current.editor === document.activeElement,
+          askedInter = handle_press(event, keys, interactionsData, hasFocus);
 
-    const askedInter = handle_press(event, keys, interactionsData, hasFocus);
+    let newState:any = null;
 
     if (cases.includes(askedInter))
       newState = updateTextCase(askedInter, editorState);
@@ -52,7 +52,7 @@ const Home = () => {
   useEffect(()=>{
       document.addEventListener('keydown', key_listener)
       return () => document.removeEventListener('keydown', key_listener)
-  }, [])
+  }, [editorState])
 
   useEffect(()=>{
     if (!hasMounted) {

@@ -65,7 +65,7 @@ const currentSel = editorState.getSelection().toJS();
 if (currentSel.anchorKey !== currentSel.focusKey) 
 {
 	const formatedSel = formatSelection(currentSel);
-	const block = getBlock(formatedSel.block_key, editorState)
+	const block = getBlock(formatedSel.start_key, editorState)
 }
 
 // remplacer/fusionner textes

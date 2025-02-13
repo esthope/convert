@@ -68,8 +68,11 @@ const TemplateButton = ({children, label, length, shift, board_key}:TemplateProp
 	}
 
 	useEffect(()=>{
-		return () => clearInterval(interval)
-	}, [interval])
+		return () => {
+			console.log('destroyed')
+			clearInterval(interval)
+		}
+	}, [])
 
 	return (
 		<div
