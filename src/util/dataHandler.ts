@@ -66,7 +66,7 @@ export const handle_press = (event:any, keys:string[], interactions:Interaction[
 	try
 	{
 		// get the needed properties
-		const {key, type, ctrlKey, shiftKey} = event;
+		const {key, shiftKey} = event;
 		let interKey:string,
 			checkedFocus:boolean,
 			pressedKey = key.toLowerCase()
@@ -86,7 +86,7 @@ export const handle_press = (event:any, keys:string[], interactions:Interaction[
 			checkedFocus = (typeof inter.focus === 'boolean') ? (inter.focus === hasFocus) : true;
 
 			return ( checkedFocus
-				 && !!inter.shift == shiftKey
+				 && !!inter.shift === shiftKey
 				 && interKey === pressedKey)
 		})
 

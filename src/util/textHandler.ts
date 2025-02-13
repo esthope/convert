@@ -1,5 +1,5 @@
-import {ContentState, EditorState} from "draft-js";
-import {Selection, Interaction, Block, Message} from 'constant/interfaces';
+import {ContentState} from "draft-js";
+import {Selection, Block, Message} from 'constant/interfaces';
 import {Case, Action} from 'constant/Interactions';
 
 // util
@@ -10,8 +10,8 @@ import {getRaws, getSelection, createContent, clearContent} from 'util/editorHan
 let currentBlock:any,
 	workText:string,
 	newText = '',
-	anchor = 0,
-	errorMsg:Message
+	anchor = 0
+	//errorMsg:Message
 	;
 
 const addLastIteration = () => {
@@ -175,15 +175,14 @@ export const updateTextCase = (action:string, editorState:any):any => {
 export const clipboardAction = async (action:string, editorRef:any):Promise<any> =>
 {
 	const {clipboard} = navigator;
-	let pastPromise:any = null,
-		nexContent:any;
+	let nexContent:any;
 
 	switch (action)
 	{
 		case Action.copy:
 		case Action.cut:
 			let currentContent = editorRef.current.editor.innerText;
-			if (!(currentContent == '\n'))
+			if (!(currentContent === '\n'))
 				clipboard.writeText(currentContent).catch ((err:any) => {/*[ERR]*/});;
 			break;
 		case Action.past:
