@@ -3,7 +3,7 @@ import {useEffect, useState, useRef} from "react";
 import {EditorState, Editor} from "draft-js";
 // util
 import {EditorContext, MessageContext} from 'service/context';
-import {getContentLength, updateTextCase} from 'util/textHandler';
+import {getContentLength, updateTextCase, clipboardAction} from 'util/textHandler';
 import {initSelection} from 'util/editorHandler';
 import {initialMessage} from "util/errorHandler";
 import {handle_press, getInteractionsKeys} from 'util/dataHandler';
@@ -32,23 +32,21 @@ const Home = () => {
   const editorRef = useRef<Editor>(null),
         lenghtRef = useRef(0)
 
-  /*const handle_text = (action:string)=>{
-    const newContent = updateTextCase(action, editorState);
-    setEditorState(newContent)
-  }*/
-
-  const key_listener = (event:KeyboardEvent) => {
+  const key_listener = async (event:KeyboardEvent):Promise<void> => {
     if (!event.ctrlKey || !editorRef?.current) return;
 
     const hasFocus = editorRef.current.editor === document.activeElement;
+    let newState:any = null;
+
     const askedInter = handle_press(event, keys, interactionsData, hasFocus);
 
-    if (cases.includes(askedInter)) {
-      const newContent = updateTextCase(askedInter, editorState);
-      setEditorState(newContent)
-    } else {
+    if (cases.includes(askedInter))
+      newState = updateTextCase(askedInter, editorState);
+    else
+      newState = await clipboardAction(askedInter, editorRef);
 
-    }
+    if (newState instanceof EditorState)
+      setEditorState(newState)
   }
 
   useEffect(()=>{
