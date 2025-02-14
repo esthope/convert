@@ -1,6 +1,6 @@
 // main
 import {ReactElement, useState, useEffect, useContext} from "react";
-import {RichUtils, Editor, EditorState, Modifier} from 'draft-js';
+import {RichUtils, Editor, EditorState, Modifier, SelectionState} from 'draft-js';
 import "draft-js/dist/Draft.css";
 // util
 import {EditorContext, MessageContext} from 'service/context';
@@ -9,6 +9,7 @@ import CustomButton from 'component/CustomButton';
 import style from "constant/base.scss";
 // alert
 import {create_error, create_warning} from 'util/errorHandler';
+import {getRaws} from 'util/editorHandler';
 import {Message} from 'constant/interfaces';
 let errorMsg:Message;
 
@@ -74,18 +75,27 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     }
   }
 
+  /**
+   * Remove current highlight
+   */
   const resetSelection = ():void => {
+    // reset if some text has been highlighed
+    if (editorState.getCurrentInlineStyle().count() > 0) return;
+
+    // get data
     const contentState = editorState.getCurrentContent(),
-          selection = editorState.getSelection(),
-          currentStyle = editorState.getCurrentInlineStyle()
+          lastBlock = contentState.getLastBlock(),
+          selection = new SelectionState({
+            anchorKey: contentState.getFirstBlock().getKey(),
+            focusKey: lastBlock.getKey(),
+            focusOffset: lastBlock.getLength()
+          })
 
-    const newContent = Modifier.removeInlineStyle(contentState, selection, 'HIGHLIGHT')
+    // update current states
+    const newContent = Modifier.removeInlineStyle(contentState, selection, 'HIGHLIGHT');
     const removed = EditorState.push(editorState, newContent, 'change-inline-style');
-
-    debugger
-    console.log(currentStyle)
     setEditorState(removed)
-
+    setSelectCount(0)
   }
 
   /**
