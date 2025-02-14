@@ -66,7 +66,6 @@ const Home = () => {
     }
 
     // update the content length
-    // lenghtRef.current = getContentLength(currentContent)
     const currentContent = editorState.getCurrentContent();
     setContentLength(getContentLength(currentContent));
 
@@ -77,8 +76,8 @@ const Home = () => {
     <EditorContext.Provider value={[editorState, setEditorState, editorRef]}>
       <MessageContext.Provider value={[alertMessage, setAlertMessage]}>
       <main>
-          <CaseContainer contentLength={(contentLength)} />
-          {/*<ReplaceField />*/}
+          <CaseContainer contentLength={contentLength} />
+          <ReplaceField />
           <TextEditor contentLength={contentLength} />
           <ActionContainer contentLength={contentLength} />
           <CustomButton onClick={()=>setAlertMessage({level: 'error', message:'••• ancien', displayed: true})} />

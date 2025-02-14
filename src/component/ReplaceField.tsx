@@ -20,7 +20,7 @@ const ReplaceField = (): ReactElement => {
 	const replaceSelection = ():void => {
 		const currentRaws = getRaws(editorState),
 			{blocks} = currentRaws,
-			selections:any[] = getSelection(blocks, editorState);
+			selections = getSelection(blocks, editorState);
 
 		if (selections.length === 0) return;
 

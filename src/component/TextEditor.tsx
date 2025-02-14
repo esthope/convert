@@ -1,6 +1,6 @@
 // main
 import {ReactElement, useState, useEffect, useContext} from "react";
-import {RichUtils, Editor, EditorState} from 'draft-js';
+import {RichUtils, Editor, EditorState, Modifier} from 'draft-js';
 import "draft-js/dist/Draft.css";
 // util
 import {EditorContext, MessageContext} from 'service/context';
@@ -74,6 +74,20 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     }
   }
 
+  const resetSelection = ():void => {
+    const contentState = editorState.getCurrentContent(),
+          selection = editorState.getSelection(),
+          currentStyle = editorState.getCurrentInlineStyle()
+
+    const newContent = Modifier.removeInlineStyle(contentState, selection, 'HIGHLIGHT')
+    const removed = EditorState.push(editorState, newContent, 'change-inline-style');
+
+    debugger
+    console.log(currentStyle)
+    setEditorState(removed)
+
+  }
+
   /**
    * Save the current state of the content
    * Handle the multi selection when mouseup is listened
@@ -99,6 +113,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     <section id="editor-container">
 
       <CustomButton onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
+      <CustomButton onClick={resetSelection} color="#fff" />
 
       <div>
         <span>{contentLength} caractères</span>

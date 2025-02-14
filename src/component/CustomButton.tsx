@@ -4,10 +4,11 @@ import CircleIcon from 'component/CircleIcon';
 interface ButtonProp {
 	onClick:any,
 	color?:string,
-	className?:string
+	className?:string,
+	disabled?:boolean
 }
 
-const CustomButton = ({onClick, color, className}:ButtonProp):ReactElement => {
+const CustomButton = ({onClick, color, className, disabled}:ButtonProp):ReactElement => {
 	return (
 		<button
 			type="button"

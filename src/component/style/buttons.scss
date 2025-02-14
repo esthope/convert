@@ -6,6 +6,10 @@
     width: 20px;
     height: auto;
   }
+
+  .disabledClass {
+    pointer-events: none;
+  }
 } 
 
 // Two labels
