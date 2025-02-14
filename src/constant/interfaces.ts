@@ -3,19 +3,21 @@ import {RawDraftContentBlock, RawDraftContentState} from "draft-js";
 export type Block = RawDraftContentBlock; //
 export type Raw = RawDraftContentState;
 
-export type Selection2 = {
+/*export type Selection2 = {
 	anchor_key: string, // :
-	ending_key: string,
+
+	focus_key: string,
 	ending_set: number
 	length: number,
 	ending_len?: number,
 	style?: 'HIGHLIGHT',
-}
+}*/
 
 export type Selection = {
 	anchor_key: string
 	offset: number,
 	length: number,
+	focus?: number,
 	ending_key?: string
 	ending_set?: number,
 	ending_len?: number,

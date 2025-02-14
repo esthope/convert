@@ -1,10 +1,10 @@
-import {ContentState} from "draft-js";
+import {ContentState, EditorState} from "draft-js";
 import {Selection, Block, Message} from 'constant/interfaces';
 import {Case, Action} from 'constant/Interactions';
 
 // util
 import {create_error} from 'util/errorHandler';
-import {getRaws, getSelection, createContent, clearContent} from 'util/editorHandler';
+import {getRaws, getSelection, getBlock, createContent, clearContent} from 'util/editorHandler';
 
 
 let currentBlock:any,
@@ -28,10 +28,12 @@ const addLastIteration = () => {
  */
 export const transformTexts = (selections:Selection[], blocks:any[], value?:string, caseAction?:string):void => {
 	let selectionsLength = selections.length,
-		selectedText:string;
+		selectedText:string,
+		focus:number = 0;
 
 	selections.forEach((selection, index):void => {
 		const {offset, length, anchor_key} = selection;
+		focus = offset + length;
 
 		if (anchor_key)
 		{
@@ -53,14 +55,14 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 		// case mode
 		if (caseAction)
 		{
-			selectedText = workText.slice(offset, offset + length);
+			selectedText = workText.slice(offset, focus);
 			value = changeCase(caseAction, selectedText);
 		}
 
 		// get the section and add the replacing text
 		newText += workText.slice(initial, offset) + value;
 		// define the start position for next|last iteration
-		initial = offset + length;
+		initial = focus;
 
 		// on last iteration, add the rest of the sentence, then update
 		if (selectionsLength === (index+1))
@@ -68,10 +70,39 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 			addLastIteration();
 		}
 	})
+
+	workText = ''
+	newText=''
+	initial=0
 }
 
-export const transformMultiLine = (selection:Selection[]):void => {
+export const transformMultiLine = (selections:Selection[], editorState:any, caseAction:string, value?:string):void => {
+	let anchorText:any,
+		endingText:any
 	
+	let selectedText = document?.getSelection()?.toString();
+	selections.forEach((selection, index):void => {
+		const {anchor_key, offset, length, ending_key, ending_set, ending_len} = selection;
+
+		if (!ending_key || !ending_len) return;
+		
+		anchorText = getBlock(anchor_key, editorState).getText();
+		endingText = getBlock(ending_key, editorState).getText();
+
+		if (!selectedText) {
+			selectedText = anchorText.slice(offset, offset + length) + '\n';
+			selectedText += endingText.slice(0, 0 + ending_len)
+		}
+
+		value = changeCase(caseAction, selectedText);
+		newText = anchorText.slice(initial, offset) + value + endingText.slice(0 + ending_len);
+	})
+
+	workText = ''
+	newText=''
+	initial=0
+
+	// return newText;
 }
 
 /**
@@ -140,7 +171,6 @@ export const updateTextCase = (action:string, editorState:any):any => {
 	const currentRaws = getRaws(editorState),
 		  {blocks} = currentRaws;
 
-
 	const selections = getSelection(blocks, editorState)
 
 	try
@@ -160,7 +190,7 @@ export const updateTextCase = (action:string, editorState:any):any => {
 		  	})
 		}
 
-			return createContent(currentRaws);
+		return createContent(currentRaws);
   	}
 	catch (err)
 	{

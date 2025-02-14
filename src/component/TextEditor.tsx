@@ -34,11 +34,9 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     const event = window.event;
 
     console.log(command)
-
-    if (command === 'delete' &&
+    if ((command === 'delete' || command === 'split-block') &&
         (event instanceof KeyboardEvent
         && event?.ctrlKey
-        && event?.code === 'KeyD'
       )) {
       return 'handled'
     }
@@ -63,15 +61,6 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
       if (selectMode && (type === 'mouseup' || code.includes('Shift')))
       {
         setEditorState(RichUtils.toggleInlineStyle(editorState, 'HIGHLIGHT'));
-
-        // warn unavailability of multi-line selection
-        const currentSel = editorState.getSelection().toJS();
-        if (currentSel.anchorKey !== currentSel.focusKey) 
-        {
-          // [ERR]
-          errorMsg = create_error('La sélection multi-lignes n\'est pas disponible.')
-          setAlertMessage(errorMsg)
-        }
       }
 
       // count selection

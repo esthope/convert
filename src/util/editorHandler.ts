@@ -4,7 +4,19 @@ import {changeCase} from 'util/textHandler';
 
 export const createContent = (content:Raw|string):EditorState => {
 	const contentState = (typeof content === 'string') ? ContentState.createFromText(content) : convertFromRaw(content);
+
+	const documentSel = window.getSelection();
+    if (documentSel) 
+    {
+    	documentSel.removeAllRanges();
+    }
+
 	return EditorState.createWithContent(contentState);
+
+	/*return EditorState.create({
+      currentContent: contentState,
+      selection: SelectionState.createEmpty('4444')
+    })*/
 }
 
 export const clearContent = ():EditorState => {
@@ -18,17 +30,37 @@ export const clearContent = ():EditorState => {
 export const initContent = (setEditorState:Function) => {
 
 	const initialState = {
-			blocks: [{
-			    key: "9adb5",
-			    text: "OUI non OUI OUI non non OUI àäâa èee éee ùuu",
+			blocks: [
+			{
+			    key: "11111",
+			    text: "oğu zhan özyakup",
 			    type: "",
 			    depth: 0,
 			    inlineStyleRanges: [],
 			    entityRanges: [],
 			    data: {},
-			},{
-			    key: "11111",
-			    text: "oğuzhan özyakup",
+			},
+			{
+			    key: "22222",
+			    text: "OUI àäâa èee éee ùuu",
+			    type: "",
+			    depth: 0,
+			    inlineStyleRanges: [],
+			    entityRanges: [],
+			    data: {},
+			},
+			{
+			    key: "3333",
+			    text: "OUI non OUI OUI non non",
+			    type: "",
+			    depth: 0,
+			    inlineStyleRanges: [],
+			    entityRanges: [],
+			    data: {},
+			},
+			{
+			    key: "4444",
+			    text: "OUI àäâa èee oğuzhan özyakup",
 			    type: "",
 			    depth: 0,
 			    inlineStyleRanges: [],
@@ -46,7 +78,8 @@ export const initSelection = (editorState:EditorState):void => {
 	const selectionLength = editorState?.getSelection()?.getFocusOffset(),
 		  documentSel = window.getSelection();
 
-    if (selectionLength <= 0 && documentSel) 
+	console.log(selectionLength)
+    if (selectionLength == 0 && documentSel) 
     {
     	documentSel.removeAllRanges();
     }
@@ -73,50 +106,64 @@ export const getSelection = (blocks:any[], editorState:EditorState):any[] => {
 		block.inlineStyleRanges = [];
 	})
 
-	// only one selection
+	// classic selection
+	const editorSel = editorState.getSelection().toJS(),
+		  classFocus = editorHasFocus();
 
-	const editorSel = editorState.getSelection().toJS();
-
-	if ((selections.length <= 0) && editorSel.hasFocus && (editorSel.focusOffset !== editorSel.anchorOffset)) 
+	const {hasFocus, anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorSel;
+	if ((selections.length <= 0) && (focusOffset !== anchorOffset)) 
 	{
-		let selectedText = document?.getSelection()?.toString();
-		const formatted = [formatSelection2(editorState)];
-		console.log(formatted)
+		let 
+			startKey = (isBackward) ? focusKey : anchorKey,
+			lastKey = (isBackward) ? anchorKey : focusKey,
+			offset = (isBackward) ? focusOffset : anchorOffset,
+			lastSet = (isBackward) ? anchorOffset : focusOffset,
+			checkKey = startKey,
+			length = 0,
+			done = false
 
-		let anchorText:any,
-			endingText:any,
-			workText:string,
-			newText='',
-			value='',
-			caseAction='LOW',
-			initial=0
-		
-		formatted.forEach((selection, index):void => {
-			const {anchor_key, offset, length, ending_key, ending_set, ending_len} = selection;
-debugger
-			if (!ending_key || !ending_len) return;
-			
-			anchorText = getBlock(anchor_key, editorState).getText();
-			endingText = getBlock(ending_key, editorState).getText();
+		const content = editorState.getCurrentContent()
+		blocks.forEach((block, index):void => {
 
-			if (!selectedText) {
+			if (done || (block.key !== checkKey)) return;
 
-				selectedText = anchorText.slice(offset, offset + length) + '\n';
-				selectedText += endingText.slice(0, 0 + ending_len)
-				value = changeCase(caseAction, selectedText);
-
-				/*anchor_set > text_len
-				\n
-				0 > 0*/
+			switch (checkKey) {
+				case startKey:
+					length = block.text.length - offset
+					break;
+				case lastKey: 
+					offset = 0
+					length = lastSet
+					break;
+				default:
+					offset = 0
+					length = block.text.length
+					break;
 			}
 
-			newText = anchorText.slice(initial, offset) + value + endingText.slice(0 + ending_len);
-		})
+			selections.push({
+				anchor_key: block.key,
+				offset,
+				length
+			})
 
-		// selections.push(formatSelection(editorSel));
+			if (checkKey !== lastKey)
+				checkKey = content.getBlockAfter(checkKey)?.getKey();
+			else
+				done = true
+		})
 	}
 
 	return selections;
+}
+
+export const editorHasFocus = ():boolean => {
+	let focused = false;
+
+	if (document?.activeElement)
+		focused = document.activeElement.className.includes('public-DraftEditor-content');
+
+	return focused; 
 }
 
 /**
@@ -124,6 +171,39 @@ debugger
  * @param  {editorState} 	editorSel : current editor state
  * @return {Selection} 		formatted selection
  */
+export const formatSelection = (editorState:EditorState, editorSel:EditorSelection):Selection[] => {
+	const {anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorSel;
+
+	let 
+		formated:Selection[] = [],
+		anchor_block_len = 0,
+		length = focusOffset - anchorOffset, // length of selection = the focus position - the anchor position
+		isMultiline = anchorKey !== focusKey
+
+	// handle multiline selection
+	if (isMultiline) {
+		let start_key = (isBackward) ? focusKey : anchorKey,
+			start_set = (isBackward) ? focusOffset : anchorOffset
+		anchor_block_len = getBlock(start_key, editorState).text.length
+		length = anchor_block_len - start_set; // length of selection = text length - starting set
+
+		formated.push({
+			anchor_key: (isBackward) ? anchorKey : focusKey,
+			offset: 0,
+			length: (isBackward) ? anchorOffset : focusOffset
+		})
+	}
+
+	// base of the selection
+	formated.push({
+		anchor_key: (isBackward) ? focusKey : anchorKey,
+		offset: (isBackward) ? focusOffset : anchorOffset,
+		length
+	})
+
+	return formated;
+}
+
 export const formatSelection2 = (editorState:EditorState):Selection => {
 	const editorSel = editorState.getSelection().toJS(),
 		  {anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorSel;

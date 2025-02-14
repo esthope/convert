@@ -72,13 +72,13 @@ export const handle_press = (event:any, keys:string[], interactions:Interaction[
 			pressedKey = key.toLowerCase()
 
 		// check shorcut
-		if (!keys.includes(pressedKey))
+		// case : focus ou non, si présent faut &&, sinon annule le case en étant focus
+		// action de l'appli : focus doit être à false
+		if (hasFocus && !keys.includes(pressedKey))
 		{
 			// console.log('bloup')
 			return interID;
 		}
-
-    	event.preventDefault();
 
 		// select action
 		const interaction_id = interactions.filter((inter) => {
@@ -86,8 +86,8 @@ export const handle_press = (event:any, keys:string[], interactions:Interaction[
 			checkedFocus = (typeof inter.focus === 'boolean') ? (inter.focus === hasFocus) : true;
 
 			return ( checkedFocus
-				 && !!inter.shift === shiftKey
-				 && interKey === pressedKey)
+				  && !!inter.shift === shiftKey
+				  && interKey === pressedKey)
 		})
 
 		interID = interaction_id[0]?.data_id ?? ''; 

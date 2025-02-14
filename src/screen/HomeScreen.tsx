@@ -1,10 +1,10 @@
 // main
 import {useEffect, useState, useRef} from "react";
-import {EditorState, Editor} from "draft-js";
+import {EditorState, Editor, SelectionState} from "draft-js";
 // util
 import {EditorContext, MessageContext} from 'service/context';
 import {getContentLength, updateTextCase, clipboardAction} from 'util/textHandler';
-import {initSelection} from 'util/editorHandler';
+import {editorHasFocus} from 'util/editorHandler';
 import {initialMessage} from "util/errorHandler";
 import {handle_press, getInteractionsKeys} from 'util/dataHandler';
 import {interactionsData, Case, Action} from 'constant/Interactions';
@@ -33,17 +33,22 @@ const Home = () => {
         lenghtRef = useRef(0)
 
   const key_listener = async (event:KeyboardEvent):Promise<void> => {
+
     if (!event.ctrlKey || !editorRef?.current) return;
 
+    let newState:any = null;
     const hasFocus = editorRef.current.editor === document.activeElement,
           askedInter = handle_press(event, keys, interactionsData, hasFocus);
 
-    let newState:any = null;
-
     if (cases.includes(askedInter))
+    {
+      event.preventDefault(); // no prevent default is needed for action
       newState = updateTextCase(askedInter, editorState);
-    else
+    }
+    else if (askedInter)
+    {
       newState = await clipboardAction(askedInter, editorRef);
+    }
 
     if (newState instanceof EditorState)
       setEditorState(newState)
@@ -65,9 +70,6 @@ const Home = () => {
     const currentContent = editorState.getCurrentContent();
     setContentLength(getContentLength(currentContent));
 
-    // [!] prevent selection bugs
-    // initSelection(editorState);
-
   // eslint-disable-next-line
   }, [editorState])
 
@@ -76,7 +78,7 @@ const Home = () => {
       <MessageContext.Provider value={[alertMessage, setAlertMessage]}>
       <main>
           <CaseContainer contentLength={(contentLength)} />
-          <ReplaceField />
+          {/*<ReplaceField />*/}
           <TextEditor contentLength={contentLength} />
           <ActionContainer contentLength={contentLength} />
           <CustomButton onClick={()=>setAlertMessage({level: 'error', message:'••• ancien', displayed: true})} />
