@@ -10,7 +10,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Template/>}>
-          <Route path="/" element={<HomeScreen />} />
+          <Route path="/" element={<HomeScreen/>} />
         </Route>
       </Routes>
     </Router>

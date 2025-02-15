@@ -56,18 +56,34 @@ div.key-label {
   }
 }
 
-.caseButton {
+.caseButtonBase {
   min-width: 64px;
   width: max-content;
   height: 64px;
   border: none;
   padding: 10px;
-  box-shadow: -3.5px -3.5px 0 cst.$klein;
 
   span {
     font-family: cst.$RozhaOne;
     font-size: 22pt;
     line-height: 0pt;
+  }
+}
+
+.caseButton {
+  box-shadow: -3.5px -3.5px 0 cst.$klein;
+}
+
+.unactiveButton {
+  box-shadow: -3.5px -3.5px 0 cst.$medium;
+  cursor: unset;
+
+  &:hover{
+    span {
+      transition: transform 2s;
+      transform: rotate(390deg);
+      // animation: 5s linear 0s infinite running rotateAnim;
+    }
   }
 }
 
@@ -84,4 +100,9 @@ div.key-label {
     height: auto;
     z-index: 1;
   }
+}
+
+@keyframes rotateAnim {
+  0% {transform: rotate(0deg) }
+  100% {transform: rotate(380deg) }
 }

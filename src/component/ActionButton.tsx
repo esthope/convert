@@ -1,5 +1,5 @@
 // main
-import {ReactElement, memo} from "react";
+import {ReactElement} from "react";
 import {useState, useEffect} from 'react';
 // element
 import CircleIncon from "assets/circle.svg"

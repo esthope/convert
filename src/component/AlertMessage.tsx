@@ -18,18 +18,19 @@ const AlertMessage = ():ReactElement => {
 		[keap, setKeap] = useState<boolean>(false)
 		;
 
-	const {level, message, displayed} = alertMessage;
+	const {level, message, displayed, reset} = alertMessage;
 
 	/**
 	 * control the display of the message
 	 * @param  {isDisplayed} current diplay statut
 	 */
 	const change_displayed_state = (isDisplayed:boolean):void => {
-		setAlertMessage((current:any):any => {
+		setAlertMessage((current:any):Message => {
 	        return {
 	          level: current.level,
 	          message: current.message,
-	          displayed: isDisplayed
+	          displayed: isDisplayed,
+	          reset: current.reset
 	        }
 	    })
 	}
@@ -37,7 +38,7 @@ const AlertMessage = ():ReactElement => {
 	/**
 	 * close completely the alert by reseting it 
 	 */
-	const close_alert = ():any => {
+	const close_alert = ():void => {
 		setKeap(false)
 		setHidingDelay(0)
 		reset_alert(setAlertMessage)
@@ -85,7 +86,8 @@ const AlertMessage = ():ReactElement => {
 		{
 			clearInterval(interval)
 		}
-	}, [hidingDelay, interval])
+	// @ts-ignore
+	}, [hidingDelay, interval, change_displayed_state])
 
 	/**
 	 * reset hiding alert with a new message
@@ -103,6 +105,8 @@ const AlertMessage = ():ReactElement => {
 			className="flex">
 			<div className={`flex row-reverse gap-1 fade-element ${(displayed) ? 'fade-animation':''}`}>
 	      		<img src={prov_logo} alt="message logo" />
+				{!!reset && <button onClick={()=>window.location.reload()}>Rafraichir</button>}
+				{/*{!!reset && <a href='/'>Rafraichir</a>}*/}
       			<p className="">{message}</p>
 			</div>
           	<button

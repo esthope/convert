@@ -1,10 +1,9 @@
 // main
-import {ReactElement, useContext, useEffect} from "react";
+import {ReactElement, useContext} from "react";
 // util
-import {EditorContext, MessageContext} from 'service/context';
+import {EditorContext} from 'service/context';
 import {initContent} from 'util/editorHandler';
 import {updateTextCase} from 'util/textHandler';
-import {fetchData} from 'util/dataHandler';
 // element
 import {Case, casesData} from 'constant/Interactions';
 import TemplateButton from './TemplateButton';
@@ -14,13 +13,14 @@ import CaseButton from './CaseButton';
 import {Interaction} from 'constant/interfaces';
 
 const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => {
-  	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
-          [setAlertMessage] = useContext(MessageContext)
+  	const [editorState, setEditorState] = useContext(EditorContext)
 
     const handle_text = (action:string)=>{
     	const newContent = updateTextCase(action, editorState);
     	setEditorState(newContent)
     }
+
+    throw new Error('Oui oui blah blah', { cause: {fonite: 'CASE'} })
 
 	return (
 		<section className="caseContainer flex">

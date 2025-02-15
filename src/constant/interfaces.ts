@@ -21,7 +21,7 @@ export type Selection = {
 	ending_key?: string
 	ending_set?: number,
 	ending_len?: number,
-	style?: 'HIGHLIGHT',
+	style?: 'HIGHLIGHT'
 }
 
 export type EditorSelection = {
@@ -52,4 +52,5 @@ export interface Message {
 	level?:string|null,
 	message?:string|null,
 	displayed:boolean|null,
+	reset?:boolean
 }

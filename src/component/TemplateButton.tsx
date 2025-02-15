@@ -1,5 +1,5 @@
 // main
-import {ReactElement, cloneElement, isValidElement, memo} from "react";
+import {ReactElement, cloneElement, isValidElement} from "react";
 import {useState, useEffect} from 'react';
 
 interface TemplateProp {
@@ -72,6 +72,7 @@ const TemplateButton = ({children, label, length, shift, board_key}:TemplateProp
 			console.log('destroyed')
 			clearInterval(interval)
 		}
+	// @ts-ignore
 	}, [])
 
 	return (

@@ -8,8 +8,7 @@ import {EditorContext, MessageContext} from 'service/context';
 import CustomButton from 'component/CustomButton';
 import style from "constant/base.scss";
 // alert
-import {create_error, create_warning} from 'util/errorHandler';
-import {getRaws} from 'util/editorHandler';
+import {create_error} from 'util/errorHandler';
 import {Message} from 'constant/interfaces';
 let errorMsg:Message;
 
@@ -23,7 +22,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
 
   const 
         [editorState, setEditorState, editorRef] = useContext(EditorContext),
-        [alertMessage, setAlertMessage] = useContext(MessageContext)
+        [setAlertMessage] = useContext(MessageContext)
 
   /**
    * Listen the delete command of DraftJS to cancel it 

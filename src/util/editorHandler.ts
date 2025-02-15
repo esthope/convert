@@ -1,6 +1,5 @@
 import {convertToRaw, convertFromRaw, EditorState, ContentState} from "draft-js";
 import {Raw, Selection, EditorSelection} from 'constant/interfaces';
-import {changeCase} from 'util/textHandler';
 
 export const createContent = (content:Raw|string):EditorState => {
 	const contentState = (typeof content === 'string') ? ContentState.createFromText(content) : convertFromRaw(content);
@@ -78,8 +77,7 @@ export const initSelection = (editorState:EditorState):void => {
 	const selectionLength = editorState?.getSelection()?.getFocusOffset(),
 		  documentSel = window.getSelection();
 
-	console.log(selectionLength)
-    if (selectionLength == 0 && documentSel) 
+    if (selectionLength === 0 && documentSel) 
     {
     	documentSel.removeAllRanges();
     }
@@ -107,10 +105,11 @@ export const getSelection = (blocks:any[], editorState:EditorState):any[] => {
 	})
 
 	// classic selection
-	const editorSel = editorState.getSelection().toJS(),
-		  classFocus = editorHasFocus();
+	const editorSel = editorState.getSelection().toJS()
+		// , classFocus = editorHasFocus();
 
-	const {hasFocus, anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorSel;
+	const {/*hasFocus, */anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorSel;
+	// [!] ? focus
 	if ((selections.length <= 0) && (focusOffset !== anchorOffset)) 
 	{
 		let 

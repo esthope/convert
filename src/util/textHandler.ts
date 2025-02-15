@@ -1,11 +1,10 @@
-import {ContentState, EditorState} from "draft-js";
+import {ContentState} from "draft-js";
 import {Selection, Block, Message} from 'constant/interfaces';
 import {Case, Action} from 'constant/Interactions';
 
 // util
 import {create_error} from 'util/errorHandler';
 import {getRaws, getSelection, getBlock, createContent, clearContent} from 'util/editorHandler';
-
 
 let currentBlock:any,
 	workText:string,
@@ -82,7 +81,7 @@ export const transformMultiLine = (selections:Selection[], editorState:any, case
 	
 	let selectedText = document?.getSelection()?.toString();
 	selections.forEach((selection, index):void => {
-		const {anchor_key, offset, length, ending_key, ending_set, ending_len} = selection;
+		const {anchor_key, offset, length, ending_key, ending_len} = selection;
 
 		if (!ending_key || !ending_len) return;
 		

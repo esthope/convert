@@ -1,24 +1,19 @@
 // main
-import {ReactElement, useContext, useEffect, useRef, useCallback, useMemo, memo} from "react";
+import {ReactElement, useContext} from "react";
 import {EditorState} from 'draft-js';
 // util
-import {EditorContext, MessageContext} from 'service/context';
+import {EditorContext} from 'service/context';
 import {clipboardAction} from 'util/textHandler';
-import {fetchData, getInteractionsKeys} from 'util/dataHandler';
+import {fetchData} from 'util/dataHandler';
 import {Interaction} from 'constant/interfaces';
 // element
 import ActionButton from 'component/ActionButton';
 import TemplateButton from './TemplateButton';
-// alert 
-import {Message} from 'constant/interfaces';
-import {create_error} from 'util/errorHandler';
 
 const actions = fetchData('actions');
-
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
-	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
-          [setAlertMessage] = useContext(MessageContext)
+	const [setEditorState, editorRef] = useContext(EditorContext)
 
 	/**
 	* Update the editor content
