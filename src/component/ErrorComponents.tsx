@@ -1,5 +1,7 @@
 import {ReactNode, ReactElement, useEffect} from 'react';
 import {FallbackProps} from 'react-error-boundary';
+import CaseButton from './CaseButton';
+import ActionButton from 'component/ActionButton';
 
 const ErrorPage = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 
@@ -16,15 +18,12 @@ const CaseError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 		<section className="caseContainer flex">
 		{
 			errorFaces.map((face:string, index:number)=>
-			<button
+			<CaseButton
 				key={`errButton-${index}`}
-				type="button"
+				className="grey-background unactiveButton"
+				content={face}
 				disabled
-				className="caseButtonBase grey-background unactiveButton flex-center"
-				// onMouseEnter={onMouseEnter}
-				> 
-				<span>{face}</span>
-			</button>
+				/>
 			)
 		}
 		</section>
@@ -46,3 +45,8 @@ const EditorError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 }
 
 export {ErrorPage, CaseError, ActionError, EditorError};
+
+{/*<ActionButton
+	entry='skull'
+	label="Icône d'erreur. Le bouton ne peut pas fonctionner."
+	/>*/}

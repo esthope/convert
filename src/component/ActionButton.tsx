@@ -5,15 +5,20 @@ import {useState, useEffect} from 'react';
 import CircleIncon from "assets/circle.svg"
 
 interface ActionProp {
-	entry?:string,
+	entry:string,
 	label?:string,
-	onMouseEnter?:any,
-	onClick:any
+	onMouseEnter?:Function,
+	onClick?:Function
 }
 
 const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactElement => {
 
-	const 	[iconPath, setIconPath] = useState<string>(CircleIncon)
+	const [iconPath, setIconPath] = useState<string>(CircleIncon)
+	let buttonProp:Function = {},
+		imageProp:Function = {};
+
+	if (onClick) buttonProp = {onClick: onClick};
+	if (onMouseEnter) imageProp = {onMouseEnter: onMouseEnter};
 
 	// get the button icon
 	useEffect(()=>{
@@ -26,13 +31,14 @@ const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactEle
 	return (
 		<button
 			type="button"
-			onClick={onClick}
 			className="actionButton flex-center column no-bg no-border"
+			{...buttonProp}
 		>
         	<img
         	src={iconPath}
-			onMouseEnter={onMouseEnter}
-        	alt={label} />
+        	alt={label}
+			{...imageProp}
+        	/>
 	    </button>
 	)
 }
