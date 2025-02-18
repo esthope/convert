@@ -14,8 +14,8 @@ interface ActionProp {
 const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactElement => {
 
 	const [iconPath, setIconPath] = useState<string>(CircleIncon)
-	let buttonProp:Function = {},
-		imageProp:Function = {};
+	let buttonProp:object = {},
+		imageProp:object = {};
 
 	if (onClick) buttonProp = {onClick: onClick};
 	if (onMouseEnter) imageProp = {onMouseEnter: onMouseEnter};

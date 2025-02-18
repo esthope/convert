@@ -1,7 +1,7 @@
 import {ReactElement} from "react";
 
 interface CaseProp {
-	content:string|Function,
+	content?:string|Function,
 	onClick?:Function,
 	onMouseEnter?:Function,
 	disabled?:boolean,
@@ -12,11 +12,11 @@ const CaseButton = ({content, onClick, onMouseEnter, disabled, className}:CasePr
 
 	let additionalStyle = className ?? 'green-background flex-center';
 
-	const properties:CaseProp[] = []
+	const properties:any = {};
 
-	if (onClick) properties['onClick'] = onClick;
-	if (onMouseEnter) properties['onMouseEnter'] = onMouseEnter;
-	if (disabled) properties['disabled'] = disabled;
+	if (onClick) properties.onClick = onClick;
+	if (onMouseEnter) properties.onMouseEnter = onMouseEnter;
+	if (disabled) properties.disabled = !!disabled;
 
 	return (
 		<button

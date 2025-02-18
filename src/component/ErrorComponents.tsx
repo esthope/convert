@@ -1,5 +1,8 @@
 import {ReactNode, ReactElement, useEffect} from 'react';
 import {FallbackProps} from 'react-error-boundary';
+import "draft-js/dist/Draft.css";
+
+import {RichUtils, Editor, EditorState, Modifier, SelectionState} from 'draft-js';
 import CaseButton from './CaseButton';
 import ActionButton from 'component/ActionButton';
 
@@ -40,7 +43,11 @@ const ActionError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 const EditorError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 
 	return (
-		<p className="border m-0">action {error.toString()}</p>
+   		<section id="editor-container">
+   			<div className="editor quicksand-font green-background">
+   				<span>ERR</span>
+   			</div>
+   		</section>
 	)
 }
 

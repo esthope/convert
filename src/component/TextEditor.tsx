@@ -118,6 +118,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     setSelectionClass(className);
   }, [selectMode])
 
+  throw new Error('Oui oui blah blah', { cause: {fonite: 'HOME'} })
   return (
     <section id="editor-container">
 
