@@ -6,8 +6,9 @@ import {reset_alert/*, time_out*/} from 'util/errorHandler';
 import prov_logo from 'assets/circle.svg';
 
 // import CustomButton from 'component/CustomButton';
-import CircleIcon from 'component/CircleIcon';
 import {Message} from 'constant/interfaces';
+import CircleIcon from 'component/CircleIcon';
+import ErrorRefreshButton from 'component/ErrorRefreshButton';
 
 const AlertMessage = ():ReactElement => {
 
@@ -105,7 +106,7 @@ const AlertMessage = ():ReactElement => {
 			className="flex">
 			<div className={`flex row-reverse gap-1 fade-element ${(displayed) ? 'fade-animation':''}`}>
 	      		<img src={prov_logo} alt="message logo" />
-				{!!reset && <button onClick={()=>window.location.reload()}>Rafraichir</button>}
+				{!!reset && <ErrorRefreshButton />}
 				{/*{!!reset && <a href='/'>Rafraichir</a>}*/}
       			<p className="">{message}</p>
 			</div>

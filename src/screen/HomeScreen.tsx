@@ -5,7 +5,7 @@ import {ErrorBoundary,} from "react-error-boundary";
 // util
 import {EditorContext, MessageContext} from 'service/context';
 import {getContentLength, updateTextCase, clipboardAction} from 'util/textHandler';
-import {initialMessage, get_error, create_error} from "util/errorHandler";
+import {initialMessage, get_boundary_error, create_error} from "util/errorHandler";
 import {handle_press, getInteractionsKeys} from 'util/dataHandler';
 import {interactionsData, Case} from 'constant/Interactions';
 import {Message} from 'constant/interfaces';
@@ -70,7 +70,7 @@ const Home = ():ReactElement => {
 
   const display_error = (error:Error, info:any):void => {
     console.log(error)
-    const errorMsg = get_error(error);
+    const errorMsg = get_boundary_error(error);
     setAlertMessage(errorMsg);
   }
 
@@ -85,16 +85,17 @@ const Home = ():ReactElement => {
 
         <ReplaceField />
 
-        <ErrorBoundary FallbackComponent={EditorError}>
+        <ErrorBoundary FallbackComponent={EditorError} onError={display_error}>
           <TextEditor contentLength={contentLength} />
         </ErrorBoundary>
 
-        <ErrorBoundary FallbackComponent={ActionError}>
+        <ErrorBoundary FallbackComponent={ActionError} onError={display_error}>
           <ActionContainer contentLength={contentLength} />
         </ErrorBoundary>
 
         <CustomButton onClick={()=>setAlertMessage({level: 'error', message:'••• ancien', displayed: true})} />
         <AlertMessage />
+
       </main>
       </MessageContext.Provider>
     </EditorContext.Provider>

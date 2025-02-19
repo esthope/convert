@@ -20,8 +20,6 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
     	setEditorState(newContent)
     }
 
-    throw new Error('Oui oui blah blah', { cause: {fonite: 'CASE'} })
-
 	return (
 		<section className="caseContainer flex">
 			<TemplateButton label='init' length={contentLength} shift={false} board_key='none' >

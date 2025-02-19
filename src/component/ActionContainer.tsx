@@ -24,6 +24,7 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 		if (newState instanceof EditorState)
 			setEditorState(newState)
 	}
+    throw new Error('Oui oui blah blah', { cause: {fonite: 'ACTION'} })
 
 	return (
 		<section className="actionContainer flex">
