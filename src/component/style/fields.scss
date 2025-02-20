@@ -1,0 +1,16 @@
+#replace-container {
+  margin-top: 38px;
+}
+
+input[type="text"] {
+  border: none;
+  min-width: 239px;
+  min-height: 64px;
+  padding: 0px 11px;
+}
+
+input::placeholder {
+  color: #EBEFEF;
+  font-style: italic;
+  opacity: .6;
+}

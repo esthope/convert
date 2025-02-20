@@ -1,0 +1,18 @@
+// @use 'constant/base.scss' as cst ;
+
+// [!] comme footer
+section#message-container {
+	position: absolute;
+    bottom: 5rem;
+    right: 3rem;
+
+    p {
+    	padding: .7rem;
+    	text-align: left;
+    	max-width: 60%;
+    }
+
+    .close-btn {
+        z-index: 1;
+    }
+}

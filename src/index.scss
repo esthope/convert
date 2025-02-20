@@ -1,11 +1,35 @@
-// @import '~bootstrap/scss/bootstrap.scss';
-@import 'constant/style.scss';
+@use 'constant/base.scss' as cst;
+
+iframe {
+  display: none !important;
+}
+
+#root{
+  min-height: 100vh;
+  position: relative;
+}
 
 body {
-  font-family: $quicksand;
+  // min-height: 100vh;
+  margin: 0;
+  font-family: cst.$quicksand;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-color: $dark-green;
-  color: $off-white;
+  background-color: cst.$dark-green;
+  color: cst.$off-white;
+}
+
+footer{
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
 }

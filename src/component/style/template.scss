@@ -1,0 +1,18 @@
+@use 'constant/base.scss' as cst ;
+@use 'style/editor.scss' as * ;
+@use 'style/buttons.scss' as * ;
+@use 'style/fields.scss' as * ;
+@use 'style/message.scss' as * ;
+
+.convert_logo {
+	margin: 38px;
+}
+
+footer {
+	margin: 0 20px 15px 0;
+	div {
+		width: 468px;
+		padding: 12px 0 0 0;
+		background-color: cst.$klein;
+	}
+}

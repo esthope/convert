@@ -1,15 +1,42 @@
+@use 'constant/base.scss' as cst;
+
 /*---base---------------------------------------------*/
-.bb {
-  border: red solid 2px;
-}
+.bb {border: red solid 1px}
+.bv {border: green solid 1px}
+.bbb {background-color: rgba(255, 255, 255, .1)}
+.bbr {background-color: rgba(255, 0, 0, .1)}
 
-.no-border {border: none;}
+.m-0 {margin: 0}
+.p-0 {padding: 0}
 
-/*.flex-center {
+.no-border {border: none}
+.no-bg {background: none}
+
+.flex {display: flex}
+.column {flex-direction: column}
+.row-reverse {flex-direction: row-reverse}
+.gap-1 {gap: 1rem}
+
+.flex-center {
   display: flex;
   justify-content: center;
   align-items: center;
-}*/
+}
+
+.block {display: block}
+.inline {display: inline}
+.none {display: none}
+.hidden {visibility: hidden}
+
+.relative {position: relative};
+
+.fit-content {
+  width: fit-content;
+  height: fit-content;
+}
+
+.no-pointer {pointer-events: none}
+.pointer {cursor: pointer}
 
 /*.lemonada-btn {
   font-family: "Lemonada", cursive;
@@ -18,43 +45,65 @@
   font-style: normal;
 }*/
 
-/*.quicksand-font {
-  font-family: "Quicksand", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: <weight>;
-  font-style: normal;
-}*/
-
-/*---react--------------------------------------------*/
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.quicksand-font {
+  font-family: cst.$quicksand;
+  font-size: 16px;
+  // font-optical-sizing: auto;
 }
 
+.green-background {
+  background-color: cst.$light-green;
+  border-radius: 3px;
+}
+
+.grey-background {
+  background-color: cst.$medium-grey;
+  // background-color: cst.$medium;
+  border-radius: 3px;
+}
+
+/*---overwrite--------------------------------------------*/
+*:focus {
+  outline: none;
+}
+
+main {
+  padding: 0px 95px;
+
+  * {
+    color: cst.$off-white;
+  }
+  
+  *::selection {
+    background: cst.$klein !important;
+    text-shadow: none;
+  }
+
+  *::-moz-selection {
+    background: cst.$klein !important;
+    text-shadow: none;
+  }
+
+  label {
+    font-size: .8rem;
+  }
+}
+
+/*---common--------------------------------------------*/
+.fade-element {
+  transition: opacity .7s ease-out, transform .5s ease-out;
+  transform: translateX(var(--fade-anchor));
+  opacity: 0;
+}
+
+.fade-animation {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/*---react--------------------------------------------*/
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
   }
 }

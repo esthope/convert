@@ -1,0 +1,108 @@
+@use 'constant/base.scss' as cst ;
+
+/*---common--------------------------------------------*/
+.customButton {
+  img {
+    width: 20px;
+    height: auto;
+  }
+
+  .disabledClass {
+    pointer-events: none;
+  }
+} 
+
+// Two labels
+.labelBox {
+  overflow: hidden;
+  max-height: var(--label-gap);
+
+  label {
+    line-height: var(--label-gap);
+    text-align: center;
+  }
+
+  label:first-child {
+    margin-bottom: var(--label-gap);
+  }
+
+  div {
+    // cursor: pointer;
+    transform: translateY(-33.33%);
+    transition: transform .3s ease-in-out .3s;
+    -o-transition: transform .3s ease-in-out .3s;
+    -ms-transition: transform .3s ease-in-out .3s;
+    -moz-transition: transform .3s ease-in-out .3s;
+    -webkit-transition: transform .3s ease-in-out .3s;
+  }
+}
+
+div.name-label {
+  transform: translateY(0%);
+  cursor: pointer;
+}
+
+div.key-label {
+  transform: translateY(-66.66%);
+  cursor: pointer;
+}
+
+/*---cases--------------------------------------------*/
+.caseContainer {
+  column-gap: 35px;
+
+  #inversionLabel {
+    column-gap: 6px;
+  }
+}
+
+.caseButtonBase {
+  min-width: 64px;
+  width: max-content;
+  height: 64px;
+  border: none;
+  padding: 10px;
+
+  span {
+    font-family: cst.$RozhaOne;
+    font-size: 22pt;
+    line-height: 0pt;
+  }
+}
+
+.caseButton {
+  box-shadow: -3.5px -3.5px 0 cst.$klein;
+}
+
+.unactiveButton {
+  box-shadow: -3.5px -3.5px 0 cst.$medium;
+  cursor: unset;
+
+  &:hover{
+    span {
+      transition: transform 2s;
+      transform: rotate(390deg);
+      // animation: 5s linear 0s infinite running rotateAnim;
+    }
+  }
+}
+
+/*---actions--------------------------------------------*/
+.actionContainer {
+  column-gap: 1rem;
+}
+
+.actionButton {
+  margin-bottom: 5px;
+
+  img {
+    width: 20px;
+    height: auto;
+    z-index: 1;
+  }
+}
+
+@keyframes rotateAnim {
+  0% {transform: rotate(0deg) }
+  100% {transform: rotate(380deg) }
+}
