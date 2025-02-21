@@ -6,6 +6,8 @@ import * as CustomMsg from 'constant/Messages';
 import {get_boundary_error} from 'util/errorHandler';
 import ErrorRefreshButton from 'component/ErrorRefreshButton';
 // component
+import CaseButton from './CaseButton';
+import ActionButton from './ActionButton';
 import SkullIncon from "assets/skull.svg"
 
 const ErrorPage = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
@@ -26,9 +28,10 @@ const CaseError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 		<section className="caseContainer flex">
 		{
 			errorFaces.map((face:string, index:number)=>
-			<button
+			<CaseButton
 				key={`errButton-${index}`}
-				type="button"
+				className="grey-background unactiveButton"
+				content={face}
 				disabled
 				className="caseButtonBase grey-background unactiveButton flex-center"
 				> 
@@ -45,16 +48,13 @@ const ActionError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 		<section className="actionContainer flex">
 			{
 				[...Array(3)].map((_, index)=>
-				<button
+				<ActionButton
 					key={`errButton-${index}`}
-					type="button"
-					disabled
-					className="actionButton flex-center column no-bg no-border"
-					> 
-					<img
-		        	src='assets/skull.svg'
-		        	alt="Icône d'erreur en forme de crâne" />
-				</button>)
+					entry='skull'
+					label="Icône d'erreur. Le bouton ne peut pas fonctionner."
+					/>
+
+				)
 			}
 		</section>
 	)
@@ -63,8 +63,14 @@ const ActionError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 const EditorError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 
 	return (
-		<p className="border m-0">action {error.toString()}</p>
+   		<section id="editor-container">
+   			<div className="editor quicksand-font green-background">
+   				<span>ERR</span>
+   			</div>
+   		</section>
 	)
 }
 
 export {ErrorPage, CaseError, ActionError, EditorError};
+
+{/**/}

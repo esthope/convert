@@ -83,9 +83,8 @@ const Home = ():ReactElement => {
           <CaseContainer contentLength={contentLength} />
         </ErrorBoundary>
 
-        <ReplaceField />
-
-        <ErrorBoundary FallbackComponent={EditorError} onError={display_error}>
+        <ErrorBoundary FallbackComponent={EditorError}>
+          <ReplaceField />
           <TextEditor contentLength={contentLength} />
         </ErrorBoundary>
 
