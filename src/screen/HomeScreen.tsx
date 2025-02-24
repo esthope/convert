@@ -83,7 +83,7 @@ const Home = ():ReactElement => {
           <CaseContainer contentLength={contentLength} />
         </ErrorBoundary>
 
-        <ErrorBoundary FallbackComponent={EditorError}>
+        <ErrorBoundary FallbackComponent={EditorError} onError={display_error} >
           <ReplaceField />
           <TextEditor contentLength={contentLength} />
         </ErrorBoundary>
@@ -92,7 +92,7 @@ const Home = ():ReactElement => {
           <ActionContainer contentLength={contentLength} />
         </ErrorBoundary>
 
-        <CustomButton onClick={()=>setAlertMessage({level: 'error', message:'••• ancien', displayed: true})} />
+        {/*<CustomButton onClick={()=>setAlertMessage({level: 'error', message:'••• ancien', displayed: true})} />*/}
         <AlertMessage />
 
       </main>

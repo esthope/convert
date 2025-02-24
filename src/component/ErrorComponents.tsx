@@ -33,10 +33,7 @@ const CaseError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 				className="grey-background unactiveButton"
 				content={face}
 				disabled
-				className="caseButtonBase grey-background unactiveButton flex-center"
-				> 
-				<span>{face}</span>
-			</button>
+				/>
 			)
 		}
 		</section>
@@ -53,7 +50,6 @@ const ActionError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 					entry='skull'
 					label="Icône d'erreur. Le bouton ne peut pas fonctionner."
 					/>
-
 				)
 			}
 		</section>
@@ -61,16 +57,13 @@ const ActionError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 }
 
 const EditorError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
-
 	return (
    		<section id="editor-container">
    			<div className="editor quicksand-font green-background">
-   				<span>ERR</span>
+   				<span className="placeholder">{CustomMsg.EDITOR}. {CustomMsg.ALERT}.</span>
    			</div>
    		</section>
 	)
 }
 
-export {ErrorPage, CaseError, ActionError, EditorError};
-
-{/**/}
+export {ErrorPage, CaseError, ActionError, EditorError}

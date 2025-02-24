@@ -79,7 +79,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
    */
   const resetSelection = ():void => {
     // reset if some text has been highlighed
-    if (editorState.getCurrentInlineStyle().count() > 0) return;
+    if (editorState.getCurrentInlineStyle().count() < 0) return;
 
     // get data
     const contentState = editorState.getCurrentContent(),
@@ -118,7 +118,8 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     setSelectionClass(className);
   }, [selectMode])
 
-  throw new Error('Oui oui blah blah', { cause: {fonite: 'HOME'} })
+  // throw new Error('Oui oui blah blah', { cause: {fonite: 'HOME'} })
+// 
   return (
     <section id="editor-container">
 
