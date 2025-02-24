@@ -5,7 +5,7 @@ import {ErrorBoundary,} from "react-error-boundary";
 // util
 import {EditorContext, MessageContext} from 'service/context';
 import {getContentLength, updateTextCase, clipboardAction} from 'util/textHandler';
-import {initialMessage, get_boundary_error, create_error} from "util/errorHandler";
+import {initialMessage, get_boundary_error, create_error, is_message} from "util/errorHandler";
 import {handle_press, getInteractionsKeys} from 'util/dataHandler';
 import {interactionsData, Case} from 'constant/Interactions';
 import {Message} from 'constant/interfaces';
@@ -39,12 +39,24 @@ const Home = ():ReactElement => {
     let newState:any = null;
     // ? editorHasFocus
     const hasFocus = editorRef.current.editor === document.activeElement,
-          askedInter = handle_press(event, keys, interactionsData, hasFocus);
+          pressResult = handle_press(event, keys, interactionsData, hasFocus),
+          askedInter = (typeof pressResult === 'string') ? pressResult : '';
 
-    if (cases.includes(askedInter)) {
-      event.preventDefault(); // no prevent default is needed for action
+    if (is_message(pressResult))
+    {
+      // returned error
+      // setAlertMessage(pressResult)
+    }
+    else if (cases.includes(askedInter))
+    {
+      // the interaction is a Case
+      event.preventDefault();
       newState = updateTextCase(askedInter, editorState);
-    } else if (askedInter) {
+    }
+    else if (askedInter)
+    {
+      // the interaction is an Action
+      // no prevent default is needed for action
       newState = await clipboardAction(askedInter, editorRef);
     }
 
@@ -69,6 +81,7 @@ const Home = ():ReactElement => {
   }, [editorState]) // key_listener
 
   const display_error = (error:Error, info:any):void => {
+    // [!] DEV
     console.log(error)
     const errorMsg = get_boundary_error(error);
     setAlertMessage(errorMsg);

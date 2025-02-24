@@ -14,7 +14,7 @@ const ErrorPage = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 	console.log(error)
 	return (
       <main>
-		<p className="border m-0">{CustomMsg.TECH_ERR}.<br/>{CustomMsg.REFRESH}ou{CustomMsg.LATTER}.<br/>{CustomMsg.DEV}.</p>
+		<p className="border m-0">{CustomMsg.TECH_ERR}.<br/>{CustomMsg.REFRESH} ou {CustomMsg.LATTER}.<br/>{CustomMsg.DEV}.</p>
 		<ErrorRefreshButton />
       </main>
 	)
@@ -41,15 +41,19 @@ const CaseError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 }
 
 const ActionError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
+	const icons = ['copy', 'past', 'cut', 'reset']
+	const keys = ['C', 'V', 'X', 'Q']
 	return (
 		<section className="actionContainer flex">
 			{
-				[...Array(3)].map((_, index)=>
-				<ActionButton
-					key={`errButton-${index}`}
-					entry='skull'
-					label="Icône d'erreur. Le bouton ne peut pas fonctionner."
-					/>
+				icons.map((icon, index)=>
+				<div key={`errButton-${index}`} className="no-pointer">
+					<ActionButton
+						entry={`${icon}_err`}
+						label={icon}
+						/>
+					<label className='block text-center'>ctrl · {keys[index]}</label>
+				</div>
 				)
 			}
 		</section>
@@ -60,7 +64,7 @@ const EditorError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 	return (
    		<section id="editor-container">
    			<div className="editor quicksand-font green-background">
-   				<span className="placeholder">{CustomMsg.EDITOR}. {CustomMsg.ALERT}.</span>
+   				<span className="placeholder">{CustomMsg.OOPS} {CustomMsg.EDITOR}. {CustomMsg.ALERT}.</span>
    			</div>
    		</section>
 	)

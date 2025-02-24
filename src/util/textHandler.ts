@@ -205,25 +205,27 @@ export const updateTextCase = (action:string, editorState:any):any => {
  */
 export const clipboardAction = async (action:string, editorRef:any):Promise<any> =>
 {
-	const {clipboard} = navigator;
-	let nexContent:any;
+	let newContent:any;
+	const {clipboard} = navigator,
+		  currEditor = editorRef.current?.editor;
 
+	if (!currEditor) return;
 	switch (action)
 	{
 		case Action.copy:
 		case Action.cut:
-			let currentContent = editorRef.current.editor.innerText;
-			if (!(currentContent === '\n'))
+			let currentContent = currEditor?.innerText;
+			if (currentContent && !(currentContent === '\n'))
 				clipboard.writeText(currentContent).catch ((err:any) => {/*[ERR]*/});;
 			break;
 		case Action.past:
 			// [ERR] type warning si rien n'a coller
-			nexContent = await clipboard.readText().then((text:any) => createContent(text)).catch ((err:any) => {/*[ERR]*/});
+			newContent = await clipboard.readText().then((text:any) => createContent(text)).catch ((err:any) => {/*[ERR]*/});
 			break;
 	}
 
 	if (action === Action.reset || action === Action.cut)
-		nexContent = clearContent();
+		newContent = clearContent();
 
-	return nexContent;
+	return newContent;
 }
