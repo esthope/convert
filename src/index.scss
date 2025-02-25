@@ -1,8 +1,6 @@
 @use 'constant/base.scss' as cst;
 
-iframe {
-  display: none !important;
-}
+iframe {display: none !important}
 
 #root{
   min-height: 100vh;

@@ -1,19 +1,20 @@
 // main
-import {ReactElement, useContext} from "react";
+import {ReactElement, useContext, useEffect} from "react";
 import {EditorState} from 'draft-js';
 // util
+import * as CustomMsg from 'constant/Messages';
 import {EditorContext} from 'service/context';
 import {clipboardAction} from 'util/textHandler';
-import {fetchData} from 'util/dataHandler';
 import {Interaction} from 'constant/interfaces';
+import {actionsData} from 'constant/Interactions';
 // element
 import ActionButton from 'component/ActionButton';
 import TemplateButton from './TemplateButton';
 
-const actions = fetchData('actions');
+let hasMounted = false;
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
-	const [setEditorState, editorRef] = useContext(EditorContext)
+	const [editorState, setEditorState, editorRef] = useContext(EditorContext)
 
 	/**
 	* Update the editor content
@@ -25,10 +26,23 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 			setEditorState(newState)
 	}
 
+	useEffect(()=>{
+		if (!hasMounted) {
+			hasMounted = true
+	    	return;
+	    }
+
+  		if (actionsData.length === 0) {
+  			throw new Error(CustomMsg.ACTIONS, {cause: {fonite:'ACTION'}})
+  		}
+
+		return () => {}
+	}, [actionsData])
+
 	return (
 		<section className="actionContainer flex">
   		{
-			actions.map((item:Interaction):any => (
+			actionsData.map((item:Interaction):any => (
 			  	(!item.unactive)
 			  	? <TemplateButton
 					key={item.data_id}

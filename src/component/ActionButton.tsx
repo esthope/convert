@@ -25,7 +25,7 @@ const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactEle
 		const promise = import(`../assets/${entry}.svg`)
 		promise.then((image) => {
 			setIconPath(image.default)
-		})
+		}).catch((err)=>{console.log(err.message)/*[!] DEV*/})
 	}, [entry])
 
 	return (

@@ -2,7 +2,7 @@ import {Message} from 'constant/interfaces';
 import * as CustomMsg from 'constant/Messages';
 
 const initialMessage:Message = {
-	level: null,
+	level: 'none',
 	message: null,
 	displayed: null,
 	reset: false
@@ -34,9 +34,14 @@ const time_out = (miliseconds:number):Promise<any> => {
 	return new Promise(resolve => setTimeout(resolve, miliseconds));
 }
 
-const get_error = (error:Error):Message => {
-	const message = (error?.cause?.hasOwnProperty('fonite')) ? `${CustomMsg.TECH_ERR} ${CustomMsg.REFRESH}` : error.message; 
+const get_boundary_error = (error:Error):Message => {
+	const message = (error?.cause?.hasOwnProperty('fonite')) ? `${error.message}. ${CustomMsg.REF_IF_PERSIST}.` : `${CustomMsg.TECH_ERR} ${CustomMsg.REFRESH}`; 
     return create_error(message, true);
 }
 
-export {initialMessage, create_warning, create_error, reset_alert, time_out, get_error}
+const is_message = (result:Message|any):boolean => {
+    console.log(result)
+	return !!(typeof result === 'object' && result?.level?.length > 0);
+}
+
+export {initialMessage, create_warning, create_error, reset_alert, time_out, get_boundary_error, is_message}
