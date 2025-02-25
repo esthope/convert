@@ -11,7 +11,7 @@ import ActionButton from './ActionButton';
 import SkullIncon from "assets/skull.svg"
 
 const ErrorPage = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
-	console.log(error)
+	// console.log(error)
 	return (
       <main>
 		<p className="border m-0">{CustomMsg.TECH_ERR}.<br/>{CustomMsg.REFRESH} ou {CustomMsg.LATTER}.<br/>{CustomMsg.DEV}.</p>

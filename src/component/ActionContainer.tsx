@@ -6,7 +6,7 @@ import * as CustomMsg from 'constant/Messages';
 import {EditorContext} from 'service/context';
 import {clipboardAction} from 'util/textHandler';
 import {Interaction} from 'constant/interfaces';
-import {actionsData} from 'constant/Interactions';
+import {Action, actionsData} from 'constant/Interactions';
 // element
 import ActionButton from 'component/ActionButton';
 import TemplateButton from './TemplateButton';
@@ -43,7 +43,7 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 		<section className="actionContainer flex">
   		{
 			actionsData.map((item:Interaction):any => (
-			  	(!item.unactive)
+			  	(!item.unactive && Action.hasOwnProperty(item.entry))
 			  	? <TemplateButton
 					key={item.data_id}
 					label={item.label}

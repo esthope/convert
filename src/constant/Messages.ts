@@ -24,7 +24,9 @@ const EDITOR = "L'éditeur est indisponible",
 	  SHORTKEY = `${MAY} le raccourcie clavier n'ait pas fonctionné`,
 	  // [!] svg
 	  ACTIONS = `${TECH_BTN} des actions copier/coller/couper/réinitialiser. ${SHORTKEY_OK}`,
-	  CASES = `${TECH_BTN} de la casse`
+	  CASES = `${TECH_BTN} de la casse`,
+	  TEXT_UP = `Un soucis technique peut avoir empêché la mise à jour d'une partie du texte.`,
+	  TEXT_UNCHANGED = `Le texte n'a pas pu être changé. ${REF_IF_PERSIST}.`
 
 export {
 	TECH_ERR,
@@ -38,5 +40,7 @@ export {
 	SHORTKEY,
 	REF_IF_PERSIST,
 	ACTIONS,
-	CASES
+	CASES,
+	TEXT_UP,
+	TEXT_UNCHANGED
 }

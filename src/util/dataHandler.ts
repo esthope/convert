@@ -34,9 +34,6 @@ export const fetchData = (slice?:string):Interaction|any => {
 export const createKeyEntries = (slice:string):StringIndex => {
 	const selection = fetchData(slice);
 
-	// [ERR]
-	// if (typeof selection == 'Message')
-
 	let interactions:StringIndex = {};
 
 	selection.forEach((item:any) => {

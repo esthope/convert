@@ -2,24 +2,35 @@
 import {ReactElement, useContext, useEffect} from "react";
 // util
 import * as CustomMsg from 'constant/Messages';
-import {EditorContext} from 'service/context';
+import {MessageContext, EditorContext} from 'service/context';
+import {is_message} from 'util/errorHandler';
 import {initContent} from 'util/editorHandler';
 import {updateTextCase} from 'util/textHandler';
+import {Interaction} from 'constant/interfaces';
 // element
 import {Case, casesData} from 'constant/Interactions';
 import TemplateButton from './TemplateButton';
 import InverseLabel from './InverseLabel';
 import CaseButton from './CaseButton';
-// alert 
-import {Interaction} from 'constant/interfaces';
 
 let hasMounted = false;
 const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => {
-  	const [editorState, setEditorState] = useContext(EditorContext)
+
+  	const [editorState, setEditorState] = useContext(EditorContext),
+  		  [alertMessage, setAlertMessage] = useContext(MessageContext)
 
     const handle_text = (action:string)=>{
-    	const newContent = updateTextCase(action, editorState);
-    	setEditorState(newContent)
+    	const resultContent = updateTextCase(action, editorState, setAlertMessage);
+
+    	if (is_message(resultContent))
+	    {
+	      	// returned error
+	    	setAlertMessage(resultContent)
+  			throw new Error(resultContent.message, {cause: {fonite:'CASES'}})
+	    }
+	    console.log('bip')
+
+    	setEditorState(resultContent)
     }
 
 	useEffect(()=>{
@@ -43,8 +54,10 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
 					onClick={()=>initContent(setEditorState)} />
 			</TemplateButton>
 			{
-				casesData.map((item:Interaction)=>
-				<TemplateButton
+				/*Case.hasOwnProperty(item.entry)*/
+				casesData.map((item:Interaction)=> (
+				(true)
+			  	? <TemplateButton
 					key={item.data_id}
 					label={item.label}
 					length={contentLength}
@@ -54,7 +67,8 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
 						content={(item.data_id === Case.inversion) ? InverseLabel : item.title}
 						onClick={() => handle_text(item.data_id)} />
 				</TemplateButton>
-				)
+			  	: null
+				))
 			}
 		</section>
 	)

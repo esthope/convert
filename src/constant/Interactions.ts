@@ -7,7 +7,11 @@ let errorMsg:Message;
 
 let casesData:any[] = [],
 	actionsData:any[] = [],
-	interactionsData:any[] = []
+	interactionsData:any[] = [];
+
+let Action:any,
+	Case:any,
+	Mode:any;
 
 try
 {
@@ -16,6 +20,10 @@ try
 
 	if (casesData && actionsData)
 		interactionsData = [...casesData, ...actionsData]
+
+	Action = createKeyEntries('actions')
+	Case = createKeyEntries('cases')
+	Mode = createKeyEntries('modes')
 }
 catch(err)
 {
@@ -23,8 +31,5 @@ catch(err)
 	// console.log(err)
 }
 
-export const Action = createKeyEntries('actions'),
-			Case = createKeyEntries('cases'),
-			Mode = createKeyEntries('modes');
-
-export {casesData, actionsData, interactionsData}
+export {casesData, actionsData, interactionsData, Action, Case, Mode}
+// interactions

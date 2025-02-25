@@ -3,14 +3,15 @@ import {Selection, Block, Message} from 'constant/interfaces';
 import {Case, Action} from 'constant/Interactions';
 
 // util
-import {create_error} from 'util/errorHandler';
+import * as CustomMsg from 'constant/Messages';
+import {create_error, create_warning} from 'util/errorHandler';
 import {getRaws, getSelection, getBlock, createContent, clearContent} from 'util/editorHandler';
 
 let currentBlock:any,
 	workText:string,
 	newText = '',
 	initial = 0,
-	errorMsg:Message
+	errorMsg:string
 	;
 
 const addLastIteration = () => {
@@ -75,6 +76,7 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 	initial=0
 }
 
+// [!] never used
 export const transformMultiLine = (selections:Selection[], editorState:any, caseAction:string, value?:string):void => {
 	let anchorText:any,
 		endingText:any
@@ -100,8 +102,6 @@ export const transformMultiLine = (selections:Selection[], editorState:any, case
 	workText = ''
 	newText=''
 	initial=0
-
-	// return newText;
 }
 
 /**
@@ -142,19 +142,28 @@ export const changeComplexCase = (action:string, text:string):string => {
  * @param  {[type]} string [description]
  * @return {[type]}        [description]
  */
-export const changeCase = (action:string, text:string):string => {
-	switch (action) {
+export const changeCase = (caseID:string, text:string):string => {
+	newText = undefined;
+
+	switch (caseID) {
 		case Case.upper:
-			text = text.toUpperCase();
+			newText = text.toUpperCase();
 			break;
 		case Case.lower:
-			text = text.toLowerCase();
+			newText = text.toLowerCase();
 			break;
 		default:
-			text = changeComplexCase(action, text);
+			newText = changeComplexCase(caseID, text);
 	}
 
-	return text;
+	// [!] regex
+	if (!newText && text !== '') {
+		console.log(text)
+		errorMsg = CustomMsg.TEXT_UP;
+		return text
+	}
+
+	return newText;
 }
 
 export const getContentLength = (currentContent:ContentState):number => {
@@ -166,7 +175,7 @@ export const getContentLength = (currentContent:ContentState):number => {
  * Change case, then updtate states
  * @param  {string} action 	constant from interactions
  */
-export const updateTextCase = (action:string, editorState:any):any => {
+export const updateTextCase = (action:string, editorState:any, setAlertMessage:Function):any => {
 	const currentRaws = getRaws(editorState),
 		  {blocks} = currentRaws;
 
@@ -189,12 +198,18 @@ export const updateTextCase = (action:string, editorState:any):any => {
 		  	})
 		}
 
+		// if an error occured, do not stop treatment by throwing
+		if (errorMsg) {
+			setAlertMessage(create_warning(errorMsg))
+		}
+
 		return createContent(currentRaws);
   	}
 	catch (err)
 	{
-		// [ERR] return type err
-		errorMsg = create_error(`Le texte n'a pas pu être mis à jour : ${err}`)
+		// [DEV]
+		// console.log(err)
+		return create_error(CustomMsg.TEXT_UNCHANGED)
 	}
 }
 

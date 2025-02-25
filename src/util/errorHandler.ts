@@ -40,7 +40,6 @@ const get_boundary_error = (error:Error):Message => {
 }
 
 const is_message = (result:Message|any):boolean => {
-    console.log(result)
 	return !!(typeof result === 'object' && result?.level?.length > 0);
 }
 

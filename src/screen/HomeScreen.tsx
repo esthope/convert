@@ -82,7 +82,7 @@ const Home = ():ReactElement => {
 
   const display_error = (error:Error, info:any):void => {
     // [!] DEV
-    console.log(error)
+    // console.log('home')
     const errorMsg = get_boundary_error(error);
     setAlertMessage(errorMsg);
   }
