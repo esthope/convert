@@ -1,5 +1,6 @@
 // main
 import {ReactElement, useContext, useEffect} from "react";
+import {EditorState} from "draft-js";
 // util
 import * as CustomMsg from 'constant/Messages';
 import {MessageContext, EditorContext} from 'service/context';
@@ -20,17 +21,18 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
   		  [alertMessage, setAlertMessage] = useContext(MessageContext)
 
     const handle_text = (action:string)=>{
-    	const resultContent = updateTextCase(action, editorState, setAlertMessage);
+    	const newState = updateTextCase(action, editorState, setAlertMessage);
 
-    	if (is_message(resultContent))
+    	if (is_message(newState))
 	    {
 	      	// returned error
-	    	setAlertMessage(resultContent)
-  			throw new Error(resultContent.message, {cause: {fonite:'CASES'}})
+	    	setAlertMessage(newState)
+  			// [DEV]
+  			throw new Error(newState.message, {cause: {fonite:'CASES'}})
 	    }
-	    console.log('bip')
 
-    	setEditorState(resultContent)
+		if (newState instanceof EditorState)
+			setEditorState(newState)
     }
 
 	useEffect(()=>{

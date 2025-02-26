@@ -8,6 +8,7 @@ import {EditorContext, MessageContext} from 'service/context';
 import CustomButton from 'component/CustomButton';
 import style from "constant/base.scss";
 // alert
+import * as CustomMsg from 'constant/Messages';
 import {create_error} from 'util/errorHandler';
 import {Message} from 'constant/interfaces';
 let errorMsg:Message;
@@ -68,8 +69,8 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     }
     catch(err)
     {
-      // [ERR]
-      errorMsg = create_error(`La sélection n'a pas pu être effectuée : ${err}`)
+      // [DEV]
+      errorMsg = create_error(CustomMsg.SELECT_FAILED)
       setAlertMessage(errorMsg)
     }
   }

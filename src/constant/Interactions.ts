@@ -27,7 +27,7 @@ try
 }
 catch(err)
 {
-	// [!] DEV
+	// [DEV]
 	// console.log(err)
 }
 

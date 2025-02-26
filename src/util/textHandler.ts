@@ -8,8 +8,9 @@ import {create_error, create_warning} from 'util/errorHandler';
 import {getRaws, getSelection, getBlock, createContent, clearContent} from 'util/editorHandler';
 
 let currentBlock:any,
+	whiteReg = new RegExp('\\s', 'gm'),
 	workText:string,
-	newText = '',
+	newText:string|undefined = '',
 	initial = 0,
 	errorMsg:string
 	;
@@ -143,27 +144,29 @@ export const changeComplexCase = (action:string, text:string):string => {
  * @return {[type]}        [description]
  */
 export const changeCase = (caseID:string, text:string):string => {
-	newText = undefined;
 
+	// verify text
+	if (typeof text !== 'string' || text === '' || whiteReg.test(text)) return text;
+
+	// change text
+	let changedText = undefined;
 	switch (caseID) {
 		case Case.upper:
-			newText = text.toUpperCase();
+			changedText = text.toUpperCase();
 			break;
 		case Case.lower:
-			newText = text.toLowerCase();
+			changedText = text.toLowerCase();
 			break;
 		default:
-			newText = changeComplexCase(caseID, text);
+			changedText = changeComplexCase(caseID, text);
 	}
 
-	// [!] regex
-	if (!newText && text !== '') {
-		console.log(text)
+	if (!changedText) {
 		errorMsg = CustomMsg.TEXT_UP;
 		return text
 	}
 
-	return newText;
+	return changedText;
 }
 
 export const getContentLength = (currentContent:ContentState):number => {
@@ -177,7 +180,7 @@ export const getContentLength = (currentContent:ContentState):number => {
  */
 export const updateTextCase = (action:string, editorState:any, setAlertMessage:Function):any => {
 	const currentRaws = getRaws(editorState),
-		  {blocks} = currentRaws;
+		  {blocks} = currentRaws
 
 	const selections = getSelection(blocks, editorState)
 
@@ -189,11 +192,8 @@ export const updateTextCase = (action:string, editorState:any, setAlertMessage:F
 		}
 		else
 		{
+			// change text case
 		  	blocks.forEach((block:Block):void => {
-		  		// verify text
-				if (typeof block.text !== 'string' || block.text === '') return;
-
-				// change text case
 		  		block.text = changeCase(action, block.text)
 		  	})
 		}

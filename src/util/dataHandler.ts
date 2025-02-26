@@ -25,7 +25,7 @@ export const fetchData = (slice?:string):Interaction|any => {
 	}
 	catch(err)
 	{
-		// [!] [DEV]
+		// [DEV]
 		// console.log(err)
 		return [];
 	}
@@ -93,7 +93,7 @@ export const handle_press = (event:any, keys:string[], interactions:Interaction[
 	}
 	catch(err)
 	{
-		// [!] DEV
+		// [DEV]
 		errorMsg = create_error(`${CustomMsg.OOPS} ${CustomMsg.SHORTKEY}. ${CustomMsg.DEV}.\n${CustomMsg.REF_IF_PERSIST}`)
 		return errorMsg;
 	}

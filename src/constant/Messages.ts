@@ -28,6 +28,8 @@ const EDITOR = "L'éditeur est indisponible",
 	  TEXT_UP = `Un soucis technique peut avoir empêché la mise à jour d'une partie du texte.`,
 	  TEXT_UNCHANGED = `Le texte n'a pas pu être changé. ${REF_IF_PERSIST}.`
 
+const SELECT_FAILED = `La sélection n'a pas pu être effectuée`
+
 export {
 	TECH_ERR,
 	TECH_BTN,
@@ -42,5 +44,6 @@ export {
 	ACTIONS,
 	CASES,
 	TEXT_UP,
-	TEXT_UNCHANGED
+	TEXT_UNCHANGED,
+	SELECT_FAILED
 }

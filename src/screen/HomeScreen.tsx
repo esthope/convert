@@ -1,8 +1,9 @@
 // main
 import {ReactElement, useEffect, useState, useRef} from "react";
-import {EditorState, Editor} from "draft-js";
+import {EditorState, Editor, convertToRaw} from "draft-js";
 import {ErrorBoundary,} from "react-error-boundary";
 // util
+import * as CustomMsg from 'constant/Messages';
 import {EditorContext, MessageContext} from 'service/context';
 import {getContentLength, updateTextCase, clipboardAction} from 'util/textHandler';
 import {initialMessage, get_boundary_error, create_error, is_message} from "util/errorHandler";
@@ -22,9 +23,9 @@ import CustomButton from 'component/CustomButton';
 const keys = getInteractionsKeys(interactionsData),
       cases = Object.values(Case);
 
+let hasMounted = false;
 const Home = ():ReactElement => {
   const 
-        [hasMounted, setHasMounted] = useState<boolean>(false),
         [contentLength, setContentLength] = useState<number>(0),
         [alertMessage, setAlertMessage] = useState<Message>(initialMessage),
         [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
@@ -39,34 +40,47 @@ const Home = ():ReactElement => {
     let newState:any = null;
     // ? editorHasFocus
     const hasFocus = editorRef.current.editor === document.activeElement,
-          pressResult = handle_press(event, keys, interactionsData, hasFocus),
-          askedInter = (typeof pressResult === 'string') ? pressResult : '';
+          interID = handle_press(event, keys, interactionsData, hasFocus),
+          askedInter = (typeof interID === 'string') ? interID : '';
 
-    if (is_message(pressResult))
+    try
     {
-      // returned error
-      // setAlertMessage(pressResult)
-    }
-    else if (cases.includes(askedInter))
-    {
+      // getting the interaction ID failed
+      if (is_message(interID))
+        throw interID
+
       // the interaction is a Case
-      event.preventDefault();
-      newState = updateTextCase(askedInter, editorState);
-    }
-    else if (askedInter)
-    {
+      if (cases.includes(askedInter))
+      {
+        event.preventDefault();
+        newState = updateTextCase(askedInter, editorState, setAlertMessage)
+      }
       // the interaction is an Action
-      // no prevent default is needed for action
-      newState = await clipboardAction(askedInter, editorRef);
-    }
+      else if (askedInter)
+      {
+        // no prevent default is needed for action
+        newState = await clipboardAction(askedInter, editorRef)
+      }
 
-    if (newState instanceof EditorState)
-      setEditorState(newState)
+      // getting new state failed
+      if (is_message(newState))
+        throw newState
+
+      if (newState instanceof EditorState)
+        setEditorState(newState)
+    }
+    catch(err:any)
+    {
+      // ? [DEV]
+      // console.log(err)
+      let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.TEXT_UP)
+      setAlertMessage(err)
+    }
   }
 
   useEffect(()=>{
     if (!hasMounted) {
-      setHasMounted(true);
+    hasMounted = true
       return;
     }
 
@@ -81,7 +95,7 @@ const Home = ():ReactElement => {
   }, [editorState]) // key_listener
 
   const display_error = (error:Error, info:any):void => {
-    // [!] DEV
+    // [DEV]
     // console.log('home')
     const errorMsg = get_boundary_error(error);
     setAlertMessage(errorMsg);
