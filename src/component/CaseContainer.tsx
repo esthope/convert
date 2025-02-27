@@ -18,6 +18,7 @@ let hasMounted = false;
 const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
   	const [editorState, setEditorState] = useContext(EditorContext),
+  		  // eslint-disable-next-line
   		  [alertMessage, setAlertMessage] = useContext(MessageContext)
 
     const handle_text = (action:string)=>{
@@ -46,7 +47,7 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
   		}
 
 		return () => {}
-	}, [casesData])
+	}, [])
 
 	return (
 		<section className="caseContainer flex">

@@ -1,5 +1,5 @@
 import {ContentState} from "draft-js";
-import {Selection, Block, Message} from 'constant/interfaces';
+import {Selection, Block} from 'constant/interfaces';
 import {Case, Action} from 'constant/Interactions';
 
 // util

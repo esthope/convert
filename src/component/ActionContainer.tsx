@@ -15,7 +15,9 @@ import TemplateButton from './TemplateButton';
 let hasMounted = false;
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
+  		  // eslint-disable-next-line
 	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
+  		  // eslint-disable-next-line
   		  [alertMessage, setAlertMessage] = useContext(MessageContext)
 
 	/**
@@ -55,7 +57,7 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
   		}
 
 		return () => {}
-	}, [actionsData])
+	}, [])
 
 	return (
 		<section className="actionContainer flex">

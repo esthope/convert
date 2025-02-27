@@ -1,6 +1,6 @@
 // main
 import {ReactElement, useEffect, useState, useRef} from "react";
-import {EditorState, Editor, convertToRaw} from "draft-js";
+import {EditorState, Editor} from "draft-js";
 import {ErrorBoundary,} from "react-error-boundary";
 // util
 import * as CustomMsg from 'constant/Messages';
@@ -17,8 +17,6 @@ import ReplaceField from 'component/ReplaceField';
 import TextEditor from 'component/TextEditor';
 import ActionContainer from 'component/ActionContainer';
 import AlertMessage from 'component/AlertMessage';
-
-import CustomButton from 'component/CustomButton';
 
 const keys = getInteractionsKeys(interactionsData),
       cases = Object.values(Case);
@@ -119,9 +117,7 @@ const Home = ():ReactElement => {
           <ActionContainer contentLength={contentLength} />
         </ErrorBoundary>
 
-        {/*<CustomButton onClick={()=>setAlertMessage({level: 'error', message:'••• ancien', displayed: true})} />*/}
         <AlertMessage />
-
       </main>
       </MessageContext.Provider>
     </EditorContext.Provider>

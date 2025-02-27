@@ -4,8 +4,7 @@ import {ReactElement, useState, useEffect, useContext} from 'react';
 import {MessageContext} from 'service/context';
 import {reset_alert/*, time_out*/} from 'util/errorHandler';
 import prov_logo from 'assets/circle.svg';
-
-// import CustomButton from 'component/CustomButton';
+// element
 import {Message} from 'constant/interfaces';
 import CircleIcon from 'component/CircleIcon';
 import ErrorRefreshButton from 'component/ErrorRefreshButton';
@@ -16,10 +15,10 @@ const AlertMessage = ():ReactElement => {
 		[alertMessage, setAlertMessage] = useContext(MessageContext),
 		[hidingDelay, setHidingDelay] = useState<number>(0),
 		[interval, setCurrentInterval] = useState<any>(),
-		[keap, setKeap] = useState<boolean>(false)
+		[keep, setKeap] = useState<boolean>(false)
 		;
 
-	const {level, message, displayed, reset} = alertMessage;
+	const {/*level, */message, displayed, reset} = alertMessage;
 
 	/**
 	 * control the display of the message
@@ -59,13 +58,13 @@ const AlertMessage = ():ReactElement => {
 	/**
 	 * re.start automaticaly the alert hiding
 	 * @dependences {displayed} change the displayed status if it's active
-	 * @dependences {keap} 		hide if the component are not overed anymore
+	 * @dependences {keep} 		hide if the component are not overed anymore
 	 */
 	useEffect( () =>{
-		if (!keap && displayed === true) {
+		if (!keep && displayed === true) {
 			trigger_hiding_alert()
 		}
-	}, [displayed, keap])
+	}, [displayed, keep])
 
 
 	/**
@@ -75,7 +74,7 @@ const AlertMessage = ():ReactElement => {
 	 */
 	useEffect(()=>{
 		// when 10s as passed, hide
-		if (hidingDelay === 10 && !keap) 
+		if (hidingDelay === 10 && !keep) 
 		{
 			clearInterval(interval)
 			change_displayed_state(false)
@@ -83,11 +82,12 @@ const AlertMessage = ():ReactElement => {
 		}
 
 		// if the commponent are overed, keep them displayed
-		if (hidingDelay > 0 && keap) 
+		if (hidingDelay > 0 && keep) 
 		{
 			clearInterval(interval)
 		}
-	// @ts-ignore
+
+  	// eslint-disable-next-line
 	}, [hidingDelay, interval, change_displayed_state])
 
 	/**
