@@ -67,7 +67,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
       // count selection
       setSelectCount(window?.getSelection()?.toString()?.length ?? 0)
     }
-    catch(err)
+    catch(err:any)
     {
       // [DEV]
       errorMsg = create_error(CustomMsg.SELECT_FAILED)

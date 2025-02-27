@@ -1,15 +1,18 @@
 // Internal
-const TECH = 'Une erreur technique empêche le bon',
+const TECH = 'Une erreur technique empêche',
+	  RIGHT_TECH = `${TECH} le bon`,
 	  SHORTKEY_OK = 'Les raccourcis clavier sont encore disponibles',
 	  FONCTION = 'fonctionnement',
 	  TRAITMENT = 'traitement',
 	  PAGE = 'de la page',
 	  BTN = 'des boutons',
-	  MAY = 'Il se peut que';
+	  MAY = 'Il se peut que',
+	  PAST = 'le collage',
+	  COPY = 'la copie';
 
 // basic
-const TECH_ERR = `${TECH} ${TRAITMENT} ${PAGE}`,
-	  TECH_BTN = `${TECH} ${FONCTION} ${BTN}`,
+const TECH_ERR = `${RIGHT_TECH} ${TRAITMENT} ${PAGE}`,
+	  TECH_BTN = `${RIGHT_TECH} ${FONCTION} ${BTN}`,
 	  DEV = 'L\'équipe technique a été prévenue',
 	  OOPS = 'Oups...'
 
@@ -24,9 +27,13 @@ const EDITOR = "L'éditeur est indisponible",
 	  SHORTKEY = `${MAY} le raccourcie clavier n'ait pas fonctionné`,
 	  // [!] svg
 	  ACTIONS = `${TECH_BTN} des actions copier/coller/couper/réinitialiser. ${SHORTKEY_OK}`,
+	  ACTION_FAILED = `Votre action n'a pas pu aboutir à cause d'un soucis technique. ${DEV}.`,
 	  CASES = `${TECH_BTN} de la casse`,
 	  TEXT_UP = `Un soucis technique peut avoir empêché la mise à jour d'une partie du texte.`,
-	  TEXT_UNCHANGED = `Le texte n'a pas pu être changé. ${REF_IF_PERSIST}.`
+	  TEXT_UNCHANGED = `Le texte n'a pas pu être changé. ${REF_IF_PERSIST}.`,
+	  NOTHING_PAST = `Il n'y a rien à coller.`,
+	  PAST_ERR = `${TECH} ${PAST} du texte. ${DEV}.`,
+	  COPY_ERR = `${TECH} ${COPY} du texte. ${DEV}.`;
 
 const SELECT_FAILED = `La sélection n'a pas pu être effectuée`
 
@@ -42,8 +49,12 @@ export {
 	SHORTKEY,
 	REF_IF_PERSIST,
 	ACTIONS,
+	ACTION_FAILED,
 	CASES,
 	TEXT_UP,
 	TEXT_UNCHANGED,
+	NOTHING_PAST,
+	PAST_ERR,
+	COPY_ERR,
 	SELECT_FAILED
 }

@@ -1,9 +1,10 @@
 // main
 import {ReactElement, useContext, useEffect} from "react";
+import {EditorContext, MessageContext} from 'service/context';
 import {EditorState} from 'draft-js';
 // util
 import * as CustomMsg from 'constant/Messages';
-import {EditorContext} from 'service/context';
+import {is_message, create_error} from 'util/errorHandler';
 import {clipboardAction} from 'util/textHandler';
 import {Interaction} from 'constant/interfaces';
 import {Action, actionsData} from 'constant/Interactions';
@@ -14,16 +15,33 @@ import TemplateButton from './TemplateButton';
 let hasMounted = false;
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
-	const [editorState, setEditorState, editorRef] = useContext(EditorContext)
+	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
+  		  [alertMessage, setAlertMessage] = useContext(MessageContext)
 
 	/**
 	* Update the editor content
 	*/
 	const handleAction = async (action:string):Promise<void> => {
-		// if (contentLength === 0) return;
-		const newState = await clipboardAction(action, editorRef)
-		if (newState instanceof EditorState)
-			setEditorState(newState)
+
+		try
+		{
+			// if (contentLength === 0) return;
+			const newState = await clipboardAction(action, editorRef)
+
+			// getting new state failed
+			if (is_message(newState))
+				throw newState
+
+			if (newState instanceof EditorState)
+				setEditorState(newState)
+		}
+		catch(err:any)
+		{
+			// ? [DEV]
+			// console.log(err)
+			let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.ACTION_FAILED)
+			setAlertMessage(errorMsg)
+		}
 	}
 
 	useEffect(()=>{

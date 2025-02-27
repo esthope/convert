@@ -35,7 +35,7 @@ const Home = ():ReactElement => {
 
   const key_listener = async (event:KeyboardEvent):Promise<void> => {
 
-    if (!event.ctrlKey || !editorRef?.current) return;
+    if (event.key === 'Control' || !event.ctrlKey || !editorRef?.current) return;
 
     let newState:any = null;
     // ? editorHasFocus
@@ -74,7 +74,7 @@ const Home = ():ReactElement => {
       // ? [DEV]
       // console.log(err)
       let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.TEXT_UP)
-      setAlertMessage(err)
+      setAlertMessage(errorMsg)
     }
   }
 

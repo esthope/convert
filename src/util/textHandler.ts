@@ -4,7 +4,7 @@ import {Case, Action} from 'constant/Interactions';
 
 // util
 import * as CustomMsg from 'constant/Messages';
-import {create_error, create_warning} from 'util/errorHandler';
+import {create_error, create_warning, is_message} from 'util/errorHandler';
 import {getRaws, getSelection, getBlock, createContent, clearContent} from 'util/editorHandler';
 
 let currentBlock:any,
@@ -225,22 +225,32 @@ export const clipboardAction = async (action:string, editorRef:any):Promise<any>
 		  currEditor = editorRef.current?.editor;
 
 	if (!currEditor) return;
-	switch (action)
+	try
 	{
-		case Action.copy:
-		case Action.cut:
-			let currentContent = currEditor?.innerText;
-			if (currentContent && !(currentContent === '\n'))
-				clipboard.writeText(currentContent).catch ((err:any) => {/*[ERR]*/});;
-			break;
-		case Action.past:
-			// [ERR] type warning si rien n'a coller
-			newContent = await clipboard.readText().then((text:any) => createContent(text)).catch ((err:any) => {/*[ERR]*/});
-			break;
-	}
+		switch (action)
+		{
+			case Action.copy:
+			case Action.cut:
+				let currentContent = currEditor?.innerText;
+				if (currentContent && !(currentContent === '\n'))
+					newContent = await clipboard.writeText(currentContent)
+					.catch ((err:any) =>/*DEV*/create_error(CustomMsg.COPY_ERR));
+				break;
+			case Action.past:
+				newContent = await clipboard.readText()
+				.then((text:any) => (text === '') ? create_warning(CustomMsg.NOTHING_PAST) : createContent(text))
+				.catch ((err:any) =>/*DEV*/create_error(CustomMsg.PAST_ERR));
+				break;
+		}
 
-	if (action === Action.reset || action === Action.cut)
-		newContent = clearContent();
+		if (action === Action.reset || action === Action.cut)
+			newContent = (is_message(newContent)) ? newContent : clearContent();
+	}
+	catch(err:any)
+	{
+		// [DEV]
+		return create_error(CustomMsg.ACTION_FAILED)
+	}
 
 	return newContent;
 }

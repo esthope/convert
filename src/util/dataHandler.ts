@@ -23,7 +23,7 @@ export const fetchData = (slice?:string):Interaction|any => {
 		// return all if slice is empty
 		return interaction ?? {cases, actions};
 	}
-	catch(err)
+	catch(err:any)
 	{
 		// [DEV]
 		// console.log(err)
@@ -91,7 +91,7 @@ export const handle_press = (event:any, keys:string[], interactions:Interaction[
 		interID = interaction_id[0]?.data_id ?? ''; 
 		return interID;
 	}
-	catch(err)
+	catch(err:any)
 	{
 		// [DEV]
 		errorMsg = create_error(`${CustomMsg.OOPS} ${CustomMsg.SHORTKEY}. ${CustomMsg.DEV}.\n${CustomMsg.REF_IF_PERSIST}`)

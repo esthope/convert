@@ -35,7 +35,7 @@ const time_out = (miliseconds:number):Promise<any> => {
 }
 
 const get_boundary_error = (error:Error):Message => {
-	const message = (error?.cause?.hasOwnProperty('fonite')) ? `${error.message}. ${CustomMsg.REF_IF_PERSIST}.` : `${CustomMsg.TECH_ERR} ${CustomMsg.REFRESH}`; 
+	const message = (error?.cause?.hasOwnProperty('fonite')) ? `${error.message}. ${CustomMsg.REF_IF_PERSIST}.` : `${CustomMsg.TECH_ERR}. ${CustomMsg.REFRESH}.`; 
     return create_error(message, true);
 }
 
