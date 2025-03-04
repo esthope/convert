@@ -51,6 +51,94 @@ export const franckInversion = ():void => {
 }
 ```
 
+# custom time out
+const time_out = (miliseconds:number):Promise<any> => {
+	return new Promise(resolve => setTimeout(resolve, miliseconds));
+}
+
+# transform mutli line
+export const transformMultiLine = (selections:Selection[], editorState:any, caseAction:string, value?:string):void => {
+	let anchorText:any,
+		endingText:any
+	
+	let selectedText = document?.getSelection()?.toString();
+	selections.forEach((selection, index):void => {
+		const {anchor_key, offset, length, ending_key, ending_len} = selection;
+
+		if (!ending_key || !ending_len) return;
+		
+		anchorText = getBlock(anchor_key, editorState).getText();
+		endingText = getBlock(ending_key, editorState).getText();
+
+		if (!selectedText) {
+			selectedText = anchorText.slice(offset, offset + length) + '\n';
+			selectedText += endingText.slice(0, 0 + ending_len)
+		}
+
+		value = changeCase(caseAction, selectedText);
+		newText = anchorText.slice(initial, offset) + value + endingText.slice(0 + ending_len);
+	})
+
+	workText = ''
+	newText=''
+	initial=0
+}
+
+# format complex selection
+export const formatSelection2 = (editorState:EditorState):Selection => {
+	const editorSel = editorState.getSelection().toJS(),
+		  {anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorSel;
+
+	let anchor_block_len = 0,
+		length = focusOffset - anchorOffset, // length of selection = the focus position - the anchor position
+		isMultiline = anchorKey !== focusKey
+
+	// handle multiline selection
+	if (isMultiline) {
+		let start_k2ey = (isBackward) ? focusKey : anchorKey,
+			start_set = (isBackward) ? focusOffset : anchorOffset
+		anchor_block_len = getBlock(start_k2ey, editorState).text.length
+		length = anchor_block_len - start_set; // length of selection = text length - starting ending_set
+	}
+
+	// base of the selection
+	let formated:Selection = {
+		anchor_key: (isBackward) ? focusKey : anchorKey,
+		offset: (isBackward) ? focusOffset : anchorOffset,
+		length
+	}
+
+	// ignored on one line selection
+	if (isMultiline) {
+		formated.ending_key = (isBackward) ? anchorKey : focusKey 
+		formated.ending_set = 0
+		formated.ending_len = (isBackward) ? anchorOffset : focusOffset
+	}
+
+	return formated;
+}
+
+# has focus
+export const editorHasFocus = ():boolean => {
+	let focused = false;
+
+	if (document?.activeElement)
+		focused = document.activeElement.className.includes('public-DraftEditor-content');
+
+	return focused; 
+}
+
+# reset selection
+export const initSelection = (editorState:EditorState):void => {
+	const selectionLength = editorState?.getSelection()?.getFocusOffset(),
+		  documentSel = window.getSelection();
+
+    if (selectionLength === 0 && documentSel) 
+    {
+    	documentSel.removeAllRanges();
+    }
+}
+
 # selection sur plusieurs lignes
 
 >>>

@@ -73,16 +73,6 @@ export const initContent = (setEditorState:Function) => {
 	setEditorState(newState)
 }
 
-export const initSelection = (editorState:EditorState):void => {
-	const selectionLength = editorState?.getSelection()?.getFocusOffset(),
-		  documentSel = window.getSelection();
-
-    if (selectionLength === 0 && documentSel) 
-    {
-    	documentSel.removeAllRanges();
-    }
-}
-
 /**
 * Get all the selections of each Block
 * @return {array} selection
@@ -156,15 +146,6 @@ export const getSelection = (blocks:any[], editorState:EditorState):any[] => {
 	return selections;
 }
 
-export const editorHasFocus = ():boolean => {
-	let focused = false;
-
-	if (document?.activeElement)
-		focused = document.activeElement.className.includes('public-DraftEditor-content');
-
-	return focused; 
-}
-
 /**
  * Get and format a selection
  * @param  {editorState} 	editorSel : current editor state
@@ -199,39 +180,6 @@ export const formatSelection = (editorState:EditorState, editorSel:EditorSelecti
 		offset: (isBackward) ? focusOffset : anchorOffset,
 		length
 	})
-
-	return formated;
-}
-
-export const formatSelection2 = (editorState:EditorState):Selection => {
-	const editorSel = editorState.getSelection().toJS(),
-		  {anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorSel;
-
-	let anchor_block_len = 0,
-		length = focusOffset - anchorOffset, // length of selection = the focus position - the anchor position
-		isMultiline = anchorKey !== focusKey
-
-	// handle multiline selection
-	if (isMultiline) {
-		let start_k2ey = (isBackward) ? focusKey : anchorKey,
-			start_set = (isBackward) ? focusOffset : anchorOffset
-		anchor_block_len = getBlock(start_k2ey, editorState).text.length
-		length = anchor_block_len - start_set; // length of selection = text length - starting ending_set
-	}
-
-	// base of the selection
-	let formated:Selection = {
-		anchor_key: (isBackward) ? focusKey : anchorKey,
-		offset: (isBackward) ? focusOffset : anchorOffset,
-		length
-	}
-
-	// ignored on one line selection
-	if (isMultiline) {
-		formated.ending_key = (isBackward) ? anchorKey : focusKey 
-		formated.ending_set = 0
-		formated.ending_len = (isBackward) ? anchorOffset : focusOffset
-	}
 
 	return formated;
 }

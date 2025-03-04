@@ -77,34 +77,6 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 	initial=0
 }
 
-// [!] never used
-export const transformMultiLine = (selections:Selection[], editorState:any, caseAction:string, value?:string):void => {
-	let anchorText:any,
-		endingText:any
-	
-	let selectedText = document?.getSelection()?.toString();
-	selections.forEach((selection, index):void => {
-		const {anchor_key, offset, length, ending_key, ending_len} = selection;
-
-		if (!ending_key || !ending_len) return;
-		
-		anchorText = getBlock(anchor_key, editorState).getText();
-		endingText = getBlock(ending_key, editorState).getText();
-
-		if (!selectedText) {
-			selectedText = anchorText.slice(offset, offset + length) + '\n';
-			selectedText += endingText.slice(0, 0 + ending_len)
-		}
-
-		value = changeCase(caseAction, selectedText);
-		newText = anchorText.slice(initial, offset) + value + endingText.slice(0 + ending_len);
-	})
-
-	workText = ''
-	newText=''
-	initial=0
-}
-
 /**
  * Change the case with more option
  * @param  {string} action 	constant from interactions
