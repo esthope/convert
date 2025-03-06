@@ -8,7 +8,7 @@ import {create_error, create_warning, is_message} from 'util/errorHandler';
 import {getRaws, getSelection, getBlock, createContent, clearContent} from 'util/editorHandler';
 
 let currentBlock:any,
-	whiteReg = new RegExp('\\s', 'gm'),
+	whiteReg = new RegExp('^\\s+$', 'g'),
 	workText:string,
 	newText:string|undefined = '',
 	initial = 0,
