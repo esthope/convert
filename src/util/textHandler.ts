@@ -5,7 +5,7 @@ import {Case, Action} from 'constant/Interactions';
 // util
 import * as CustomMsg from 'constant/Messages';
 import {create_error, create_warning, is_message} from 'util/errorHandler';
-import {getRaws, getSelection, getBlock, createContent, clearContent} from 'util/editorHandler';
+import {getRaws, getSelection, createContent, clearContent} from 'util/editorHandler';
 
 let currentBlock:any,
 	whiteReg = new RegExp('^\\s+$', 'g'),

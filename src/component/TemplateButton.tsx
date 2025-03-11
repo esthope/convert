@@ -11,7 +11,7 @@ interface TemplateProp {
 }
 
 const TemplateButton = ({children, label, length, shift, board_key}:TemplateProp) => {
-	const   [hasMounted, setHasMounted] = useState<boolean>(false),
+	const   //[hasMounted, setHasMounted] = useState<boolean>(false),
 	        [started, setStarted] = useState<boolean>(false),
 			[positionStyle, setPositionStyle] = useState<string>('key-label'),
 			[interval, setStyleInterval] = useState<ReturnType<typeof setTimeout>>()
@@ -20,17 +20,12 @@ const TemplateButton = ({children, label, length, shift, board_key}:TemplateProp
 
 	// Display the keyboard shortcuts on arrival
 	useEffect(()=>{
-		if (!hasMounted) {
-	      setHasMounted(true);
-	      return;
-	    }
-
-	    if (length > 1) 
+	    if (length > 1 && !started) 
     	{
     		setPositionStyle('')
     		setStarted(true)
     	}
-	}, [length, hasMounted])
+	}, [length, started])
 
 	/**
 	 * show label when the button is over
@@ -66,14 +61,6 @@ const TemplateButton = ({children, label, length, shift, board_key}:TemplateProp
 		else
 			setPositionStyle('')
 	}
-
-	useEffect(()=>{
-		return () => {
-			console.log('destroyed')
-			clearInterval(interval)
-		}
-	// @ts-ignore
-	}, [])
 
 	return (
 		<div

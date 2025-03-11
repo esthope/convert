@@ -14,7 +14,6 @@ import TemplateButton from './TemplateButton';
 import InverseLabel from './InverseLabel';
 import CaseButton from './CaseButton';
 
-let hasMounted = false;
 const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
   	const [editorState, setEditorState] = useContext(EditorContext),
@@ -37,16 +36,9 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
     }
 
 	useEffect(()=>{
-		if (!hasMounted) {
-			hasMounted = true
-	    	return;
-	    }
-
   		if (casesData.length === 0) {
   			throw new Error(CustomMsg.CASES, {cause: {fonite:'CASES'}})
   		}
-
-		return () => {}
 	}, [])
 
 	return (
