@@ -21,7 +21,6 @@ import AlertMessage from 'component/AlertMessage';
 const keys = getInteractionsKeys(interactionsData),
       cases = Object.values(Case);
 
-let hasMounted = false;
 const Home = ():ReactElement => {
   const 
         [contentLength, setContentLength] = useState<number>(0),
@@ -77,11 +76,6 @@ const Home = ():ReactElement => {
   }
 
   useEffect(()=>{
-    if (!hasMounted) {
-    hasMounted = true
-      return;
-    }
-
     // update the content length
     const currentContent = editorState.getCurrentContent();
     setContentLength(getContentLength(currentContent));
@@ -89,12 +83,11 @@ const Home = ():ReactElement => {
     document.addEventListener('keydown', key_listener)
     return () => document.removeEventListener('keydown', key_listener)
 
-  // eslint-disable-next-line
+  // DEVeslint-disable-next-line
   }, [editorState]) // key_listener
 
-  const display_error = (error:Error, info:any):void => {
+  const display_error = (error:Error):void => {
     // [DEV]
-    // console.log('home')
     const errorMsg = get_boundary_error(error);
     setAlertMessage(errorMsg);
   }

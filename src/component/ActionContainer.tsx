@@ -12,7 +12,6 @@ import {Action, actionsData} from 'constant/Interactions';
 import ActionButton from 'component/ActionButton';
 import TemplateButton from './TemplateButton';
 
-let hasMounted = false;
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
   		  // eslint-disable-next-line
@@ -47,16 +46,9 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 	}
 
 	useEffect(()=>{
-		if (!hasMounted) {
-			hasMounted = true
-	    	return;
-	    }
-
   		if (actionsData.length === 0) {
   			throw new Error(CustomMsg.ACTIONS, {cause: {fonite:'ACTION'}})
   		}
-
-		return () => {}
 	}, [])
 
 	return (

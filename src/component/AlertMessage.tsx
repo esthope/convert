@@ -21,6 +21,7 @@ const AlertMessage = ():ReactElement => {
 	const {/*level, */message, displayed, reset} = alertMessage;
 
 	/**
+	 * [CALL]
 	 * control the display of the message
 	 * @param  {isDisplayed} current diplay statut
 	 */
@@ -60,11 +61,17 @@ const AlertMessage = ():ReactElement => {
 	 * @dependences {displayed} change the displayed status if it's active
 	 * @dependences {keep} 		hide if the component are not overed anymore
 	 */
-	useEffect( () =>{
+	useEffect(() => {
 		if (!keep && displayed === true) {
 			trigger_hiding_alert()
 		}
-	}, [displayed, keep])
+
+		return () => {
+			clearInterval(interval)
+			setCurrentInterval(null)
+		}
+	// eslint-disable-next-line
+	}, [keep, displayed])
 
 
 	/**
@@ -86,12 +93,10 @@ const AlertMessage = ():ReactElement => {
 		{
 			clearInterval(interval)
 		}
-
-  	// eslint-disable-next-line
-	}, [hidingDelay, interval, change_displayed_state])
+	}, [hidingDelay, interval, keep])/*[CALL], change_displayed_state])
 
 	/**
-	 * reset hiding alert with a new message
+	 * reset hiding delay of the alert when a new message is set
 	 * @dependences {message} a new message appeared
 	 */
 	useEffect(() => {
