@@ -8,7 +8,7 @@ import {create_error, create_warning, is_message} from 'util/errorHandler';
 import {getRaws, getSelection, getBlock, createContent, clearContent} from 'util/editorHandler';
 
 let currentBlock:any,
-	whiteReg = new RegExp('\\s', 'gm'),
+	whiteReg = new RegExp('^\\S+$', 'gm'),
 	workText:string,
 	newText:string|undefined = '',
 	initial = 0,
@@ -117,8 +117,9 @@ export const changeComplexCase = (action:string, text:string):string => {
  */
 export const changeCase = (caseID:string, text:string):string => {
 
+// debugger
 	// verify text
-	if (typeof text !== 'string' || text === '' || whiteReg.test(text)) return text;
+	if (typeof text !== 'string' || text === ''/* || whiteReg.test(text)*/) return text;
 
 	// change text
 	let changedText = undefined;
