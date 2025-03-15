@@ -68,3 +68,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `yarn build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### notes
+* usememo
+mémorise valeur d'une variable tant que la dépendance n'est pas changée
+pour les choses complexes et lentes
+
+memo pour les valeurs
+callback pour les fonctions

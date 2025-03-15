@@ -14,7 +14,7 @@ import TemplateButton from './TemplateButton';
 import InverseLabel from './InverseLabel';
 import CaseButton from './CaseButton';
 
-const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => {
+const CaseContainer = ({started}:{started:boolean}): ReactElement => {
 
   	const [editorState, setEditorState] = useContext(EditorContext),
   		  // eslint-disable-next-line
@@ -43,7 +43,7 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
 
 	return (
 		<section className="caseContainer flex">
-			<TemplateButton label='init' length={contentLength} shift={false} board_key='none' >
+			<TemplateButton label='init' started={started} shift={false} board_key='none' >
 				<CaseButton
 					content="init"
 					onClick={()=>initContent(setEditorState)} />
@@ -55,7 +55,7 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
 			  	? <TemplateButton
 					key={item.data_id}
 					label={item.label}
-					length={contentLength}
+					started={started}
 					shift={item.shift ?? false}
 					board_key={item.key} >
 						<CaseButton

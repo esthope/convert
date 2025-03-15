@@ -1,4 +1,4 @@
-import {ReactElement} from "react";
+import {ReactElement, memo} from "react";
 import CircleIcon from 'component/CircleIcon';
 
 interface ButtonProp {
@@ -19,4 +19,4 @@ const CustomButton = ({onClick, color, className, disabled}:ButtonProp):ReactEle
 	)
 }
 
-export default CustomButton;
+export default memo(CustomButton);

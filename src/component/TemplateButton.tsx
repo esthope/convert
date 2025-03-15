@@ -1,31 +1,28 @@
 // main
-import {ReactElement, cloneElement, isValidElement} from "react";
+import {ReactElement, cloneElement, isValidElement, memo} from "react";
 import {useState, useEffect} from 'react';
 
 interface TemplateProp {
 	children:ReactElement,
 	label?:string,
-	length:number,
+	started:boolean,
 	shift:boolean,
 	board_key:string
 }
 
-const TemplateButton = ({children, label, length, shift, board_key}:TemplateProp) => {
-	const   //[hasMounted, setHasMounted] = useState<boolean>(false),
-	        [started, setStarted] = useState<boolean>(false),
-			[positionStyle, setPositionStyle] = useState<string>('key-label'),
+const TemplateButton = ({children, label, started, shift, board_key}:TemplateProp) => {
+	const   [positionStyle, setPositionStyle] = useState<string>('key-label'),
 			[interval, setStyleInterval] = useState<ReturnType<typeof setTimeout>>()
 
 	const keyLabel = `ctrl · ${shift ? `maj · ${board_key}` : board_key}`;
 
 	// Display the keyboard shortcuts on arrival
 	useEffect(()=>{
-	    if (length > 1 && !started) 
+	    if (started) 
     	{
     		setPositionStyle('')
-    		setStarted(true)
     	}
-	}, [length, started])
+	}, [started])
 
 	/**
 	 * show label when the button is over
@@ -79,4 +76,4 @@ const TemplateButton = ({children, label, length, shift, board_key}:TemplateProp
 }
 
 // const TemplateButtonMemo = memo(TemplateButton);
-export default TemplateButton
+export default memo(TemplateButton);

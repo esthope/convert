@@ -12,9 +12,8 @@ import {Action, actionsData} from 'constant/Interactions';
 import ActionButton from 'component/ActionButton';
 import TemplateButton from './TemplateButton';
 
-const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
-
-  		  // eslint-disable-next-line
+const ActionContainer = ({started}:{started:boolean}): ReactElement => {
+  	// eslint-disable-next-line
 	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
   		  // eslint-disable-next-line
   		  [alertMessage, setAlertMessage] = useContext(MessageContext)
@@ -59,7 +58,7 @@ const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement =
 			  	? <TemplateButton
 					key={item.data_id}
 					label={item.label}
-					length={contentLength}
+					started={started}
 					shift={item.shift ?? false}
 					board_key={item.key} >
 					<ActionButton

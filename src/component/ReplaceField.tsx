@@ -1,5 +1,5 @@
 // main
-import {ReactElement, useState, useContext} from "react";
+import {ReactElement, useState, useContext, memo} from "react";
 // util
 import {EditorContext} from 'service/context';
 import {getRaws, getSelection, createContent} from 'util/editorHandler';
@@ -42,4 +42,4 @@ const ReplaceField = (): ReactElement => {
 	)
 }
 
-export default ReplaceField;
+export default memo(ReplaceField);

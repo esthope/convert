@@ -1,7 +1,7 @@
 // main
-import {ReactElement, useEffect, useState, useRef} from "react";
+import {ReactElement, useEffect, useState, useRef, useCallback, useMemo} from "react";
 import {EditorState, Editor} from "draft-js";
-import {ErrorBoundary,} from "react-error-boundary";
+import {ErrorBoundary} from "react-error-boundary";
 // util
 import * as CustomMsg from 'constant/Messages';
 import {EditorContext, MessageContext} from 'service/context';
@@ -22,16 +22,17 @@ const keys = getInteractionsKeys(interactionsData),
       cases = Object.values(Case);
 
 const Home = ():ReactElement => {
-  const 
+  const [started, setStarted] = useState<boolean>(false),
         [contentLength, setContentLength] = useState<number>(0),
         [alertMessage, setAlertMessage] = useState<Message>(initialMessage),
-        [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
-        ;
+        [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
 
   const editorRef = useRef<Editor>(null)
 
-  const key_listener = async (event:KeyboardEvent):Promise<void> => {
+  const editorValues = useMemo(()=>([editorState, setEditorState, editorRef]), [editorState]),
+        messageValues = useMemo(()=>([alertMessage, setAlertMessage]), [alertMessage])
 
+  const key_listener = useCallback(async (event:KeyboardEvent):Promise<void> => {
     if (event.key === 'Control' || !event.ctrlKey || !editorRef?.current) return;
 
     let newState:any = null;
@@ -73,18 +74,7 @@ const Home = ():ReactElement => {
       let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.TEXT_UP)
       setAlertMessage(errorMsg)
     }
-  }
-
-  useEffect(()=>{
-    // update the content length
-    const currentContent = editorState.getCurrentContent();
-    setContentLength(getContentLength(currentContent));
-
-    document.addEventListener('keydown', key_listener)
-    return () => document.removeEventListener('keydown', key_listener)
-
-  // DEVeslint-disable-next-line
-  }, [editorState]) // key_listener
+  }, [editorState])
 
   const display_error = (error:Error):void => {
     // [DEV]
@@ -92,13 +82,27 @@ const Home = ():ReactElement => {
     setAlertMessage(errorMsg);
   }
 
-  return (
-    <EditorContext.Provider value={[editorState, setEditorState, editorRef]}>
-      <MessageContext.Provider value={[alertMessage, setAlertMessage]}>
-      <main>
+  useEffect(()=>{
+    // update the content length
+    const currentContent = editorState.getCurrentContent();
+    let length = getContentLength(currentContent);
+    setContentLength(length);
 
+    // the edition has started
+    if (length > 0 && !started) {
+      setStarted(true)
+    }
+
+    document.addEventListener('keydown', key_listener)
+    return () => document.removeEventListener('keydown', key_listener)
+  }, [editorState, started, key_listener])
+
+  return (
+    <MessageContext.Provider value={messageValues}>
+      <main>
+      <EditorContext.Provider value={editorValues}>
         <ErrorBoundary FallbackComponent={CaseError} onError={display_error} >
-          <CaseContainer contentLength={contentLength} />
+          <CaseContainer started={started} />
         </ErrorBoundary>
 
         <ErrorBoundary FallbackComponent={EditorError} onError={display_error} >
@@ -107,13 +111,13 @@ const Home = ():ReactElement => {
         </ErrorBoundary>
 
         <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
-          <ActionContainer contentLength={contentLength} />
+          <ActionContainer started={started} />
         </ErrorBoundary>
+      </EditorContext.Provider>
 
         <AlertMessage />
       </main>
-      </MessageContext.Provider>
-    </EditorContext.Provider>
+    </MessageContext.Provider>
   )
 }
 
