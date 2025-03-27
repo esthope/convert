@@ -1,6 +1,7 @@
 import {StringIndex, Interaction} from 'constant/interfaces';
 import interactionData from 'service/data_interaction.json';
 // alert
+import * as CustomMsg from 'constant/Messages';
 import {create_error} from 'util/errorHandler';
 import {Message} from 'constant/interfaces';
 let errorMsg:Message;
@@ -16,25 +17,22 @@ export const fetchData = (slice?:string):Interaction|any => {
 		if (slice)
 		{
 			const selection = data[slice];
-			interaction = selection ?? {};
+			interaction = selection ?? [];
 		}
 
 		// return all if slice is empty
 		return interaction ?? {cases, actions};
 	}
-	catch(err)
+	catch(err:any)
 	{
-		// [!] [ERR] envoi vers plus haut
-		errorMsg = create_error(`Une erreur technique empêche le fonctionnement des bouttons ${err}`)
-		return errorMsg;
+		// [DEV]
+		// console.log(err)
+		return [];
 	}
 }
 
 export const createKeyEntries = (slice:string):StringIndex => {
 	const selection = fetchData(slice);
-
-	// [ERR]
-	// if (typeof selection == 'Message')
 
 	let interactions:StringIndex = {};
 
@@ -59,7 +57,7 @@ export const getInteractionsKeys = (interactions:Interaction[]|string):any => {
 	return keys;
 }
 
-export const handle_press = (event:any, keys:string[], interactions:Interaction[], hasFocus:boolean):string => {
+export const handle_press = (event:any, keys:string[], interactions:Interaction[], hasFocus:boolean):Message|string => {
 
 	let interID:string = '';
 
@@ -93,10 +91,10 @@ export const handle_press = (event:any, keys:string[], interactions:Interaction[
 		interID = interaction_id[0]?.data_id ?? ''; 
 		return interID;
 	}
-	catch(err)
+	catch(err:any)
 	{
-		// [!] ERR
-		console.log(err)
-		return interID;
+		// [DEV]
+		errorMsg = create_error(`${CustomMsg.OOPS} ${CustomMsg.SHORTKEY}. ${CustomMsg.DEV}.\n${CustomMsg.REF_IF_PERSIST}`)
+		return errorMsg;
 	}
 }

@@ -4,10 +4,10 @@ import {ReactElement, useState, useEffect, useContext} from 'react';
 import {MessageContext} from 'service/context';
 import {reset_alert/*, time_out*/} from 'util/errorHandler';
 import prov_logo from 'assets/circle.svg';
-
-// import CustomButton from 'component/CustomButton';
-import CircleIcon from 'component/CircleIcon';
+// element
 import {Message} from 'constant/interfaces';
+import CircleIcon from 'component/CircleIcon';
+import ErrorRefreshButton from 'component/ErrorRefreshButton';
 
 const AlertMessage = ():ReactElement => {
 
@@ -15,12 +15,13 @@ const AlertMessage = ():ReactElement => {
 		[alertMessage, setAlertMessage] = useContext(MessageContext),
 		[hidingDelay, setHidingDelay] = useState<number>(0),
 		[interval, setCurrentInterval] = useState<any>(),
-		[keap, setKeap] = useState<boolean>(false)
+		[keep, setKeap] = useState<boolean>(false)
 		;
 
-	const {level, message, displayed, reset} = alertMessage;
+	const {/*level, */message, displayed, reset} = alertMessage;
 
 	/**
+	 * [CALL]
 	 * control the display of the message
 	 * @param  {isDisplayed} current diplay statut
 	 */
@@ -58,13 +59,19 @@ const AlertMessage = ():ReactElement => {
 	/**
 	 * re.start automaticaly the alert hiding
 	 * @dependences {displayed} change the displayed status if it's active
-	 * @dependences {keap} 		hide if the component are not overed anymore
+	 * @dependences {keep} 		hide if the component are not overed anymore
 	 */
-	useEffect( () =>{
-		if (!keap && displayed === true) {
+	useEffect(() => {
+		if (!keep && displayed === true) {
 			trigger_hiding_alert()
 		}
-	}, [displayed, keap])
+
+		return () => {
+			clearInterval(interval)
+			setCurrentInterval(null)
+		}
+	// eslint-disable-next-line
+	}, [keep, displayed])
 
 
 	/**
@@ -74,7 +81,7 @@ const AlertMessage = ():ReactElement => {
 	 */
 	useEffect(()=>{
 		// when 10s as passed, hide
-		if (hidingDelay === 10 && !keap) 
+		if (hidingDelay === 10 && !keep) 
 		{
 			clearInterval(interval)
 			change_displayed_state(false)
@@ -82,15 +89,14 @@ const AlertMessage = ():ReactElement => {
 		}
 
 		// if the commponent are overed, keep them displayed
-		if (hidingDelay > 0 && keap) 
+		if (hidingDelay > 0 && keep) 
 		{
 			clearInterval(interval)
 		}
-	// @ts-ignore
-	}, [hidingDelay, interval, change_displayed_state])
+	}, [hidingDelay, interval, keep])/*[CALL], change_displayed_state])
 
 	/**
-	 * reset hiding alert with a new message
+	 * reset hiding delay of the alert when a new message is set
 	 * @dependences {message} a new message appeared
 	 */
 	useEffect(() => {
@@ -105,7 +111,7 @@ const AlertMessage = ():ReactElement => {
 			className="flex">
 			<div className={`flex row-reverse gap-1 fade-element ${(displayed) ? 'fade-animation':''}`}>
 	      		<img src={prov_logo} alt="message logo" />
-				{!!reset && <button onClick={()=>window.location.reload()}>Rafraichir</button>}
+				{!!reset && <ErrorRefreshButton />}
 				{/*{!!reset && <a href='/'>Rafraichir</a>}*/}
       			<p className="">{message}</p>
 			</div>

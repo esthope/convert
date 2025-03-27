@@ -1,35 +1,61 @@
 // main
-import {ReactElement, useContext} from "react";
+import {ReactElement, useContext, useEffect} from "react";
+import {EditorContext, MessageContext} from 'service/context';
 import {EditorState} from 'draft-js';
 // util
-import {EditorContext} from 'service/context';
+import * as CustomMsg from 'constant/Messages';
+import {is_message, create_error} from 'util/errorHandler';
 import {clipboardAction} from 'util/textHandler';
-import {fetchData} from 'util/dataHandler';
 import {Interaction} from 'constant/interfaces';
+import {Action, actionsData} from 'constant/Interactions';
 // element
 import ActionButton from 'component/ActionButton';
 import TemplateButton from './TemplateButton';
 
-const actions = fetchData('actions');
 const ActionContainer = ({contentLength}:{contentLength:number}): ReactElement => {
 
-	const [setEditorState, editorRef] = useContext(EditorContext)
+  		  // eslint-disable-next-line
+	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
+  		  // eslint-disable-next-line
+  		  [alertMessage, setAlertMessage] = useContext(MessageContext)
 
 	/**
 	* Update the editor content
 	*/
 	const handleAction = async (action:string):Promise<void> => {
-		// if (contentLength === 0) return;
-		const newState = await clipboardAction(action, editorRef)
-		if (newState instanceof EditorState)
-			setEditorState(newState)
+
+		try
+		{
+			// if (contentLength === 0) return;
+			const newState = await clipboardAction(action, editorRef)
+
+			// getting new state failed
+			if (is_message(newState))
+				throw newState
+
+			if (newState instanceof EditorState)
+				setEditorState(newState)
+		}
+		catch(err:any)
+		{
+			// ? [DEV]
+			// console.log(err)
+			let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.ACTION_FAILED)
+			setAlertMessage(errorMsg)
+		}
 	}
+
+	useEffect(()=>{
+  		if (actionsData.length === 0) {
+  			throw new Error(CustomMsg.ACTIONS, {cause: {fonite:'ACTION'}})
+  		}
+	}, [])
 
 	return (
 		<section className="actionContainer flex">
   		{
-			actions.map((item:Interaction):any => (
-			  	(!item.unactive)
+			actionsData.map((item:Interaction):any => (
+			  	(!item.unactive && Action.hasOwnProperty(item.entry))
 			  	? <TemplateButton
 					key={item.data_id}
 					label={item.label}

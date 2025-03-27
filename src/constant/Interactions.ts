@@ -1,9 +1,29 @@
 import {fetchData, createKeyEntries} from 'util/dataHandler';
 
-export const casesData = fetchData('cases'),
-			actionsData = fetchData('actions'),
-			interactionsData = [...casesData, ...actionsData]
+let casesData:any[] = [],
+	actionsData:any[] = [],
+	interactionsData:any[] = [];
 
-export const Action = createKeyEntries('actions'),
-			Case = createKeyEntries('cases'),
-			Mode = createKeyEntries('modes');
+let Action:any,
+	Case:any,
+	Mode:any;
+
+try
+{
+	casesData = fetchData('cases')
+	actionsData = fetchData('actions')
+
+	if (casesData && actionsData)
+		interactionsData = [...casesData, ...actionsData]
+
+	Action = createKeyEntries('actions')
+	Case = createKeyEntries('cases')
+	Mode = createKeyEntries('modes')
+}
+catch(err:any)
+{
+	// [DEV]
+	// console.log(err)
+}
+
+export {casesData, actionsData, interactionsData, Action, Case, Mode}

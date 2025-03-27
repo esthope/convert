@@ -1,3 +1,5 @@
+@use 'constant/base.scss' as cst ;
+
 #replace-container {
   margin-top: 38px;
 }
@@ -9,8 +11,12 @@ input[type="text"] {
   padding: 0px 11px;
 }
 
-input::placeholder {
-  color: #EBEFEF;
+input::placeholder, .placeholder {
+  color: cst.$light-grey;
   font-style: italic;
-  opacity: .6;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

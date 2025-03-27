@@ -1,16 +1,18 @@
 import {ContentState} from "draft-js";
-import {Selection, Block, Message} from 'constant/interfaces';
+import {Selection, Block} from 'constant/interfaces';
 import {Case, Action} from 'constant/Interactions';
 
 // util
-import {create_error} from 'util/errorHandler';
-import {getRaws, getSelection, getBlock, createContent, clearContent} from 'util/editorHandler';
+import * as CustomMsg from 'constant/Messages';
+import {create_error, create_warning, is_message} from 'util/errorHandler';
+import {getRaws, getSelection, createContent, clearContent} from 'util/editorHandler';
 
 let currentBlock:any,
+	whiteReg = new RegExp('^\\s+$', 'g'),
 	workText:string,
-	newText = '',
+	newText:string|undefined = '',
 	initial = 0,
-	errorMsg:Message
+	errorMsg:string
 	;
 
 const addLastIteration = () => {
@@ -75,35 +77,6 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 	initial=0
 }
 
-export const transformMultiLine = (selections:Selection[], editorState:any, caseAction:string, value?:string):void => {
-	let anchorText:any,
-		endingText:any
-	
-	let selectedText = document?.getSelection()?.toString();
-	selections.forEach((selection, index):void => {
-		const {anchor_key, offset, length, ending_key, ending_len} = selection;
-
-		if (!ending_key || !ending_len) return;
-		
-		anchorText = getBlock(anchor_key, editorState).getText();
-		endingText = getBlock(ending_key, editorState).getText();
-
-		if (!selectedText) {
-			selectedText = anchorText.slice(offset, offset + length) + '\n';
-			selectedText += endingText.slice(0, 0 + ending_len)
-		}
-
-		value = changeCase(caseAction, selectedText);
-		newText = anchorText.slice(initial, offset) + value + endingText.slice(0 + ending_len);
-	})
-
-	workText = ''
-	newText=''
-	initial=0
-
-	// return newText;
-}
-
 /**
  * Change the case with more option
  * @param  {string} action 	constant from interactions
@@ -142,19 +115,30 @@ export const changeComplexCase = (action:string, text:string):string => {
  * @param  {[type]} string [description]
  * @return {[type]}        [description]
  */
-export const changeCase = (action:string, text:string):string => {
-	switch (action) {
+export const changeCase = (caseID:string, text:string):string => {
+
+	// verify text
+	if (typeof text !== 'string' || text === '' || whiteReg.test(text)) return text;
+
+	// change text
+	let changedText = undefined;
+	switch (caseID) {
 		case Case.upper:
-			text = text.toUpperCase();
+			changedText = text.toUpperCase();
 			break;
 		case Case.lower:
-			text = text.toLowerCase();
+			changedText = text.toLowerCase();
 			break;
 		default:
-			text = changeComplexCase(action, text);
+			changedText = changeComplexCase(caseID, text);
 	}
 
-	return text;
+	if (!changedText) {
+		errorMsg = CustomMsg.TEXT_UP;
+		return text
+	}
+
+	return changedText;
 }
 
 export const getContentLength = (currentContent:ContentState):number => {
@@ -166,9 +150,9 @@ export const getContentLength = (currentContent:ContentState):number => {
  * Change case, then updtate states
  * @param  {string} action 	constant from interactions
  */
-export const updateTextCase = (action:string, editorState:any):any => {
+export const updateTextCase = (action:string, editorState:any, setAlertMessage:Function):any => {
 	const currentRaws = getRaws(editorState),
-		  {blocks} = currentRaws;
+		  {blocks} = currentRaws
 
 	const selections = getSelection(blocks, editorState)
 
@@ -180,21 +164,24 @@ export const updateTextCase = (action:string, editorState:any):any => {
 		}
 		else
 		{
+			// change text case
 		  	blocks.forEach((block:Block):void => {
-		  		// verify text
-				if (typeof block.text !== 'string' || block.text === '') return;
-
-				// change text case
 		  		block.text = changeCase(action, block.text)
 		  	})
+		}
+
+		// if an error occured, do not stop treatment by throwing
+		if (errorMsg) {
+			setAlertMessage(create_warning(errorMsg))
 		}
 
 		return createContent(currentRaws);
   	}
 	catch (err)
 	{
-		// [ERR] return type err
-		errorMsg = create_error(`Le texte n'a pas pu être mis à jour : ${err}`)
+		// [DEV]
+		// console.log(err)
+		return create_error(CustomMsg.TEXT_UNCHANGED)
 	}
 }
 
@@ -205,25 +192,37 @@ export const updateTextCase = (action:string, editorState:any):any => {
  */
 export const clipboardAction = async (action:string, editorRef:any):Promise<any> =>
 {
-	const {clipboard} = navigator;
-	let nexContent:any;
+	let newContent:any;
+	const {clipboard} = navigator,
+		  currEditor = editorRef.current?.editor;
 
-	switch (action)
+	if (!currEditor) return;
+	try
 	{
-		case Action.copy:
-		case Action.cut:
-			let currentContent = editorRef.current.editor.innerText;
-			if (!(currentContent === '\n'))
-				clipboard.writeText(currentContent).catch ((err:any) => {/*[ERR]*/});;
-			break;
-		case Action.past:
-			// [ERR] type warning si rien n'a coller
-			nexContent = await clipboard.readText().then((text:any) => createContent(text)).catch ((err:any) => {/*[ERR]*/});
-			break;
+		switch (action)
+		{
+			case Action.copy:
+			case Action.cut:
+				let currentContent = currEditor?.innerText;
+				if (currentContent && !(currentContent === '\n'))
+					newContent = await clipboard.writeText(currentContent)
+					.catch ((err:any) =>/*DEV*/create_error(CustomMsg.COPY_ERR));
+				break;
+			case Action.past:
+				newContent = await clipboard.readText()
+				.then((text:any) => (text === '') ? create_warning(CustomMsg.NOTHING_PAST) : createContent(text))
+				.catch ((err:any) =>/*DEV*/create_error(CustomMsg.PAST_ERR));
+				break;
+		}
+
+		if (action === Action.reset || action === Action.cut)
+			newContent = (is_message(newContent)) ? newContent : clearContent();
+	}
+	catch(err:any)
+	{
+		// [DEV]
+		return create_error(CustomMsg.ACTION_FAILED)
 	}
 
-	if (action === Action.reset || action === Action.cut)
-		nexContent = clearContent();
-
-	return nexContent;
+	return newContent;
 }

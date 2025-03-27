@@ -1,6 +1,6 @@
 // main
 import {ReactElement} from "react";
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 // element
 import CircleIncon from "assets/circle.svg"
 
@@ -15,17 +15,31 @@ const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactEle
 
 	const [iconPath, setIconPath] = useState<string>(CircleIncon)
 	let buttonProp:object = {},
-		imageProp:object = {};
+		imageProp:object = {},
+		unmounted = useRef(true);
 
 	if (onClick) buttonProp = {onClick: onClick};
 	if (onMouseEnter) imageProp = {onMouseEnter: onMouseEnter};
 
 	// get the button icon
 	useEffect(()=>{
-		const promise = import(`../assets/${entry}.svg`)
-		promise.then((image) => {
-			setIconPath(image.default)
-		})
+		if (unmounted?.current) {
+			unmounted.current = false
+			return 
+		}
+
+		try
+		{
+			const path = require(`../assets/${entry}.svg`)
+			setIconPath(path)
+		}
+		catch(err)
+		{
+			/*[DEV] message icon absent*/
+		}
+
+		return () => {unmounted.current = true}
+
 	}, [entry])
 
 	return (

@@ -8,6 +8,7 @@ import {EditorContext, MessageContext} from 'service/context';
 import CustomButton from 'component/CustomButton';
 import style from "constant/base.scss";
 // alert
+import * as CustomMsg from 'constant/Messages';
 import {create_error} from 'util/errorHandler';
 import {Message} from 'constant/interfaces';
 let errorMsg:Message;
@@ -66,10 +67,10 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
       // count selection
       setSelectCount(window?.getSelection()?.toString()?.length ?? 0)
     }
-    catch(err)
+    catch(err:any)
     {
-      // [ERR]
-      errorMsg = create_error(`La sélection n'a pas pu être effectuée : ${err}`)
+      // [DEV]
+      errorMsg = create_error(CustomMsg.SELECT_FAILED)
       setAlertMessage(errorMsg)
     }
   }
@@ -79,7 +80,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
    */
   const resetSelection = ():void => {
     // reset if some text has been highlighed
-    if (editorState.getCurrentInlineStyle().count() > 0) return;
+    if (editorState.getCurrentInlineStyle().count() < 0) return;
 
     // get data
     const contentState = editorState.getCurrentContent(),
@@ -118,7 +119,6 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     setSelectionClass(className);
   }, [selectMode])
 
-  throw new Error('Oui oui blah blah', { cause: {fonite: 'HOME'} })
   return (
     <section id="editor-container">
 

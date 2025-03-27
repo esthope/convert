@@ -3,9 +3,10 @@ import {ReactElement, useEffect, useState, useRef} from "react";
 import {EditorState, Editor} from "draft-js";
 import {ErrorBoundary,} from "react-error-boundary";
 // util
+import * as CustomMsg from 'constant/Messages';
 import {EditorContext, MessageContext} from 'service/context';
 import {getContentLength, updateTextCase, clipboardAction} from 'util/textHandler';
-import {initialMessage, get_error, create_error} from "util/errorHandler";
+import {initialMessage, get_boundary_error, create_error, is_message} from "util/errorHandler";
 import {handle_press, getInteractionsKeys} from 'util/dataHandler';
 import {interactionsData, Case} from 'constant/Interactions';
 import {Message} from 'constant/interfaces';
@@ -17,14 +18,11 @@ import TextEditor from 'component/TextEditor';
 import ActionContainer from 'component/ActionContainer';
 import AlertMessage from 'component/AlertMessage';
 
-import CustomButton from 'component/CustomButton';
-
 const keys = getInteractionsKeys(interactionsData),
       cases = Object.values(Case);
 
 const Home = ():ReactElement => {
   const 
-        [hasMounted, setHasMounted] = useState<boolean>(false),
         [contentLength, setContentLength] = useState<number>(0),
         [alertMessage, setAlertMessage] = useState<Message>(initialMessage),
         [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
@@ -34,30 +32,50 @@ const Home = ():ReactElement => {
 
   const key_listener = async (event:KeyboardEvent):Promise<void> => {
 
-    if (!event.ctrlKey || !editorRef?.current) return;
+    if (event.key === 'Control' || !event.ctrlKey || !editorRef?.current) return;
 
     let newState:any = null;
     // ? editorHasFocus
     const hasFocus = editorRef.current.editor === document.activeElement,
-          askedInter = handle_press(event, keys, interactionsData, hasFocus);
+          interID = handle_press(event, keys, interactionsData, hasFocus),
+          askedInter = (typeof interID === 'string') ? interID : '';
 
-    if (cases.includes(askedInter)) {
-      event.preventDefault(); // no prevent default is needed for action
-      newState = updateTextCase(askedInter, editorState);
-    } else if (askedInter) {
-      newState = await clipboardAction(askedInter, editorRef);
+    try
+    {
+      // getting the interaction ID failed
+      if (is_message(interID))
+        throw interID
+
+      // the interaction is a Case
+      if (cases.includes(askedInter))
+      {
+        event.preventDefault();
+        newState = updateTextCase(askedInter, editorState, setAlertMessage)
+      }
+      // the interaction is an Action
+      else if (askedInter)
+      {
+        // no prevent default is needed for action
+        newState = await clipboardAction(askedInter, editorRef)
+      }
+
+      // getting new state failed
+      if (is_message(newState))
+        throw newState
+
+      if (newState instanceof EditorState)
+        setEditorState(newState)
     }
-
-    if (newState instanceof EditorState)
-      setEditorState(newState)
+    catch(err:any)
+    {
+      // ? [DEV]
+      // console.log(err)
+      let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.TEXT_UP)
+      setAlertMessage(errorMsg)
+    }
   }
 
   useEffect(()=>{
-    if (!hasMounted) {
-      setHasMounted(true);
-      return;
-    }
-
     // update the content length
     const currentContent = editorState.getCurrentContent();
     setContentLength(getContentLength(currentContent));
@@ -65,12 +83,12 @@ const Home = ():ReactElement => {
     document.addEventListener('keydown', key_listener)
     return () => document.removeEventListener('keydown', key_listener)
 
-  // eslint-disable-next-line
+  // DEVeslint-disable-next-line
   }, [editorState]) // key_listener
 
-  const display_error = (error:Error, info:any):void => {
-    console.log(error)
-    const errorMsg = get_error(error);
+  const display_error = (error:Error):void => {
+    // [DEV]
+    const errorMsg = get_boundary_error(error);
     setAlertMessage(errorMsg);
   }
 
@@ -83,16 +101,15 @@ const Home = ():ReactElement => {
           <CaseContainer contentLength={contentLength} />
         </ErrorBoundary>
 
-        <ErrorBoundary FallbackComponent={EditorError}>
+        <ErrorBoundary FallbackComponent={EditorError} onError={display_error} >
           <ReplaceField />
           <TextEditor contentLength={contentLength} />
         </ErrorBoundary>
 
-        <ErrorBoundary FallbackComponent={ActionError}>
+        <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
           <ActionContainer contentLength={contentLength} />
         </ErrorBoundary>
 
-        <CustomButton onClick={()=>setAlertMessage({level: 'error', message:'••• ancien', displayed: true})} />
         <AlertMessage />
       </main>
       </MessageContext.Provider>

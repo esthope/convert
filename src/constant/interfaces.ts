@@ -49,7 +49,7 @@ export interface Interaction {
 }
 
 export interface Message {
-	level?:string|null,
+	level:string,
 	message?:string|null,
 	displayed:boolean|null,
 	reset?:boolean
