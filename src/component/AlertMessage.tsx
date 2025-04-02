@@ -2,8 +2,9 @@
 import {ReactElement, useState, useEffect, useContext} from 'react';
 // util
 import {MessageContext} from 'service/context';
-import {reset_alert/*, time_out*/} from 'util/errorHandler';
-import prov_logo from 'assets/circle.svg';
+import {reset_alert} from 'util/errorHandler';
+import error_icon from 'assets/error.svg';
+import warn_icon from 'assets/warn.svg';
 // element
 import {Message} from 'constant/interfaces';
 import CircleIcon from 'component/CircleIcon';
@@ -13,12 +14,13 @@ const AlertMessage = ():ReactElement => {
 
 	const 
 		[alertMessage, setAlertMessage] = useContext(MessageContext),
+		[messageIcon, setMessageIcon] = useState<string>(error_icon),
 		[hidingDelay, setHidingDelay] = useState<number>(0),
 		[interval, setCurrentInterval] = useState<any>(),
 		[keep, setKeap] = useState<boolean>(false)
 		;
 
-	const {/*level, */message, displayed, reset} = alertMessage;
+	const {level, message, displayed, reset} = alertMessage;
 
 	/**
 	 * [CALL]
@@ -101,6 +103,11 @@ const AlertMessage = ():ReactElement => {
 	 */
 	useEffect(() => {
 	    setHidingDelay(0)
+
+	    if (level === 'warning')
+		{
+			setMessageIcon(warn_icon)
+		}
 	}, [message]);
 
 	return (
@@ -110,7 +117,7 @@ const AlertMessage = ():ReactElement => {
 			onMouseLeave={()=>{setKeap(false)}}
 			className="flex">
 			<div className={`flex row-reverse gap-1 fade-element ${(displayed) ? 'fade-animation':''}`}>
-	      		<img src={prov_logo} alt="message logo" />
+	      		<img src={messageIcon} alt="message logo" />
 				{!!reset && <ErrorRefreshButton />}
 				{/*{!!reset && <a href='/'>Rafraichir</a>}*/}
       			<p className="">{message}</p>

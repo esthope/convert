@@ -2,7 +2,7 @@
 import {ReactElement} from "react";
 import {useState, useEffect, useRef} from 'react';
 // element
-import CircleIncon from "assets/circle.svg"
+import OrangeIcon from "assets/orange.svg"
 
 interface ActionProp {
 	entry:string,
@@ -13,7 +13,7 @@ interface ActionProp {
 
 const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactElement => {
 
-	const [iconPath, setIconPath] = useState<string>(CircleIncon)
+	const [iconPath, setIconPath] = useState<string>(OrangeIcon)
 	let buttonProp:object = {},
 		imageProp:object = {},
 		unmounted = useRef(true);

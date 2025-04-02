@@ -5,14 +5,14 @@ import {ReactElement} from "react";
 // util
 // element
 import {ErrorPage} from 'component/ErrorComponents';
-import prov_logo from 'assets/circle.svg';
+import logo from 'assets/convert.svg';
 import './style/template.scss';
 
 const Template = ():ReactElement => {
 	return (
 	<>
 		<header>
-      		<img src={prov_logo} className="convert_logo" alt="logo" />
+      		<img src={logo} className="convert_logo" alt="logo" />
 		</header>
     	<ErrorBoundary FallbackComponent={ErrorPage}>
 			<Outlet />
