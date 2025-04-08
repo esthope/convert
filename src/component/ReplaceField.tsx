@@ -29,7 +29,7 @@ const ReplaceField = (): ReactElement => {
 	}
 
 	return (
-		<section id="replace-container" className="flex">
+		<div className="flex">
         	<input
 			type="text" 
 			value={choice}
@@ -38,7 +38,7 @@ const ReplaceField = (): ReactElement => {
 			onChange={({target})=>{setChoice(target.value)}} />
 
 			<CustomButton onClick={replaceSelection} />
-      	</section>
+      	</div>
 	)
 }
 

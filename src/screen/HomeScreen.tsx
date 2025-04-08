@@ -11,7 +11,7 @@ import {handle_press, getInteractionsKeys} from 'util/dataHandler';
 import {interactionsData, Case} from 'constant/Interactions';
 import {Message} from 'constant/interfaces';
 // element
-import {CaseError, ActionError, EditorError} from 'component/ErrorComponents';
+import {CaseError, ActionError, FieldError, EditorError} from 'component/ErrorComponents';
 import CaseContainer from 'component/CaseContainer';
 import ReplaceField from 'component/ReplaceField';
 import TextEditor from 'component/TextEditor';
@@ -99,23 +99,38 @@ const Home = ():ReactElement => {
 
   return (
     <MessageContext.Provider value={messageValues}>
-      <main>
-      <EditorContext.Provider value={editorValues}>
-        <ErrorBoundary FallbackComponent={CaseError} onError={display_error} >
-          <CaseContainer started={started} />
-        </ErrorBoundary>
+      <main className="flex column gap-5">
+        <EditorContext.Provider value={editorValues}>
 
-        <ErrorBoundary FallbackComponent={EditorError} onError={display_error} >
-          <ReplaceField />
-          <TextEditor contentLength={contentLength} />
-        </ErrorBoundary>
+          <section className="bb flex-between align-start">
+            {/*CASES*/}
+            <ErrorBoundary FallbackComponent={CaseError} onError={display_error} >
+              <CaseContainer started={started} />
+            </ErrorBoundary>
 
-        <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
-          <ActionContainer started={started} />
-        </ErrorBoundary>
-      </EditorContext.Provider>
+            {/*REPLACE*/}
+            <ErrorBoundary FallbackComponent={FieldError} onError={display_error} >
+              <ReplaceField />
+            </ErrorBoundary>
+          </section>
 
+          <section id="editor-container" className="bb flex column gap-05">
+            {/*EDITOR*/}
+            <ErrorBoundary FallbackComponent={EditorError} onError={display_error} >
+              <TextEditor contentLength={contentLength} />
+            </ErrorBoundary>
+
+            {/*ACTIONS*/}
+            <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
+              <ActionContainer started={started} />
+            </ErrorBoundary>
+          </section>
+
+        </EditorContext.Provider>
+
+        {/*[!] self align*/}
         <AlertMessage />
+
       </main>
     </MessageContext.Provider>
   )

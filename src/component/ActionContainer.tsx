@@ -51,7 +51,7 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 	}, [])
 
 	return (
-		<section className="actionContainer flex">
+		<div className="actionContainer flex">
   		{
 			actionsData.map((item:Interaction):any => (
 			  	(!item.unactive && Action.hasOwnProperty(item.entry))
@@ -69,7 +69,7 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 			  	: null
 			))
   		}
-		</section>
+		</div>
 	)
 }
 // const ActionContainerMemo = memo(ActionContainer);

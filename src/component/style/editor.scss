@@ -1,16 +1,15 @@
 @use 'constant/base.scss' as cst;
 
 #editor-container {
-  margin: 51px 0 0 0;
+  // margin: 51px 0 0 0;
+  width: 50vw;
 }
 
 .editor {
   padding: 50px;
   border: none;
-  width: 50vw;
   // min-height: 40vh;
   // height: 40vh;
-
 }
 
 .highlight {

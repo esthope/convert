@@ -5,7 +5,7 @@ import "draft-js/dist/Draft.css";
 // util
 import {EditorContext, MessageContext} from 'service/context';
 // element
-import CustomButton from 'component/CustomButton';
+import TextButton from 'component/TextButton';
 import style from "constant/base.scss";
 // alert
 import * as CustomMsg from 'constant/Messages';
@@ -120,19 +120,22 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
   }, [selectMode])
 
   return (
-    <section id="editor-container">
-
-      <CustomButton onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
-      <CustomButton onClick={resetSelection} color="#fff" />
-
-      <div>
-        <span>{contentLength} caractères</span>
-        {(selectCount > 0) ?
-          <>
-            <span> – </span>
-            <span>{selectCount} sélectionnés</span>
-          </>
-        : null}
+    <>
+      <div className="flex-between align-end">
+        <div>
+          <TextButton text="Sélection multiple" logo="" onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
+          <TextButton text="Réinitialiser la sélection" logo="" onClick={resetSelection} />
+        </div>
+  
+        <span id="editor-infos">
+          {contentLength} caractères
+          {(selectCount > 0) ?
+            <>
+              <span> – </span>
+              <span>{selectCount} sélectionnés</span>
+            </>
+          : null}
+        </span>
       </div>
 
       <div
@@ -148,7 +151,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
         customStyleMap={{ HIGHLIGHT: { backgroundColor: colors.ocher } }}
         onChange={onChange} />
       </div>
-    </section>
+    </>
   )
 }
 

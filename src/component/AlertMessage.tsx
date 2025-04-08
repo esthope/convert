@@ -111,7 +111,7 @@ const AlertMessage = ():ReactElement => {
 	}, [message]);
 
 	return (
-		<section
+		<div
 			id="message-container" 
 			onMouseEnter={()=>{if (typeof displayed === 'boolean') {console.log('in');setKeap(true)}}}
 			onMouseLeave={()=>{setKeap(false)}}
@@ -131,7 +131,7 @@ const AlertMessage = ():ReactElement => {
 				>
 				<CircleIcon color="#fff" />
 		    </button>
-		</section>
+		</div>
 	)
 }
 
