@@ -111,15 +111,14 @@ const AlertMessage = ():ReactElement => {
 	}, [message]);
 
 	return (
-		<div
+		<section
 			id="message-container" 
 			onMouseEnter={()=>{if (typeof displayed === 'boolean') {console.log('in');setKeap(true)}}}
 			onMouseLeave={()=>{setKeap(false)}}
-			className="flex">
-			<div className={`flex row-reverse gap-1 fade-element ${(displayed) ? 'fade-animation':''}`}>
+			className="mr-3 flex self-end">
+			<div className={`gap-1 flex row-reverse fade-element ${(displayed) ? 'fade-animation':''}`}>
 	      		<img src={messageIcon} alt="message logo" />
 				{!!reset && <ErrorRefreshButton />}
-				{/*{!!reset && <a href='/'>Rafraichir</a>}*/}
       			<p className="">{message}</p>
 			</div>
           	<button
@@ -131,7 +130,7 @@ const AlertMessage = ():ReactElement => {
 				>
 				<CircleIcon color="#fff" />
 		    </button>
-		</div>
+		</section>
 	)
 }
 

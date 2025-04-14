@@ -1,11 +1,7 @@
 // @use 'constant/base.scss' as cst ;
 
 // [!] comme footer
-div#message-container {
-	position: absolute;
-    bottom: 5rem;
-    right: 3rem;
-
+#message-container {
     p {
     	padding: .7rem;
     	text-align: left;

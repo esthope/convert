@@ -29,7 +29,7 @@ const ReplaceField = (): ReactElement => {
 	}
 
 	return (
-		<div className="flex">
+		<div className="flex gap-1">
         	<input
 			type="text" 
 			value={choice}

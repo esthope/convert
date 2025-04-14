@@ -99,10 +99,10 @@ const Home = ():ReactElement => {
 
   return (
     <MessageContext.Provider value={messageValues}>
-      <main className="flex column gap-5">
+      <main className="flex column">
         <EditorContext.Provider value={editorValues}>
 
-          <section className="bb flex-between align-start">
+          <section id="case-section" className="bb flex-between align-start">
             {/*CASES*/}
             <ErrorBoundary FallbackComponent={CaseError} onError={display_error} >
               <CaseContainer started={started} />

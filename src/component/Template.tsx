@@ -17,7 +17,7 @@ const Template = ():ReactElement => {
     	<ErrorBoundary FallbackComponent={ErrorPage}>
 			<Outlet />
     	</ErrorBoundary>
-        <footer>
+        <footer className="self-end">
         	<div/>
         </footer>
 	</>

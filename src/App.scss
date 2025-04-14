@@ -1,22 +1,6 @@
 @use 'constant/base.scss' as cst;
-
-/*---test---------------------------------------------*/
-.parent {
-  display: flex;
-  flex-flow: row wrap;
-}
-
-.one {
-  flex: 1 1 auto;
-}
-
-.last {
-  flex: 1 1 auto;
-}
-
-
 /*---base---------------------------------------------*/
-.bb {border: red solid 1px}
+// .bb {border: red solid 1px}
 .bv {border: green solid 1px}
 .bbb {background-color: rgba(255, 255, 255, .1)}
 .bbr {background-color: rgba(255, 0, 0, .1)}
@@ -24,6 +8,7 @@
 .m-0 {margin: 0}
 .p-0 {padding: 0}
 .mr-2 {margin: 0 2rem 0 0}
+.mr-3 {margin-right: 3rem}
 
 .no-border {border: none}
 .no-bg {background: none}
@@ -49,6 +34,7 @@
 .row-reverse {flex-direction: row-reverse}
 .align-start {align-items: flex-start}
 .align-end {align-items: flex-end}
+.self-end{align-self: flex-end}
 .gap-05 {gap: .5rem}
 .gap-1 {gap: 1rem}
 .gap-5 {gap: 5rem}
@@ -101,28 +87,6 @@
 /*---overwrite--------------------------------------------*/
 *:focus {
   outline: none;
-}
-
-main {
-  padding: 0px 95px;
-
-  * {
-    color: cst.$off-white;
-  }
-  
-  *::selection {
-    background: cst.$klein !important;
-    text-shadow: none;
-  }
-
-  *::-moz-selection {
-    background: cst.$klein !important;
-    text-shadow: none;
-  }
-
-  label, span#editor-infos {
-    font-size: .65rem;
-  }
 }
 
 /*---common--------------------------------------------*/

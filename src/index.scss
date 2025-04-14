@@ -4,12 +4,9 @@ iframe {display: none !important}
 
 #root{
   min-height: 100vh;
-  position: relative;
 }
 
 body {
-  // min-height: 100vh;
-  margin: 0;
   font-family: cst.$quicksand;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -18,10 +15,26 @@ body {
   color: cst.$off-white;
 }
 
-footer{
-  position: absolute;
-  bottom: 0;
-  right: 0;
+main {
+  align-items: center;
+
+  * {
+    color: cst.$off-white;
+  }
+  
+  *::selection {
+    background: cst.$klein !important;
+    text-shadow: none;
+  }
+
+  *::-moz-selection {
+    background: cst.$klein !important;
+    text-shadow: none;
+  }
+
+  label, span#editor-infos, .textButton {
+    font-size: 1rem;
+  }
 }
 
 p {
