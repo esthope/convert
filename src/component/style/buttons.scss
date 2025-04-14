@@ -16,7 +16,6 @@
 .labelBox {
   overflow: hidden;
   max-height: var(--label-gap);
-  margin-top: .5rem;
 
   label {
     line-height: var(--label-gap);
@@ -48,17 +47,7 @@ div.key-label {
   cursor: pointer;
 }
 
-/*---text--------------------------------------------*/
-.textButton {
-  font-family: cst.$quicksand; 
-}
-
 /*---cases--------------------------------------------*/
-#case-section {
-  min-width: 70vw;
-  align-self: center;
-}
-
 .caseContainer {
   column-gap: 35px;
 
@@ -68,15 +57,15 @@ div.key-label {
 }
 
 .caseButtonBase {
-  min-width: 50px;
-  height: 50px;
+  min-width: 64px;
   width: max-content;
+  height: 64px;
   border: none;
   padding: 10px;
 
   span {
     font-family: cst.$RozhaOne;
-    font-size: 18pt;
+    font-size: 22pt;
     line-height: 0pt;
   }
 }
@@ -104,7 +93,7 @@ div.key-label {
 }
 
 .actionButton {
-  margin-bottom: .5rem;
+  margin-bottom: 5px;
 
   img {
     width: 20px;

@@ -96,14 +96,23 @@
 }
 
 /*---responive--------------------------------------------*/
+
 /* Small devices such as large phones (640px and up) */
-// @media only screen and (min-width: 640px) {...}
+@media only screen and (min-width: 640px) {
+  .bb {border: red solid 1px}
+}
 
 /* Medium devices such as tablets (768px and up) */
-// @media only screen and (min-width: 768px) {...}
+@media only screen and (min-width: 768px) {
+  .bb {border: orange solid 1px}
+}
 
 /* Large devices such as laptops (1024px and up) */
-// @media only screen and (min-width: 1024px) {...}
+@media only screen and (min-width: 1024px) {
+  .bb {border: yellow solid 1px}
+}
 
 /* Largest devices such as desktops (1280px and up) */
-// @media only screen and (min-width: 1280px) {...}
+@media only screen and (min-width: 1280px) {
+  .bb {border: blue solid 1px}
+}
