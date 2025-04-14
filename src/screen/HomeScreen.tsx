@@ -102,7 +102,7 @@ const Home = ():ReactElement => {
       <main className="flex column">
         <EditorContext.Provider value={editorValues}>
 
-          <section id="case-section" className="flex-between align-start bb">
+          <section id="case-section" className="gap-5 flex-between align-start self-center">
             {/*CASES*/}
             <ErrorBoundary FallbackComponent={CaseError} onError={display_error} >
               <CaseContainer started={started} />

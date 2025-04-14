@@ -29,8 +29,8 @@ const ReplaceField = (): ReactElement => {
 	}
 
 	return (
-		<div className="flex gap-1">
-			<div>
+		<div id="replacing-field">
+			<div className="flex gap-1">
 	        	<input
 				type="text" 
 				value={choice}
@@ -38,10 +38,10 @@ const ReplaceField = (): ReactElement => {
 				placeholder="Saisir le caratère"
 				onChange={({target})=>{setChoice(target.value)}} />
 
-				<span>Remplacement de la sélection</span>
+				<CustomButton onClick={replaceSelection} />
 			</div>
 
-			<CustomButton onClick={replaceSelection} />
+			<span>Remplacement de la sélection</span>
       	</div>
 	)
 }
