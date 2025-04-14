@@ -100,21 +100,20 @@ const Home = ():ReactElement => {
   return (
     <MessageContext.Provider value={messageValues}>
       <main>
-      <EditorContext.Provider value={editorValues}>
-        <ErrorBoundary FallbackComponent={CaseError} onError={display_error} >
-          <CaseContainer started={started} />
-        </ErrorBoundary>
+        <EditorContext.Provider value={editorValues}>
+          <ErrorBoundary FallbackComponent={CaseError} onError={display_error} >
+            <CaseContainer started={started} />
+          </ErrorBoundary>
 
-        <ErrorBoundary FallbackComponent={EditorError} onError={display_error} >
-          <ReplaceField />
-          <TextEditor contentLength={contentLength} />
-        </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={EditorError} onError={display_error} >
+            <ReplaceField />
+            <TextEditor contentLength={contentLength} />
+          </ErrorBoundary>
 
-        <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
-          <ActionContainer started={started} />
-        </ErrorBoundary>
-      </EditorContext.Provider>
-
+          <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
+            <ActionContainer started={started} />
+          </ErrorBoundary>
+        </EditorContext.Provider>
         <AlertMessage />
       </main>
     </MessageContext.Provider>

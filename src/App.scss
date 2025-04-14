@@ -1,5 +1,20 @@
 @use 'constant/base.scss' as cst;
 
+/*---test---------------------------------------------*/
+.parent {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.one {
+  flex: 1 1 auto;
+}
+
+.last {
+  flex: 1 1 auto;
+}
+
+
 /*---base---------------------------------------------*/
 .bb {border: red solid 1px}
 .bv {border: green solid 1px}
