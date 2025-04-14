@@ -42,7 +42,7 @@ const CaseContainer = ({started}:{started:boolean}): ReactElement => {
 	}, [])
 
 	return (
-		<section className="caseContainer flex">
+		<div className="caseContainer flex">
 			<TemplateButton label='init' started={started} shift={false} board_key='none' >
 				<CaseButton
 					content="init"
@@ -65,7 +65,7 @@ const CaseContainer = ({started}:{started:boolean}): ReactElement => {
 			  	: null
 				))
 			}
-		</section>
+		</div>
 	)
 }
 

@@ -23,14 +23,16 @@
 
 .m-0 {margin: 0}
 .p-0 {padding: 0}
+.mr-2 {margin: 0 2rem 0 0}
 
 .no-border {border: none}
 .no-bg {background: none}
 
-.flex {display: flex}
-.column {flex-direction: column}
-.row-reverse {flex-direction: row-reverse}
-.gap-1 {gap: 1rem}
+/*-flex------------------*/
+.flex {
+  display: flex;
+  flex-wrap: wrap
+}
 
 .flex-center {
   display: flex;
@@ -38,6 +40,20 @@
   align-items: center;
 }
 
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.column {flex-direction: column}
+.row-reverse {flex-direction: row-reverse}
+.align-start {align-items: flex-start}
+.align-end {align-items: flex-end}
+.gap-05 {gap: .5rem}
+.gap-1 {gap: 1rem}
+.gap-5 {gap: 5rem}
+
+/*-displays------------------*/
 .block {display: block}
 .inline {display: inline}
 .none {display: none}
@@ -50,6 +66,7 @@
   height: fit-content;
 }
 
+/*-text------------------*/
 .no-pointer {pointer-events: none}
 .pointer {cursor: pointer}
 
@@ -66,7 +83,7 @@
 
 .quicksand-font {
   font-family: cst.$quicksand;
-  font-size: 1.25rem;
+  font-size: 1rem;
   // font-optical-sizing: auto;
 }
 
@@ -103,8 +120,8 @@ main {
     text-shadow: none;
   }
 
-  label {
-    font-size: .8rem;
+  label, span#editor-infos {
+    font-size: .65rem;
   }
 }
 

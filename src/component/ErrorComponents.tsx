@@ -21,11 +21,9 @@ const ErrorPage = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 }
 
 const CaseError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
-
 	const errorFaces = [':(',"--'",'):']
-
 	return (
-		<section className="caseContainer flex">
+		<div className="caseContainer flex">
 		{
 			errorFaces.map((face:string, index:number)=>
 			<CaseButton
@@ -36,7 +34,7 @@ const CaseError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 				/>
 			)
 		}
-		</section>
+		</div>
 	)
 }
 
@@ -44,7 +42,7 @@ const ActionError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 	const icons = ['copy', 'past', 'cut', 'reset']
 	const keys = ['C', 'V', 'X', 'Q']
 	return (
-		<section className="actionContainer flex">
+		<div className="actionContainer flex">
 			{
 				icons.map((icon, index)=>
 				<div key={`errButton-${index}`} className="no-pointer">
@@ -56,18 +54,24 @@ const ActionError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 				</div>
 				)
 			}
-		</section>
+		</div>
+	)
+}
+
+const FieldError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
+	return (
+		<i>Le champs de text pour le remplacement est indisponible.</i>
 	)
 }
 
 const EditorError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 	return (
-   		<section id="editor-container">
+   		<div id="editor-container">
    			<div className="editor quicksand-font green-background">
    				<span className="placeholder">{CustomMsg.OOPS} {CustomMsg.EDITOR}. {CustomMsg.ALERT}.</span>
    			</div>
-   		</section>
+   		</div>
 	)
 }
 
-export {ErrorPage, CaseError, ActionError, EditorError}
+export {ErrorPage, CaseError, ActionError, FieldError, EditorError}
