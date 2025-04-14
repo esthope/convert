@@ -5,11 +5,13 @@ input[type="text"] {
   min-width: 230px;
   min-height: 50px;
   padding: 0px 11px;
+  font-size: 11pt;
 }
 
 input::placeholder, .placeholder {
   color: cst.$light-grey;
   font-style: italic;
+  font-size: 11pt;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   -moz-user-select: none;

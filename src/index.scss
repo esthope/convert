@@ -6,6 +6,10 @@ iframe {display: none !important}
   min-height: 100vh;
 }
 
+*:focus {
+  outline: none;
+}
+
 body {
   font-family: cst.$quicksand;
   -webkit-font-smoothing: antialiased;

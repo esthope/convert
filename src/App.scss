@@ -1,6 +1,7 @@
 @use 'constant/base.scss' as cst;
+
 /*---base---------------------------------------------*/
-// .bb {border: red solid 1px}
+.bb {border: red solid 1px}
 .bv {border: green solid 1px}
 .bbb {background-color: rgba(255, 255, 255, .1)}
 .bbr {background-color: rgba(255, 0, 0, .1)}
@@ -70,7 +71,6 @@
 .quicksand-font {
   font-family: cst.$quicksand;
   font-size: 1rem;
-  // font-optical-sizing: auto;
 }
 
 .green-background {
@@ -80,16 +80,10 @@
 
 .grey-background {
   background-color: cst.$medium-grey;
-  // background-color: cst.$medium;
   border-radius: 3px;
 }
 
-/*---overwrite--------------------------------------------*/
-*:focus {
-  outline: none;
-}
-
-/*---common--------------------------------------------*/
+/*---animation--------------------------------------------*/
 .fade-element {
   transition: opacity .7s ease-out, transform .5s ease-out;
   transform: translateX(var(--fade-anchor));
@@ -101,9 +95,15 @@
   opacity: 1;
 }
 
-/*---react--------------------------------------------*/
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+/*---responive--------------------------------------------*/
+/* Small devices such as large phones (640px and up) */
+// @media only screen and (min-width: 640px) {...}
+
+/* Medium devices such as tablets (768px and up) */
+// @media only screen and (min-width: 768px) {...}
+
+/* Large devices such as laptops (1024px and up) */
+// @media only screen and (min-width: 1024px) {...}
+
+/* Largest devices such as desktops (1280px and up) */
+// @media only screen and (min-width: 1280px) {...}
