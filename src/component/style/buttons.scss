@@ -16,7 +16,6 @@
 .labelBox {
   overflow: hidden;
   max-height: var(--label-gap);
-  margin-top: .5rem;
 
   label {
     line-height: var(--label-gap);
@@ -106,7 +105,7 @@ div.key-label {
 .actionButton {
   margin-bottom: .5rem;
 
-  img {
+  svg, img {
     width: 20px;
     height: auto;
     z-index: 1;

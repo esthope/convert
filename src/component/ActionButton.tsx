@@ -1,8 +1,13 @@
 // main
 import {ReactElement} from "react";
 import {useState, useEffect, useRef} from 'react';
+
 // element
-import OrangeIcon from "assets/orange.svg"
+import CopyIcon from 'component/icons/CopyIcon';
+import CircleIcon from 'component/icons/CircleIcon';
+import CutIcon from 'component/icons/CutIcon';
+import PastIcon from 'component/icons/PastIcon';
+import ResetIcon from 'component/icons/ResetIcon';
 
 interface ActionProp {
 	entry:string,
@@ -12,8 +17,8 @@ interface ActionProp {
 }
 
 const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactElement => {
-
-	const [iconPath, setIconPath] = useState<string>(OrangeIcon)
+	// const [iconPath, setIconPath] = useState<any>()
+	const [IconPath, setIconPath] = useState<any>(CircleIcon)
 	let buttonProp:object = {},
 		imageProp:object = {},
 		unmounted = useRef(true);
@@ -30,8 +35,17 @@ const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactEle
 
 		try
 		{
-			const path = require(`../assets/${entry}.svg`)
-			setIconPath(path)
+			// const path = require(`../assets/${entry}.svg`)
+			switch (entry) {
+				case 'copy':
+				case 'cut':
+				case 'past':
+				case 'reset':
+					
+					break;
+				 default:	
+			}
+			setIconPath(CutIcon)
 		}
 		catch(err)
 		{
@@ -39,7 +53,6 @@ const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactEle
 		}
 
 		return () => {unmounted.current = true}
-
 	}, [entry])
 
 	return (
@@ -48,11 +61,13 @@ const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactEle
 			className="actionButton flex-center column no-bg no-border"
 			{...buttonProp}
 		>
-        	<img
-        	src={iconPath}
-        	alt={label}
-			{...imageProp}
-        	/>
+			<IconPath stroke="white" />
+
+        	{/*<img
+	        	src={iconPath}
+	        	alt={label}
+				{...imageProp}
+        	/>*/}
 	    </button>
 	)
 }

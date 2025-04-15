@@ -6,9 +6,9 @@ import {reset_alert} from 'util/errorHandler';
 import error_icon from 'assets/error.svg';
 import warn_icon from 'assets/warn.svg';
 // element
-import {REFRESH_PAGE} from 'constant/Message';
+import {REFRESH_PAGE} from 'constant/Messages';
 import {Message} from 'constant/interfaces';
-import CircleIcon from 'component/CircleIcon';
+import CircleIcon from 'component/icons/CircleIcon';
 import ErrorRefreshButton from 'component/ErrorRefreshButton';
 
 const AlertMessage = ():ReactElement => {
@@ -123,7 +123,7 @@ const AlertMessage = ():ReactElement => {
 				<p>
 					<span className="message-type">{level}</span>
 				    <span>{message}</span>
-					{!!reset && <a href="/" alt={REFRESH_PAGE}>{REFRESH_PAGE}</a>}
+					{!!reset && <a href="/">{REFRESH_PAGE}</a>}
 				</p>
 
 	      		<img src={messageIcon} alt="message logo" />

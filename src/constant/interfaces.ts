@@ -54,3 +54,8 @@ export interface Message {
 	displayed:boolean|null,
 	reset?:boolean
 }
+
+export interface SvgType {
+	fill:string,
+	stroke:string
+}

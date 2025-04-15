@@ -1,5 +1,5 @@
 import {ReactElement, memo} from "react";
-import CircleIcon from 'component/CircleIcon';
+import CircleIcon from 'component/icons/CircleIcon';
 
 interface ButtonProp {
 	onClick:any,
