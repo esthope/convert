@@ -6,6 +6,7 @@ import {reset_alert} from 'util/errorHandler';
 import error_icon from 'assets/error.svg';
 import warn_icon from 'assets/warn.svg';
 // element
+import {REFRESH_PAGE} from 'constant/Message';
 import {Message} from 'constant/interfaces';
 import CircleIcon from 'component/CircleIcon';
 import ErrorRefreshButton from 'component/ErrorRefreshButton';
@@ -75,7 +76,6 @@ const AlertMessage = ():ReactElement => {
 	// eslint-disable-next-line
 	}, [keep, displayed])
 
-
 	/**
 	 * manage alert hiding
 	 * @dependences {hidingDelay} when the delay is updated by the interval or when it's reset
@@ -111,16 +111,25 @@ const AlertMessage = ():ReactElement => {
 	}, [message]);
 
 	return (
-		<section
-			id="message-container" 
-			onMouseEnter={()=>{if (typeof displayed === 'boolean') {console.log('in');setKeap(true)}}}
+		<section id="message-container"
+			onMouseEnter={()=>{if (typeof displayed === 'boolean') setKeap(true)}}
 			onMouseLeave={()=>{setKeap(false)}}
-			className="mr-3 flex self-end">
-			<div className={`gap-1 flex row-reverse fade-element ${(displayed) ? 'fade-animation':''}`}>
+			className="mr-3 flex self-end"
+			>
+
+			{/*content*/}
+			<div className={`gap-1 flex row fade-element ${(displayed) ? 'fade-animation':''}`}>
+
+				<p>
+					<span className="message-type">{level}</span>
+				    <span>{message}</span>
+					{!!reset && <a href="/" alt={REFRESH_PAGE}>{REFRESH_PAGE}</a>}
+				</p>
+
 	      		<img src={messageIcon} alt="message logo" />
-				{!!reset && <ErrorRefreshButton />}
-      			<p className="">{message}</p>
 			</div>
+
+			{/*close button*/}
           	<button
 				type="button"
 				onMouseOver={()=>{if (displayed === false) {change_displayed_state(true)}}}

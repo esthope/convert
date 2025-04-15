@@ -18,6 +18,7 @@ const TECH_ERR = `${RIGHT_TECH} ${TRAITMENT} ${PAGE}`,
 
 // user
 const REFRESH = 'Veuillez rafraîchir',
+	  REFRESH_PAGE = 'Rafraichir la page',
 	  LATTER = 'réessayez plus tard',
 	  ALERT = "Consultez le message d'erreur en bas de la fenêtre",
 	  REF_IF_PERSIST = `${REFRESH} si cela persiste`
@@ -41,6 +42,7 @@ export {
 	TECH_ERR,
 	TECH_BTN,
 	REFRESH,
+	REFRESH_PAGE,
 	DEV,
 	LATTER,
 	EDITOR,
