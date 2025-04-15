@@ -12,7 +12,7 @@ const CustomButton = ({onClick, color, className, disabled}:ButtonProp):ReactEle
 	return (
 		<button
 			type="button"
-			className={`customButton flex-center no-border no-bg ${className}`}
+			className={`customButton flex-center no-border no-bg p-0 ${className}`}
 			onClick={onClick} >
 			<CircleIcon color={color} />
 	    </button>

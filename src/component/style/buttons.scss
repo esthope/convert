@@ -47,37 +47,19 @@ div.key-label {
   cursor: pointer;
 }
 
-/*---text--------------------------------------------*/
+/*---text----------------------------------------------*/
 .textButton {
   font-family: cst.$quicksand; 
+  padding: 0;
 }
 
-/*---cases--------------------------------------------*/
-#case-section {
-  min-width: 70vw;
-  align-self: center;
-}
-
+/*---cases---------------------------------------------*/
 .caseContainer {
-  column-gap: 35px;
-
-  #inversionLabel {
-    column-gap: 6px;
-  }
+  row-gap: 25px;
 }
 
-.caseButtonBase {
-  min-width: 50px;
-  height: 50px;
-  width: max-content;
-  border: none;
-  padding: 10px;
-
-  span {
-    font-family: cst.$RozhaOne;
-    font-size: 18pt;
-    line-height: 0pt;
-  }
+#inversionLabel {
+  column-gap: 6px;
 }
 
 .caseButton {
@@ -97,7 +79,90 @@ div.key-label {
   }
 }
 
-/*---actions--------------------------------------------*/
+/*---------phones--------------------------------------*/
+@media only screen and (min-width: 1px) {
+  #case-section {
+    min-width: 100%;
+    flex-direction: column;
+    row-gap: 5rem;
+  }
+
+  .caseContainer {
+    column-gap: 30px;
+    width: 100%;
+  }
+
+  .caseButtonBase {
+    border: none;
+    width: max-content;
+    min-width: 45px;
+    height: 45px;
+
+    span {
+      font-family: cst.$RozhaOne;
+      line-height: 0pt;
+      font-size: 16pt;
+    }
+  }
+}
+
+@media only screen and (min-width: 330px) {
+  .caseContainer {
+    justify-content: space-between;
+    column-gap: 10px;
+  }
+}
+
+@media only screen and (min-width: 500px) {
+  #case-section {
+    row-gap: 3rem;
+  }
+
+  .caseContainer {
+    justify-content: flex-start;
+    column-gap: 20px;
+    width: initial;
+  }
+
+  .caseButtonBase {
+    min-width: 50px;
+    height: 50px;
+    padding: 10px;
+
+    span {
+      font-size: 18pt;
+    }
+  }
+}
+
+@media only screen and (min-width: 640px) {
+  .caseContainer {
+    column-gap: 25px;
+  }
+}
+
+/*---------tablets-------------------------------------*/
+@media only screen and (min-width: 768px) {
+  .caseContainer {
+    column-gap: 35px;
+  }
+}
+
+/*---------desktops------------------------------------*/
+@media only screen and (min-width: 1024px) {
+  #case-section {
+    min-width: 90vw;
+    flex-direction: row;
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  #case-section {
+    min-width: 70vw;
+  }
+}
+
+/*---actions-------------------------------------------*/
 .actionContainer {
   column-gap: 1rem;
 }

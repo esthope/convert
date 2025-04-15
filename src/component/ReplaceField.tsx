@@ -29,15 +29,19 @@ const ReplaceField = (): ReactElement => {
 	}
 
 	return (
-		<div className="flex gap-1">
-        	<input
-			type="text" 
-			value={choice}
-			className="green-background quicksand-font"
-			placeholder="Saisir le caratère"
-			onChange={({target})=>{setChoice(target.value)}} />
+		<div id="replacing-field">
+			<div className="flex gap-1">
+	        	<input
+				type="text" 
+				value={choice}
+				className="green-background quicksand-font block"
+				placeholder="Saisir le caratère"
+				onChange={({target})=>{setChoice(target.value)}} />
 
-			<CustomButton onClick={replaceSelection} />
+				<CustomButton onClick={replaceSelection} />
+			</div>
+
+			<span>Remplacement de la sélection</span>
       	</div>
 	)
 }

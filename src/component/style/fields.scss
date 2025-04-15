@@ -2,10 +2,10 @@
 
 input[type="text"] {
   border: none;
-  min-width: 230px;
   min-height: 50px;
   padding: 0px 11px;
   font-size: 11pt;
+  margin-bottom: 3px;
 }
 
 input::placeholder, .placeholder {
@@ -17,4 +17,31 @@ input::placeholder, .placeholder {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+/* Small devices such as large phones (640px and up) */
+@media only screen and (min-width: 1px)
+{
+  #replacing-field {
+    width: 100%;
+    input {min-width: 70%}
+  }
+}
+
+/* Small devices such as large phones (640px and up) */
+@media only screen and (min-width: 330px)
+{
+  #replacing-field 
+  {
+    width: initial;
+    input {min-width: 230px}
+  }
+}
+
+/* Small devices such as large phones (640px and up) */
+@media only screen and (min-width: 500px)
+{
+  #replacing-field {
+    align-self: flex-end;
+  }
 }

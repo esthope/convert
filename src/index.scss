@@ -48,3 +48,25 @@ p {
 button {
   cursor: pointer;
 }
+
+/*---------phones--------------------------------------*/
+@media only screen and (min-width: 1px)
+{
+  main {margin: 0 1rem 0 1rem}
+}
+
+@media only screen and (min-width: 330px)
+{
+  main {margin: 0 1.8rem 0 1.8rem}
+}
+
+@media only screen and (min-width: 500px)
+{
+  main {margin: 0 2rem 0 2rem}
+}
+
+/*---------tablets & after-----------------------------*/
+@media only screen and (min-width: 640px)
+{
+  main {margin: 0 4rem 0 4rem}
+}

@@ -28,6 +28,7 @@
 
 .flex-between {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
@@ -36,6 +37,8 @@
 .align-start {align-items: flex-start}
 .align-end {align-items: flex-end}
 .self-end{align-self: flex-end}
+.self-center{align-self: center}
+
 .gap-05 {gap: .5rem}
 .gap-1 {gap: 1rem}
 .gap-5 {gap: 5rem}
