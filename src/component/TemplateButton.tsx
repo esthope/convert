@@ -1,4 +1,5 @@
 // main
+import {isMobile} from 'react-device-detect';
 import {ReactElement, cloneElement, isValidElement, memo} from "react";
 import {useState, useEffect} from 'react';
 
@@ -10,8 +11,11 @@ interface TemplateProp {
 	board_key:string
 }
 
+
 const TemplateButton = ({children, label, started, shift, board_key}:TemplateProp) => {
-	const   [positionStyle, setPositionStyle] = useState<string>('key-label'),
+	const firstLabel = (isMobile) ? 'name-label' : 'key-label';
+
+	const   [positionStyle, setPositionStyle] = useState<string>(firstLabel),
 			[interval, setStyleInterval] = useState<ReturnType<typeof setTimeout>>()
 
 	const keyLabel = `ctrl · ${shift ? `maj · ${board_key}` : board_key}`;
@@ -34,11 +38,13 @@ const TemplateButton = ({children, label, started, shift, board_key}:TemplatePro
 		setPositionStyle(label_state)
 
 		// second state is the key shortcut, switch between
+		// if (!isMobile) {} tester avec et sans sur mobile car pas de hover
 		const styleInterval = setInterval(() => {
 			setPositionStyle((current:any) => {
       			let style = (current.includes('name-label')) ? 'key-label' : 'name-label';
       			return style
       		})
+			console.log('interval')
 	    }, 1400)
 
 		// set interval to stop the switch on over out
@@ -52,9 +58,9 @@ const TemplateButton = ({children, label, started, shift, board_key}:TemplatePro
 		clearInterval(interval)
 	    setStyleInterval(undefined)
 
-		// hide if the content of editorState is initial
+		// keep the label if the content of editorState is initial
 		if (!started)
-			setPositionStyle('key-label')
+			setPositionStyle(firstLabel)
 		else
 			setPositionStyle('')
 	}
