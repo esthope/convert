@@ -16,14 +16,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   background-color: cst.$dark-green;
-  color: cst.$off-white;
+
+  *:not(svg, path) {
+    color: cst.$off-white !important;
+  }
 }
 
 main {
   align-items: center;
 
-  span, p, button, div {
-    color: cst.$off-white;
+  label, span.infos, .textButton {
+    font-size: 1rem;
   }
   
   *::selection {
@@ -34,10 +37,6 @@ main {
   *::-moz-selection {
     background: cst.$klein !important;
     text-shadow: none;
-  }
-
-  label, span#editor-infos, .textButton {
-    font-size: 1rem;
   }
 }
 

@@ -127,7 +127,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
           <TextButton text="Réinitialiser la sélection" logo="" onClick={resetSelection} />
         </div>
   
-        <span id="editor-infos">
+        <span className="infos">
           {contentLength} caractères
           {(selectCount > 0) ?
             <>

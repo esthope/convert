@@ -41,7 +41,7 @@ const ReplaceField = (): ReactElement => {
 				<CustomButton onClick={replaceSelection} />
 			</div>
 
-			<span>Remplacement de la sélection</span>
+			<span className="infos">Remplacement de la sélection</span>
       	</div>
 	)
 }

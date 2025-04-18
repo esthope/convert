@@ -178,11 +178,11 @@ div.key-label {
 
 /*---animation--------------------------------------------*/
 .error-color path {
-  animation: colorChangeError .1s ease-in-out;
+  animation: colorChangeError .7s ease-in-out;
 }
 
 .success-color path {
-  animation: colorChangeSuccess .1s ease-in-out;
+  animation: colorChangeSuccess .7s ease-in-out;
 }
 
 .success-color:active path, .error-color:active path {
