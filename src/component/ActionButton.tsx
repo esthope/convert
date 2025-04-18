@@ -12,19 +12,19 @@ import ResetIcon from 'component/icons/ResetIcon';
 interface ActionProp {
 	entry:string,
 	label?:string,
-	onMouseEnter?:Function,
+	statut?:String,
 	onClick?:Function
 }
 
-const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactElement => {
-	// const [iconPath, setIconPath] = useState<any>()
-	const [IconPath, setIconPath] = useState<any>(CircleIcon)
+const ActionButton = ({entry, label, statut, onClick}:ActionProp):ReactElement => {
+	const [IconPath, setIconPath] = useState<any>(CircleIcon),
+		  [color, setColor] = useState<string>('white-color');
+
 	let buttonProp:object = {},
 		imageProp:object = {},
 		unmounted = useRef(true);
 
 	if (onClick) buttonProp = {onClick: onClick};
-	if (onMouseEnter) imageProp = {onMouseEnter: onMouseEnter};
 
 	// get the button icon
 	useEffect(()=>{
@@ -32,24 +32,22 @@ const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactEle
 			unmounted.current = false
 			return 
 		}
-
-		try
-		{
-			// const path = require(`../assets/${entry}.svg`)
-			switch (entry) {
-				case 'copy':
-				case 'cut':
-				case 'past':
-				case 'reset':
-					
-					break;
-				 default:	
-			}
-			setIconPath(CutIcon)
-		}
-		catch(err)
-		{
-			/*[DEV] message icon absent*/
+	
+		switch (entry) {
+			case 'copy':
+				setIconPath(CopyIcon)
+			break;
+			case 'cut':
+				setIconPath(CutIcon)
+			break;
+			case 'past':
+				setIconPath(PastIcon)
+			break;
+			case 'reset':
+				setIconPath(ResetIcon)
+			break;
+			default:
+				setIconPath(CircleIcon)
 		}
 
 		return () => {unmounted.current = true}
@@ -58,16 +56,13 @@ const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactEle
 	return (
 		<button
 			type="button"
-			className="actionButton flex-center column no-bg no-border"
+			className={`${statut?.includes(entry) ? 'test' : ''} actionButton flex-center column no-bg no-border`}
 			{...buttonProp}
 		>
-			<IconPath stroke="white" />
-
-        	{/*<img
-	        	src={iconPath}
-	        	alt={label}
-				{...imageProp}
-        	/>*/}
+			<IconPath
+				stroke='currentColor'
+				fill={(entry === 'reset' || entry === 'copy') ? 'currentColor' : 'transparent'}
+				/>
 	    </button>
 	)
 }

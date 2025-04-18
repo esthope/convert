@@ -10,6 +10,8 @@ $klein 		 : #002FA7;
 $light-orange: #E0A648;
 $ocher: #908859;
 $medium: #757767;
+$success: green;
+$error: red;
 
 $lemonada : 'Lemonada', cursive;
 $RozhaOne : 'Rozha One', cursive;
@@ -21,6 +23,8 @@ $quicksand : 'Quicksand', Roboto, Verdana, sans-serif;
 	medium-grey:$medium-grey;
 	medium:$medium;
 	lightOrange:$light-orange;
+	success:$success;
+	error:$error;
 }
 
 // window.documentElement.style.setProperty('--label-gap', '2rem')

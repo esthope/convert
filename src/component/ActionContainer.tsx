@@ -1,5 +1,5 @@
 // main
-import {ReactElement, useContext, useEffect} from "react";
+import {ReactElement, useContext, useState, useEffect} from "react";
 import {EditorContext, MessageContext} from 'service/context';
 import {EditorState} from 'draft-js';
 // util
@@ -16,13 +16,13 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
   	// eslint-disable-next-line
 	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
   		  // eslint-disable-next-line
-  		  [alertMessage, setAlertMessage] = useContext(MessageContext)
+  		  [statutColor, setStatutColor] = useState<string>(''),
+  		  [alertMessage, setAlertMessage] = useContext(MessageContext);
 
 	/**
 	* Update the editor content
 	*/
-	const handleAction = async (action:string):Promise<void> => {
-
+	const handleAction = async (action:string, entry:string):Promise<void> => {
 		try
 		{
 			// if (contentLength === 0) return;
@@ -34,6 +34,8 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 
 			if (newState instanceof EditorState)
 				setEditorState(newState)
+
+			setStatutColor(entry + ' success-color');
 		}
 		catch(err:any)
 		{
@@ -41,6 +43,7 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 			// console.log(err)
 			let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.ACTION_FAILED)
 			setAlertMessage(errorMsg)
+			setStatutColor(entry + ' error-color')
 		}
 	}
 
@@ -64,7 +67,8 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 					<ActionButton
 						entry={item.entry}
 						label={item.label}
-						onClick={()=>handleAction(item.data_id)} />
+						statut={statutColor}
+						onClick={()=>handleAction(item.data_id, item.entry)} />
 				</TemplateButton>
 			  	: null
 			))

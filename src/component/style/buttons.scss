@@ -74,7 +74,6 @@ div.key-label {
     span {
       transition: transform 2s;
       transform: rotate(390deg);
-      // animation: 5s linear 0s infinite running rotateAnim;
     }
   }
 }
@@ -177,7 +176,17 @@ div.key-label {
   }
 }
 
-@keyframes rotateAnim {
-  0% {transform: rotate(0deg) }
-  100% {transform: rotate(380deg) }
+/*---animation--------------------------------------------*/
+.error-color path {
+  transition: color 1s ease-out;
+  color: cst.$error
+}
+
+.success-color path {
+  transition: color .2s ease-out;
+  color: cst.$success;
+}
+
+.white-color {
+  color: cst.$off-white;
 }
