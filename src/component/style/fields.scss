@@ -4,14 +4,14 @@ input[type="text"] {
   border: none;
   min-height: 50px;
   padding: 0px 11px;
-  font-size: 11pt;
+  font-size: 1em;
   margin-bottom: 3px;
 }
 
 input::placeholder, .placeholder {
   color: cst.$light-grey;
   font-style: italic;
-  font-size: 11pt;
+  font-size: 1em;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
   -moz-user-select: none;
@@ -31,7 +31,7 @@ input::placeholder, .placeholder {
 /* Small devices such as large phones (640px and up) */
 @media only screen and (min-width: 330px)
 {
-  #replacing-field 
+  #replacing-field
   {
     width: initial;
     input {min-width: 230px}

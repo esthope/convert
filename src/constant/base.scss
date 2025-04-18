@@ -27,8 +27,7 @@ $quicksand : 'Quicksand', Roboto, Verdana, sans-serif;
 	error:$error;
 }
 
-// window.documentElement.style.setProperty('--label-gap', '2rem')
 :root {
-  --label-gap: 1rem;
+  --label-gap: 1em;
   --fade-anchor: 3rem;
 }

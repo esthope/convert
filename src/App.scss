@@ -4,12 +4,13 @@
 .bb {border: red solid 1px}
 .bv {border: green solid 1px}
 .bbb {background-color: rgba(255, 255, 255, .1)}
-.bbr {background-color: rgba(255, 0, 0, .1)}
+.bbr {background-color: rgba(255, 0, 0, .2)}
 
 .m-0 {margin: 0}
 .p-0 {padding: 0}
 .mr-2 {margin: 0 2rem 0 0}
 .mr-3 {margin-right: 3rem}
+.mbe-06 {margin-bottom: .6em}
 
 .no-border {border: none}
 .no-bg {background: none}
@@ -88,6 +89,11 @@
 /*---animation--------------------------------------------*/
 .fade-element {
   transition: opacity .7s ease-out, transform .5s ease-out;
+  -o-transition: opacity .7s ease-out, transform .5s ease-out;
+  -ms-transition: opacity .7s ease-out, transform .5s ease-out;
+  -moz-transition: opacity .7s ease-out, transform .5s ease-out;
+  -webkit-transition: opacity .7s ease-out, transform .5s ease-out;
+  
   transform: translateX(var(--fade-anchor));
   opacity: 0;
 }

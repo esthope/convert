@@ -18,17 +18,17 @@
   max-height: var(--label-gap);
 
   label {
-    line-height: var(--label-gap);
     text-align: center;
   }
 
   label:first-child {
-    margin-bottom: var(--label-gap);
+    margin-bottom: 1.2em;
+    line-height: var(--label-gap);
   }
 
   div {
     // cursor: pointer;
-    transform: translateY(-33.33%);
+    transform: translateY(calc(-1 * var(--label-gap)));
     transition: transform .3s ease-in-out .3s;
     -o-transition: transform .3s ease-in-out .3s;
     -ms-transition: transform .3s ease-in-out .3s;
@@ -38,12 +38,12 @@
 }
 
 div.name-label {
-  transform: translateY(0%);
+  transform: translateY(0);
   cursor: pointer;
 }
 
 div.key-label {
-  transform: translateY(-66.66%);
+  transform: translateY(-2em);
   cursor: pointer;
 }
 
@@ -72,8 +72,12 @@ div.key-label {
 
   &:hover{
     span {
-      transition: transform 2s;
       transform: rotate(390deg);
+      transition: transform 2s;
+      -o-transition: transform 2s;
+      -ms-transition: transform 2s;
+      -moz-transition: transform 2s;
+      -webkit-transition: transform 2s;
     }
   }
 }
@@ -99,8 +103,8 @@ div.key-label {
 
     span {
       font-family: cst.$RozhaOne;
-      line-height: 0pt;
-      font-size: 16pt;
+      line-height: 0px;
+      font-size: 2.3em;
     }
   }
 }
@@ -129,7 +133,7 @@ div.key-label {
     padding: 10px;
 
     span {
-      font-size: 18pt;
+      font-size: 2.5em;
     }
   }
 }
@@ -167,8 +171,6 @@ div.key-label {
 }
 
 .actionButton {
-  margin-bottom: .5rem;
-
   svg, img {
     width: 20px;
     height: auto;

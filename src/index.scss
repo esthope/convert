@@ -20,13 +20,15 @@ body {
   *:not(svg, path) {
     color: cst.$off-white !important;
   }
+
+  font-size: 15px;
 }
 
 main {
   align-items: center;
 
   label, span.infos, .textButton {
-    font-size: 1rem;
+    font-size: .85em;
   }
   
   *::selection {
