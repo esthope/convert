@@ -12,19 +12,20 @@ import ResetIcon from 'component/icons/ResetIcon';
 interface ActionProp {
 	entry:string,
 	label?:string,
+	onMouseEnter?:Function,
 	statut?:String,
 	onClick?:Function
 }
 
-const ActionButton = ({entry, label, statut, onClick}:ActionProp):ReactElement => {
-	const [IconPath, setIconPath] = useState<any>(CircleIcon),
-		  [color, setColor] = useState<string>('white-color');
+const ActionButton = ({entry, label, onMouseEnter, statut, onClick}:ActionProp):ReactElement => {
+	const [IconPath, setIconPath] = useState<any>(CircleIcon);
 
 	let buttonProp:object = {},
 		imageProp:object = {},
 		unmounted = useRef(true);
 
 	if (onClick) buttonProp = {onClick: onClick};
+	if (onMouseEnter) imageProp = {onMouseEnter: onMouseEnter};
 
 	// get the button icon
 	useEffect(()=>{
@@ -56,12 +57,13 @@ const ActionButton = ({entry, label, statut, onClick}:ActionProp):ReactElement =
 	return (
 		<button
 			type="button"
-			className={`${statut?.includes(entry) ? 'test' : ''} actionButton flex-center column no-bg no-border`}
+			className={`${statut?.includes(entry) ? statut.split(' ').pop() : ''} actionButton flex-center column no-bg no-border`}
 			{...buttonProp}
 		>
 			<IconPath
 				stroke='currentColor'
 				fill={(entry === 'reset' || entry === 'copy') ? 'currentColor' : 'transparent'}
+				{...imageProp}
 				/>
 	    </button>
 	)

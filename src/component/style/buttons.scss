@@ -178,15 +178,25 @@ div.key-label {
 
 /*---animation--------------------------------------------*/
 .error-color path {
-  transition: color 1s ease-out;
-  color: cst.$error
+  animation: colorChangeError .1s ease-in-out;
 }
 
 .success-color path {
-  transition: color .2s ease-out;
-  color: cst.$success;
+  animation: colorChangeSuccess .1s ease-in-out;
 }
 
-.white-color {
-  color: cst.$off-white;
+.success-color:active path, .error-color:active path {
+  animation-name: none !important;
+}
+
+@keyframes colorChangeSuccess {
+  0%, 1% {color: white;} 
+  1%, 99% {color: cst.$success;}
+  99%, 100% {color: white;}
+}
+
+@keyframes colorChangeError {
+  0%, 1% {color: white;} 
+  1%, 99% {color: cst.$error;}
+  99%, 100% {color: white;}
 }

@@ -22,7 +22,7 @@ body {
 main {
   align-items: center;
 
-  * {
+  span, p, button, div {
     color: cst.$off-white;
   }
   
