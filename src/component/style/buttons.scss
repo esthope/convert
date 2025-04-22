@@ -183,17 +183,26 @@ div.key-label {
   animation: colorChangeError .7s ease-in-out;
 }
 
+.warning-color path {
+  animation: colorChangeWarning .7s ease-in-out;
+}
+
 .success-color path {
   animation: colorChangeSuccess .7s ease-in-out;
 }
 
-.success-color:active path, .error-color:active path {
+.success-color:active path, .warning-color:active path, .error-color:active path {
   animation-name: none !important;
 }
 
 @keyframes colorChangeSuccess {
   0%, 1% {color: white;} 
   1%, 99% {color: cst.$success;}
+  99%, 100% {color: white;}
+}
+@keyframes colorChangeWarning {
+  0%, 1% {color: white;} 
+  1%, 99% {color: cst.$warning;}
   99%, 100% {color: white;}
 }
 

@@ -8,7 +8,7 @@ import {EditorContext, MessageContext} from 'service/context';
 import TextButton from 'component/TextButton';
 import style from "constant/base.scss";
 // alert
-import * as CustomMsg from 'constant/Messages';
+import {SELECT_FAILED, MULTI_SELECT} from 'constant/Messages';
 import {create_error} from 'util/errorHandler';
 import {Message} from 'constant/interfaces';
 let errorMsg:Message;
@@ -70,7 +70,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     catch(err:any)
     {
       // [DEV]
-      errorMsg = create_error(CustomMsg.SELECT_FAILED)
+      errorMsg = create_error(SELECT_FAILED)
       setAlertMessage(errorMsg)
     }
   }
@@ -123,7 +123,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     <>
       <div className="flex-between align-end">
         <div>
-          <TextButton text="Sélection multiple" logo="" onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
+          <TextButton text={MULTI_SELECT} logo="" onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
           <TextButton text="Réinitialiser la sélection" logo="" onClick={resetSelection} />
         </div>
   

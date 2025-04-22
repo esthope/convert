@@ -1,15 +1,18 @@
 // main
 import {ReactElement, useState, useContext, memo} from "react";
 // util
-import {EditorContext} from 'service/context';
+import {EditorContext, MessageContext} from 'service/context';
 import {getRaws, getSelection, createContent} from 'util/editorHandler';
 import {transformTexts} from 'util/textHandler';
+import {create_warning} from 'util/errorHandler';
 // element
 import CustomButton from 'component/CustomButton';
+import {SELECT_PLEASE} from 'constant/Messages';
 
 const ReplaceField = (): ReactElement => {
 	const 	[choice, setChoice] = useState<string>(''),
-			[editorState, setEditorState] = useContext(EditorContext);
+			[editorState, setEditorState] = useContext(EditorContext),
+        	[setAlertMessage] = useContext(MessageContext);
 
 	/**
 	 * Replace the text from selected string
@@ -22,7 +25,12 @@ const ReplaceField = (): ReactElement => {
 			{blocks} = currentRaws,
 			selections = getSelection(blocks, editorState);
 
-		if (selections.length === 0) return;
+		if (selections.length === 0) {
+			let errorMsg = create_warning(SELECT_PLEASE)
+      		setAlertMessage(errorMsg)
+      		console.log(errorMsg)
+			return;
+		}
 
 		transformTexts(selections, blocks, choice)
 		setEditorState(createContent(currentRaws))

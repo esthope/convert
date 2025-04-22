@@ -19,7 +19,7 @@ const CaseContainer = ({started}:{started:boolean}): ReactElement => {
 
   	const [editorState, setEditorState] = useContext(EditorContext),
   		  // eslint-disable-next-line
-  		  [alertMessage, setAlertMessage] = useContext(MessageContext)
+  		  [setAlertMessage] = useContext(MessageContext)
 
     const handle_text = (action:string)=>{
     	const newState = updateTextCase(action, editorState, setAlertMessage);
@@ -44,7 +44,9 @@ const CaseContainer = ({started}:{started:boolean}): ReactElement => {
 
 	return (
 		<div className="caseContainer flex">
-			{/*<TemplateButton label='init' started={started} shift={false} board_key='none' > <CaseButton content="init" onClick={()=>initContent(setEditorState)} /> </TemplateButton>*/}
+			<TemplateButton label='init' started={started} shift={false} board_key='none' is_mobile={false}>
+				<CaseButton content="init" onClick={()=>initContent(setEditorState)} />
+			</TemplateButton>
 			{
 				/*Case.hasOwnProperty(item.entry)*/
 				casesData.map((item:Interaction)=> (

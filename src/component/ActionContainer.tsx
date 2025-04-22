@@ -1,5 +1,5 @@
 // main
-import {ReactElement, useContext, useState, useEffect,useRef} from "react";
+import {ReactElement, useContext, useState, useEffect} from "react";
 import {EditorContext, MessageContext} from 'service/context';
 import {EditorState} from 'draft-js';
 import {isMobile} from 'react-device-detect';
@@ -18,9 +18,8 @@ const initialColor = '';
 const ActionContainer = ({started}:{started:boolean}): ReactElement => {
   	// eslint-disable-next-line
 	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
-  		  // eslint-disable-next-line
   		  [statutColor, setStatutColor] = useState<string>(initialColor),
-  		  [alertMessage, setAlertMessage] = useContext(MessageContext);
+  		  [setAlertMessage] = useContext(MessageContext);
 
 	/**
 	* Update the editor content
@@ -43,10 +42,10 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 		catch(err:any)
 		{
 			// ? [DEV]
-			let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.ACTION_FAILED)
-			setStatutColor(entry + ' error-color') 
-			setAlertMessage(errorMsg)
 			console.log(err)
+			let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.ACTION_FAILED)
+			setStatutColor(entry + ` ${err?.level ?? 'error'}-color`) 
+			setAlertMessage(errorMsg)
 		}
 	}
 

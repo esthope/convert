@@ -14,7 +14,7 @@ import ErrorRefreshButton from 'component/ErrorRefreshButton';
 const AlertMessage = ():ReactElement => {
 
 	const 
-		[alertMessage, setAlertMessage] = useContext(MessageContext),
+		[setAlertMessage, alertMessage] = useContext(MessageContext),
 		[messageIcon, setMessageIcon] = useState<string>(error_icon),
 		[hidingDelay, setHidingDelay] = useState<number>(0),
 		[interval, setCurrentInterval] = useState<any>(),

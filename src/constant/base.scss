@@ -11,6 +11,7 @@ $light-orange: #E0A648;
 $ocher: #908859;
 $medium: #757767;
 $success: green;
+$warning: orange;
 $error: red;
 
 $lemonada : 'Lemonada', cursive;
@@ -23,8 +24,6 @@ $quicksand : 'Quicksand', Roboto, Verdana, sans-serif;
 	medium-grey:$medium-grey;
 	medium:$medium;
 	lightOrange:$light-orange;
-	success:$success;
-	error:$error;
 }
 
 :root {

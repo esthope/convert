@@ -85,5 +85,4 @@ const TemplateButton = ({children, label, started, shift, board_key, is_mobile}:
 	)
 }
 
-// const TemplateButtonMemo = memo(TemplateButton);
 export default memo(TemplateButton);

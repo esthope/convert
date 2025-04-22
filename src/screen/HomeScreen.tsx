@@ -30,7 +30,7 @@ const Home = ():ReactElement => {
   const editorRef = useRef<Editor>(null)
 
   const editorValues = useMemo(()=>([editorState, setEditorState, editorRef]), [editorState]),
-        messageValues = useMemo(()=>([alertMessage, setAlertMessage]), [alertMessage])
+        messageValues = useMemo(()=>([setAlertMessage, alertMessage]), [alertMessage])
 
   const key_listener = useCallback(async (event:KeyboardEvent):Promise<void> => {
     if (event.key === 'Control' || !event.ctrlKey || !editorRef?.current) return;

@@ -36,7 +36,9 @@ const EDITOR = "L'éditeur est indisponible",
 	  PAST_ERR = `${TECH} ${PAST} du texte. ${DEV}.`,
 	  COPY_ERR = `${TECH} ${COPY} du texte. ${DEV}.`;
 
-const SELECT_FAILED = `La sélection n'a pas pu être effectuée`
+const SELECT_FAILED = `La sélection n'a pas pu être effectuée`,
+	  MULTI_SELECT = 'Sélection multiple',
+	  SELECT_PLEASE = `Aucun texte à remplacer ne semble sélectionné.\nPour sélectionner à plusieurs endroit dans votre textes, appuyez sur le bouton ${MULTI_SELECT}`
 
 export {
 	TECH_ERR,
@@ -58,5 +60,7 @@ export {
 	NOTHING_PAST,
 	PAST_ERR,
 	COPY_ERR,
-	SELECT_FAILED
+	SELECT_FAILED,
+	SELECT_PLEASE,
+	MULTI_SELECT
 }
