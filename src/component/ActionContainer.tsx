@@ -2,6 +2,7 @@
 import {ReactElement, useContext, useState, useEffect,useRef} from "react";
 import {EditorContext, MessageContext} from 'service/context';
 import {EditorState} from 'draft-js';
+import {isMobile} from 'react-device-detect';
 // util
 import * as CustomMsg from 'constant/Messages';
 import {is_message, create_error} from 'util/errorHandler';
@@ -13,6 +14,7 @@ import ActionButton from 'component/ActionButton';
 import TemplateButton from './TemplateButton';
 
 const initialColor = '';
+
 const ActionContainer = ({started}:{started:boolean}): ReactElement => {
   	// eslint-disable-next-line
 	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
@@ -36,16 +38,15 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 			if (newState instanceof EditorState)
 				setEditorState(newState)
 
-			// throw new Error('bip')
 			setStatutColor(entry + ' success-color') 
 		}
 		catch(err:any)
 		{
 			// ? [DEV]
-			// console.log(err)
 			let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.ACTION_FAILED)
 			setStatutColor(entry + ' error-color') 
 			setAlertMessage(errorMsg)
+			console.log(err)
 		}
 	}
 
@@ -65,7 +66,9 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 					label={item.label}
 					started={started}
 					shift={item.shift ?? false}
-					board_key={item.key} >
+					board_key={item.key}
+					is_mobile={isMobile}
+					>
 					<ActionButton
 						entry={item.entry}
 						label={item.label}

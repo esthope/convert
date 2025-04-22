@@ -1,6 +1,7 @@
 // main
 import {ReactElement, useContext, useEffect} from "react";
 import {EditorState} from "draft-js";
+import {isMobile} from 'react-device-detect';
 // util
 import * as CustomMsg from 'constant/Messages';
 import {MessageContext, EditorContext} from 'service/context';
@@ -53,7 +54,8 @@ const CaseContainer = ({started}:{started:boolean}): ReactElement => {
 					label={item.label}
 					started={started}
 					shift={item.shift ?? false}
-					board_key={item.key} >
+					board_key={item.key}
+					is_mobile={isMobile} >
 						<CaseButton
 						content={(item.data_id === Case.inversion) ? InverseLabel : item.title}
 						onClick={() => handle_text(item.data_id)} />

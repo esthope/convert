@@ -1,5 +1,4 @@
 // main
-import {isMobile} from 'react-device-detect';
 import {ReactElement, cloneElement, isValidElement, memo} from "react";
 import {useState, useEffect, useRef} from 'react';
 
@@ -8,11 +7,12 @@ interface TemplateProp {
 	label?:string,
 	started:boolean,
 	shift:boolean,
-	board_key:string
+	board_key:string,
+	is_mobile:boolean
 }
 
-const TemplateButton = ({children, label, started, shift, board_key}:TemplateProp) => {
-	const firstLabel = (isMobile) ? 'name-label' : 'key-label';
+const TemplateButton = ({children, label, started, shift, board_key, is_mobile}:TemplateProp) => {
+	const firstLabel = (is_mobile) ? 'name-label' : 'key-label';
 
 	const   [positionStyle, setPositionStyle] = useState<string>(firstLabel),
 			intervalRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -40,21 +40,25 @@ const TemplateButton = ({children, label, started, shift, board_key}:TemplatePro
 		setPositionStyle(label_state)
 
 		// second state is the key shortcut, switch between
-		// if (!isMobile) {} tester avec et sans sur mobile car pas de hover
-		// const isMobile = /iPhone|iPad|Android/.test(navigator.userAgent);
-		intervalRef.current = setInterval(() => {
-			setPositionStyle((current:any) => {
-      			let style = (current.includes('name-label')) ? 'key-label' : 'name-label';
-      			return style
-      		})
-	    }, 1400)
+		if (!is_mobile) {
+			intervalRef.current = setInterval(() => {
+				setPositionStyle((current:any) => {
+	      			let style = (current.includes('name-label')) ? 'key-label' : 'name-label';
+	      			return style
+	      		})
+		    }, 1400)
+		// if it's mobile mode and there is content
+		} else if (started) {
+			setTimeout(()=>{
+				hide_label()
+			}, 2000)
+		}
 	}
 
 	/**
 	 * hide the labels when the mouse leaves the button
 	 */
 	const hide_label = ():void => {
-		console.log('hide')
 		clearInterval(intervalRef.current)
 		intervalRef.current = undefined;
 
@@ -64,19 +68,6 @@ const TemplateButton = ({children, label, started, shift, board_key}:TemplatePro
 		else
 			setPositionStyle('')
 	}
-
-	/**
-	 * Clear the interval on reender
-	 */
-	useEffect(()=>{
-		/* return () => {
-			if (intervalRef.current) {
-				clearInterval(intervalRef.current);
-				intervalRef.current = undefined;
-			}
-		}*/
-		console.log(intervalRef.current)
-	}, [])
 
 	return (
 		<div
