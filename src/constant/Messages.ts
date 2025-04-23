@@ -40,6 +40,10 @@ const SELECT_FAILED = `La sélection n'a pas pu être effectuée`,
 	  MULTI_SELECT = 'Sélection multiple',
 	  SELECT_PLEASE = `Aucun texte à remplacer ne semble sélectionné.\nPour sélectionner à plusieurs endroit dans votre textes, appuyez sur le bouton ${MULTI_SELECT}`
 
+// labels
+const ERROR = 'erreur', //ERREUR,
+	  WARNING = 'alerte' //AVERTISSEMENT
+
 export {
 	TECH_ERR,
 	TECH_BTN,
@@ -62,5 +66,7 @@ export {
 	COPY_ERR,
 	SELECT_FAILED,
 	SELECT_PLEASE,
-	MULTI_SELECT
+	MULTI_SELECT,
+	ERROR,
+	WARNING
 }

@@ -18,7 +18,7 @@ body {
   background-color: cst.$dark-green;
 
   *:not(svg, path) {
-    color: cst.$off-white !important;
+    color: cst.$off-white;
   }
 
   font-size: 15px;

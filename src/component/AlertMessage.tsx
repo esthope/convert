@@ -2,9 +2,10 @@
 import {ReactElement, useState, useEffect, useContext} from 'react';
 // util
 import {MessageContext} from 'service/context';
-import {reset_alert} from 'util/errorHandler';
+import {reset_alert, label_status} from 'util/errorHandler';
 import error_icon from 'assets/error.svg';
 import warn_icon from 'assets/warn.svg';
+import close_icon from 'assets/close.svg';
 // element
 import {REFRESH_PAGE} from 'constant/Messages';
 import {Message} from 'constant/interfaces';
@@ -22,6 +23,8 @@ const AlertMessage = ():ReactElement => {
 		;
 
 	const {level, message, displayed, reset} = alertMessage;
+
+	let displayed2 = true
 
 	/**
 	 * [CALL]
@@ -112,32 +115,36 @@ const AlertMessage = ():ReactElement => {
 
 	return (
 		<section id="message-container"
-			onMouseEnter={()=>{if (typeof displayed === 'boolean') setKeap(true)}}
+			onMouseEnter={()=>{if (typeof displayed2 === 'boolean') setKeap(true)}}
 			onMouseLeave={()=>{setKeap(false)}}
-			className="mr-3 flex self-end"
+			className="mr-3 flex self-end gap-1"
 			>
 
 			{/*content*/}
-			<div className={`gap-1 flex row fade-element ${(displayed) ? 'fade-animation':''}`}>
+			<div className={`flex row fade-element ${(displayed2) ? 'fade-animation':''}`}>
 
-				<p>
-					<span className="message-type">{level}</span>
-				    <span>{message}</span>
-					{!!reset && <a href="/">{REFRESH_PAGE}</a>}
-				</p>
+				<span className={`message-level rozhaone-font ${level}-color`}>{label_status[level]}</span>
+
+			    <p className="">
+			    	{message}
+					{!!reset && <a href="/" className="block mt-08">{REFRESH_PAGE}</a>}
+			    </p>
 
 	      		<img src={messageIcon} alt="message logo" />
 			</div>
 
-			{/*close button*/}
+			{/*close button */}
           	<button
 				type="button"
-				onMouseOver={()=>{if (displayed === false) {change_displayed_state(true)}}}
-				className={`customButton flex-center no-border no-bg close-btn fade-element ${
-					(typeof displayed === 'boolean') ? 'fade-animation':'no-pointer'}`}
+				onMouseOver={()=>{if (displayed2 === false) {change_displayed_state(true)}}}
+				className={`close-btn customButton flex-center no-border no-bg fade-element ${
+					(typeof displayed2 === 'boolean') ? 'fade-animation':'no-pointer'}`}
 				onClick={close_alert}
 				>
-				<CircleIcon color="#fff" />
+
+	      		<img src={close_icon} alt="Fermer le message" />
+				{/*<CircleIcon color="#fff" />*/}
+				
 		    </button>
 		</section>
 	)

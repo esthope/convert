@@ -2,10 +2,15 @@ import {Message} from 'constant/interfaces';
 import * as CustomMsg from 'constant/Messages';
 
 const initialMessage:Message = {
-	level: 'none',
-	message: null,
+	level: 'warning',
+	message: 'Erty sets the orientation of the text characters in a line. It only affects text in verti rty sets the orientation of the text characters in a line. It only affects text in verticc',
 	displayed: null,
-	reset: false
+	reset: true
+}
+
+const label_status = {
+	error: CustomMsg.ERROR,
+	warning: CustomMsg.WARNING
 }
 
 const create_message = (level:string, message:string, reset?:boolean):Message => {
@@ -39,4 +44,4 @@ const is_message = (result:Message|any):boolean => {
 	return !!(typeof result === 'object' && result?.level?.length > 0);
 }
 
-export {initialMessage, create_warning, create_error, reset_alert, get_boundary_error, is_message}
+export {initialMessage, label_status, create_warning, create_error, reset_alert, get_boundary_error, is_message}

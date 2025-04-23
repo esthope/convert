@@ -7,13 +7,47 @@
     	max-width: 60%;
     }
 
+    div.fade-element {
+        justify-content: flex-end;
+        align-items: center;
+        flex-wrap: nowrap;
+    }
+
+    .message-level {
+        font-size: 1.2em;
+        writing-mode: sideways-lr;
+    }
+
     .close-btn {
         z-index: 1;
+        align-self: center;
     }
 }
 
-.message-type {
-    font-family: cst.$RozhaOne;
-    // transform: rotate(90deg);
-    // font-size: large
+@media only screen and (min-width: 1px) {
+
+}
+
+@media only screen and (min-width: 330px) {
+
+}
+
+@media only screen and (min-width: 500px) {
+
+}
+
+@media only screen and (min-width: 640px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 1024px) {
+
+}
+
+@media only screen and (min-width: 1280px) {
+
 }
