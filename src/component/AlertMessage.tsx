@@ -56,6 +56,7 @@ const AlertMessage = ():ReactElement => {
 	 */
 	const trigger_hiding_alert = ():void => {
 		setCurrentInterval(setInterval(():void => { 
+			console.log('bip')
 			setHidingDelay((current:any):number => {
 		        return current+1
 		    })
@@ -115,37 +116,37 @@ const AlertMessage = ():ReactElement => {
 
 	return (
 		<section id="message-container"
-			onMouseEnter={()=>{if (typeof displayed2 === 'boolean') setKeap(true)}}
-			onMouseLeave={()=>{setKeap(false)}}
-			className="mr-3 flex self-end gap-1"
-			>
+		onMouseEnter={()=>{if (typeof displayed === 'boolean') setKeap(true)}}
+		onMouseLeave={()=>{setKeap(false)}}
+		className="flex self-end no-wrap"
+		>
 
-			{/*content*/}
-			<div className={`flex row fade-element ${(displayed2) ? 'fade-animation':''}`}>
+			<div className={`gap-07 flex row fade-element ${(displayed) ? 'fade-animation':''}`}>
+				<span className={`alert-level rozhaone-font ${level}-color`}>{label_status[level]}</span>
 
-				<span className={`message-level rozhaone-font ${level}-color`}>{label_status[level]}</span>
-
-			    <p className="">
+			    <p>
 			    	{message}
 					{!!reset && <a href="/" className="block mt-08">{REFRESH_PAGE}</a>}
 			    </p>
-
-	      		<img src={messageIcon} alt="message logo" />
 			</div>
 
-			{/*close button */}
-          	<button
-				type="button"
-				onMouseOver={()=>{if (displayed2 === false) {change_displayed_state(true)}}}
-				className={`close-btn customButton flex-center no-border no-bg fade-element ${
-					(typeof displayed2 === 'boolean') ? 'fade-animation':'no-pointer'}`}
+			<div 
+			className="flex no-wrap"
+			onMouseOver={()=>{if (displayed === false) {change_displayed_state(true)}}}
+			>
+		      	<img id="level-icon" src={messageIcon}
+		      	alt={`Logo ${level}. Montrer le message.`}
+		        />
+
+	          	<button
+				className={`customButton flex-center no-border no-bg fade-element ${
+					(typeof displayed === 'boolean') ? 'fade-animation':'no-pointer'}`}
 				onClick={close_alert}
 				>
+		      		<img src={close_icon} alt="Fermer le message" />
+			    </button>
+			</div>
 
-	      		<img src={close_icon} alt="Fermer le message" />
-				{/*<CircleIcon color="#fff" />*/}
-				
-		    </button>
 		</section>
 	)
 }

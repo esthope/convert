@@ -36,6 +36,8 @@ const ReplaceField = (): ReactElement => {
 		setEditorState(createContent(currentRaws))
 	}
 
+	throw new Error('oui')
+
 	return (
 		<div id="replacing-field">
 			<div className="flex gap-1">

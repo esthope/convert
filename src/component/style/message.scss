@@ -1,53 +1,67 @@
 @use 'constant/base.scss' as cst ;
 
 #message-container {
-    p {
-    	padding: .7rem;
-    	text-align: left;
-    	max-width: 60%;
-    }
+    /*position: fixed;
+    bottom :0;
+    right: 3rem;*/
 
     div.fade-element {
         justify-content: flex-end;
         align-items: center;
         flex-wrap: nowrap;
+
+        p {text-align: left}
+
+        span {
+            font-size: 1.2em;
+            writing-mode: sideways-lr; 
+        }
+
     }
 
-    .message-level {
-        font-size: 1.2em;
-        writing-mode: sideways-lr;
-    }
-
-    .close-btn {
+    button {
         z-index: 1;
         align-self: center;
     }
 }
 
 @media only screen and (min-width: 1px) {
-
+    #message-container {margin-top: 2rem}
+    #level-icon {width: 2rem}
 }
 
 @media only screen and (min-width: 330px) {
-
+    #message-container p {order: 2}
+    .fade-animation + div #level-icon {width: 3rem}
 }
 
 @media only screen and (min-width: 500px) {
+    #message-container {
+        gap: 1rem;
 
+        p {
+            order: initial;
+            max-width: 25rem;
+        }
+    }
+
+    .fade-animation + div #level-icon {width: initial}
 }
 
 @media only screen and (min-width: 640px) {
-
+    #message-container {
+        p {max-width: 17rem}
+    }
 }
 
 @media only screen and (min-width: 768px) {
+    #message-container {
+        p {max-width: 25rem}
+    }
 
+    #level-icon {width: 3rem}
 }
 
-@media only screen and (min-width: 1024px) {
-
-}
-
-@media only screen and (min-width: 1280px) {
-
+@media only screen and (min-width: 1064px) {
+    #message-container {margin-top: 0}
 }

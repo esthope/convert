@@ -34,6 +34,7 @@
   justify-content: space-between;
 }
 
+.no-wrap {flex-wrap: nowrap}
 .column {flex-direction: column}
 .row-reverse {flex-direction: row-reverse}
 .align-start {align-items: flex-start}
@@ -42,6 +43,7 @@
 .self-center{align-self: center}
 
 .gap-05 {gap: .5rem}
+.gap-07 {gap: .7rem}
 .gap-1 {gap: 1rem}
 .gap-5 {gap: 5rem}
 
@@ -102,9 +104,11 @@
   
   transform: translateX(var(--fade-anchor));
   opacity: 0;
+  pointer-events: none;
 }
 
 .fade-animation {
   transform: translateX(0);
   opacity: 1;
+  pointer-events: initial;
 }

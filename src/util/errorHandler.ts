@@ -2,10 +2,10 @@ import {Message} from 'constant/interfaces';
 import * as CustomMsg from 'constant/Messages';
 
 const initialMessage:Message = {
-	level: 'warning',
-	message: 'Erty sets the orientation of the text characters in a line. It only affects text in verti rty sets the orientation of the text characters in a line. It only affects text in verticc',
+	level: 'error',
+	message: null,
 	displayed: null,
-	reset: true
+	reset: false
 }
 
 const label_status = {
