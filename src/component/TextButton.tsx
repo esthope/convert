@@ -1,20 +1,20 @@
 import {ReactElement, memo} from "react";
 
 interface ButtonProp {
+	children:any,
 	onClick:any,
 	text:string,
-	logo:string,
 	color?: string
 }
 
-const TextButton = ({onClick, text, logo, color}:ButtonProp):ReactElement => {
+const TextButton = ({children, onClick, text, color}:ButtonProp):ReactElement => {
 	return (
 		<button
 			type="button"
-			className={`textButton no-border no-bg inline mr-2`}
+			className={`no-border no-bg mr-2 textButton ${color}`}
 			onClick={onClick} >
-			{text} {color}
-			<img src={logo} alt=""/>
+			<p>{text}</p>
+			{children}
 	    </button>
 	)
 }

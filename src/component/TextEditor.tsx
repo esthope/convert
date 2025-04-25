@@ -6,9 +6,11 @@ import "draft-js/dist/Draft.css";
 import {EditorContext, MessageContext} from 'service/context';
 // element
 import TextButton from 'component/TextButton';
+import MultiIcon from 'component/icons/MultiIcon'
+import ResetSelectIcon from 'component/icons/ResetSelectIcon'
 import style from "constant/base.scss";
 // alert
-import {SELECT_FAILED, MULTI_SELECT} from 'constant/Messages';
+import {SELECT_FAILED, MULTI_SELECT, REINIT_SELECT} from 'constant/Messages';
 import {create_error} from 'util/errorHandler';
 import {Message} from 'constant/interfaces';
 let errorMsg:Message;
@@ -123,8 +125,13 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     <>
       <div className="flex-between align-end">
         <div>
-          <TextButton text={MULTI_SELECT} logo="" onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
-          <TextButton text="Réinitialiser la sélection" logo="" onClick={resetSelection} />
+          <TextButton text={MULTI_SELECT} onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? 'multi-color' : ''} >
+            <MultiIcon />
+          </TextButton>
+
+          <TextButton text={REINIT_SELECT} onClick={()=>resetSelection()}>
+            <ResetSelectIcon  />
+          </TextButton>
         </div>
   
         <span className="infos">

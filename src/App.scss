@@ -87,13 +87,9 @@
   border-radius: 3px;
 }
 
-.error-color {
-  color: cst.$error; 
-}
-
-.warning-color {
-  color: cst.$warning;
-}
+.error-color {color: cst.$error}
+.warning-color {color: cst.$warning}
+.multi-color > * {color: cst.$light-orange}
 
 /*---animation--------------------------------------------*/
 .fade-element {

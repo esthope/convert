@@ -49,8 +49,16 @@ div.key-label {
 
 /*---text----------------------------------------------*/
 .textButton {
+  display: inline-flex;
+  align-items: center;
   font-family: cst.$quicksand; 
   padding: 0;
+
+  // color: cst.$off_white;
+}
+
+.textButton:active p, .textButton:active svg {
+  color: cst.$light-orange !important;
 }
 
 /*---cases---------------------------------------------*/
