@@ -41,7 +41,7 @@ const Header = ({started}:{started:boolean}):ReactElement => {
 			)}>
 	      		<img src={convert_logo}
 	      		className="ml-3 pointer"
-	      		alt="logo"
+	      		alt="Logo du site Convert"
 	      		{...( !isMobile && started
 					? {
 						onMouseEnter: ()=>{setDisplayed(true)},

@@ -4,21 +4,9 @@ import {FallbackProps} from 'react-error-boundary';
 // util
 import * as CustomMsg from 'constant/Messages';
 import {get_boundary_error} from 'util/errorHandler';
-import ErrorRefreshButton from 'component/ErrorRefreshButton';
 // component
 import CaseButton from './CaseButton';
 import ActionButton from './ActionButton';
-import SkullIncon from "assets/skull.svg"
-
-const ErrorPage = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
-	// console.log(error)
-	return (
-      <main>
-		<p className="border m-0">{CustomMsg.TECH_ERR}.<br/>{CustomMsg.REFRESH} ou {CustomMsg.LATTER}.<br/>{CustomMsg.DEV}.</p>
-		<ErrorRefreshButton />
-      </main>
-	)
-}
 
 const CaseError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 	const errorFaces = [':(',"--'",'):']
@@ -74,4 +62,4 @@ const EditorError = ({error, resetErrorBoundary}:FallbackProps):ReactNode => {
 	)
 }
 
-export {ErrorPage, CaseError, ActionError, FieldError, EditorError}
+export {CaseError, ActionError, FieldError, EditorError}

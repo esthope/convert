@@ -153,7 +153,7 @@ const AlertMessage = ():ReactElement => {
 		        />
 
 	          	<button
-				className={`no-border no-bg p-0 m-05 customButton flex-center`}
+				className={`no-border no-bg p-0 m-05 index-1 customButton flex-center`}
 				onClick={close_alert}
 				>
 		      		<img src={close_icon} alt="Fermer le message" />

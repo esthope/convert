@@ -1,12 +1,167 @@
 @use 'constant/base.scss' as cst ;
-@use 'style/editor.scss' as * ;
-@use 'style/buttons.scss' as * ;
-@use 'style/fields.scss' as * ;
-@use 'style/message.scss' as * ;
-@use 'style/header.scss' as * ;
+
+#error-page {
+	width: 100vw;
+
+	> img {
+		position: fixed;
+
+		&:first-child {
+			transform: rotate(50deg);
+		}
+
+		&:nth-child(2) {
+		    transform: rotate(-6deg);
+		}
+	}
+
+	.error-message {
+		padding-right: 1rem;
+		div {
+			background-color: rgba(18, 34, 32, .7);
+			border-radius: 2px;
+			padding: 1rem;
+		}
+	}
+}
+
+@media only screen and (min-width: 1px) {
+	#error-page {
+		> img {
+			&:first-child {
+				width: 263px;
+        		left: -175px;
+			}
+
+			&:nth-child(2) {
+		        width: 135px;
+		        top: 73px;
+		        right: 0;
+			}
+		}
+	}
+
+	.error-message {
+		height: 50vh;
+		padding-left: 2rem;
+
+		img {
+			width: 235px;
+	        transform: rotate(2deg);
+	        position: fixed;
+	        bottom: -80px;
+        	right: 5px;
+		}
+
+		p {font-size: 1em}
+	}
+}
+
+@media only screen and (min-width: 330px) {
+	.error-message {
+		padding-left: 9rem;
+	}
+}
+
+@media only screen and (min-width: 640px) {
+	#error-page {
+		> img {
+			&:first-child {
+				width: 283px;
+			}
+
+			&:nth-child(2) {
+		        width: 184px;
+			}
+		}
+	}
+
+	.error-message {
+		img {
+			width: 277px;
+		}
+	}
+}
+
+@media only screen and (min-width: 764px) {
+	#error-page {
+		> img {
+			&:first-child {
+				width: 325px;
+        		bottom: -158px;
+			    right: 35px;
+				left: initial;
+			}
+
+			&:nth-child(2) {
+				top: -10px;
+			    right: 80px;
+			}
+		}
+	}
+
+	.error-message {
+		height: initial;
+		padding-left: 0;
+		column-gap: 5rem;
+		transform: translateX(-125px);
+
+		img {
+			position: inherit;
+			width: 319px;
+			transform: rotate(13deg);
+		}
+	}
+}
+
+
+@media only screen and (min-width: 1064px) {
+	#error-page {
+		> img {
+			&:first-child {
+				width: 430px;
+        		bottom: -213px;
+			}
+
+			&:nth-child(2) {
+				width: 255px;
+        		right: 30px;
+			}
+		}
+	}
+
+	.error-message {
+		img {width: 335px}
+		p {font-size: 1.2em}
+	}
+}
+
+@media only screen and (min-width: 1280px) {
+	#error-page {
+		> img {
+			&:first-child {
+				width: 600px;
+			    bottom: -310px;
+			}
+
+			&:nth-child(2) {
+				width: 350px;
+			    right: 335px;
+			}
+		}
+	}
+
+	.error-message {
+		img {
+			width: 520px;
+		}
+
+		p {font-size: 1.5em}
+	}
+}
 
 footer {
-	// position: absolute;
+	position: absolute;
 	bottom: 0;
 	margin: 0 20px 15px 0;
 

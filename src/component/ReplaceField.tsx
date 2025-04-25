@@ -14,9 +14,6 @@ const ReplaceField = (): ReactElement => {
 			[editorState, setEditorState] = useContext(EditorContext),
         	[setAlertMessage] = useContext(MessageContext);
 
-	throw new Error('es')
-        	
-        	
 	/**
 	 * Replace the text from selected string
 	 * 1. get the selection from blocks
@@ -31,7 +28,6 @@ const ReplaceField = (): ReactElement => {
 		if (selections.length === 0) {
 			let errorMsg = create_warning(SELECT_PLEASE)
       		setAlertMessage(errorMsg)
-      		console.log(errorMsg)
 			return;
 		}
 

@@ -131,9 +131,7 @@ const Home = ():ReactElement => {
 
           </EditorContext.Provider>
 
-          {/*[!] self align*/}
           <AlertMessage />
-
         </main>
       </MessageContext.Provider>
     </>
