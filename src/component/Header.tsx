@@ -31,7 +31,7 @@ const Header = ({started}:{started:boolean}):ReactElement => {
 	}, [started])
 
 	return (
-		<header>
+		<header className="mb-5">
 			<div id="header-content" className="flex fit-content"
 			{...( !isMobile && started && displayed
 				? {

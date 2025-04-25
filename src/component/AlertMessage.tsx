@@ -1,5 +1,5 @@
 // main
-import {ReactElement, useState, useEffect, useContext, useCallback} from 'react';
+import {ReactElement, useState, useEffect, useContext, useCallback, useRef} from 'react';
 import {isMobile} from 'react-device-detect';
 // util
 import {MessageContext} from 'service/context';
@@ -17,11 +17,11 @@ const AlertMessage = ():ReactElement => {
 		[setAlertMessage, alertMessage] = useContext(MessageContext),
 		[messageIcon, setMessageIcon] = useState<string>(error_icon),
 		[hidingDelay, setHidingDelay] = useState<number>(0),
-		[interval, setCurrentInterval] = useState<any>(),
 		[keep, setKeap] = useState<boolean>(false)
 		;
 
 	const {level, message, displayed, reset} = alertMessage;
+	const intervaRef = useRef<any>(null);
 
 	/**
 	 * [CALL]
@@ -52,7 +52,7 @@ const AlertMessage = ():ReactElement => {
 	 * trigger alert masking by increasing the delay
 	 */
 	const trigger_hiding_alert = ():void => {
-		setCurrentInterval(setInterval(():void => { 
+		intervaRef.current = (setInterval(():void => { 
 			setHidingDelay((current:any):number => {
 		        return current+1
 		    })
@@ -70,22 +70,22 @@ const AlertMessage = ():ReactElement => {
 		}
 
 		return () => {
-			clearInterval(interval)
-			setCurrentInterval(null)
+			clearInterval(intervaRef.current)
+			intervaRef.current = 0;
 		}
 	// eslint-disable-next-line
 	}, [keep, displayed])
 
 	/**
 	 * manage alert hiding
-	 * @dependences {hidingDelay} when the delay is updated by the interval or when it's reset
-	 * @dependences {interval} 	  when the interval is changed
+	 * @dependences {hidingDelay} when the delay is updated by the intervaRef.current or when it's reset
+	 * @dependences {intervaRef.current} 	  when the intervaRef.current is changed
 	 */
 	useEffect(()=>{
 		// when 10s as passed, hide
 		if (hidingDelay === 10 && !keep) 
 		{
-			clearInterval(interval)
+			clearInterval(intervaRef.current)
 			change_displayed_state(false)
 			setHidingDelay(0)
 		}
@@ -93,10 +93,10 @@ const AlertMessage = ():ReactElement => {
 		// if the commponent are overed, keep them displayed
 		if (hidingDelay > 0 && keep) 
 		{
-			clearInterval(interval)
+			clearInterval(intervaRef.current)
 		}
 	// eslint-disable-next-line
-	}, [hidingDelay, interval, keep])
+	}, [hidingDelay, intervaRef.current, keep])
 
 	/**
 	 * reset hiding delay of the alert when a new message is set
@@ -114,16 +114,13 @@ const AlertMessage = ():ReactElement => {
 	return (
 		<section id="message-container"
 		className={`flex self-end no-wrap ${(!displayed) ? 'no-overflow' : ''}`}
-
 		{...( !isMobile
 			? {
 				onMouseEnter: ()=>{if (typeof displayed === 'boolean') setKeap(true)},
 				onMouseLeave: ()=>{setKeap(false)}
 			}
 			: {}
-		)}
-		
-		>
+		)}>
 			<div className={`gap-07 flex row fade-element right ${(displayed) ? 'fade-animation':''}`}>
 				<span className={`alert-level rozhaone-font ${level}-color`}>{label_status[level]}</span>
 
@@ -135,12 +132,10 @@ const AlertMessage = ():ReactElement => {
 
 			<div 
 			className={`flex no-wrap self-center fade-element right ${(typeof displayed === 'boolean') ? 'fade-animation':'no-pointer'}`}
-
 			{...( !isMobile
 				? { onMouseOver: ()=> {if (displayed === false) change_displayed_state(true) }}
 				: {}
-			)}
-			>
+			)}>
 		      	<img id="level-icon" src={messageIcon}
 		      	alt={`Logo ${level}. Montrer le message.`}
 		      	className={`grow-element ${(displayed) ? 'grow-animation' : ''}`}
@@ -148,14 +143,11 @@ const AlertMessage = ():ReactElement => {
 		      	{...( isMobile
 					? { onClick: ()=> {if (displayed === false) change_displayed_state(true) }}
 					: {}
-				)}
-
-		        />
+				)}/>
 
 	          	<button
 				className={`no-border no-bg p-0 m-05 index-1 customButton flex-center`}
-				onClick={close_alert}
-				>
+				onClick={close_alert} >
 		      		<img src={close_icon} alt="Fermer le message" />
 			    </button>
 			</div>

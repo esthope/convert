@@ -33,9 +33,7 @@
 /*---------tablets---------------------------------------------*/
 @media only screen and (min-width: 768px)
 {
-  #editor-container {
-    min-width: 85%;
-  }
+  #editor-container {min-width: 85%}
 }
 
 @media only screen and (min-width: 1024px)
@@ -70,9 +68,7 @@
   border: none;
 }
 
-.highlight {
-  background-color: cst.$ocher;
-}
+.highlight {background-color: cst.$ocher}
 
 .selectMode {
     *::selection {

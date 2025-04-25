@@ -6,13 +6,8 @@
 	> img {
 		position: fixed;
 
-		&:first-child {
-			transform: rotate(50deg);
-		}
-
-		&:nth-child(2) {
-		    transform: rotate(-6deg);
-		}
+		&:first-child {transform: rotate(50deg)}
+		&:nth-child(2) {transform: rotate(-6deg)}
 	}
 
 	.error-message {
@@ -58,28 +53,19 @@
 }
 
 @media only screen and (min-width: 330px) {
-	.error-message {
-		padding-left: 9rem;
-	}
+	.error-message {padding-left: 9rem}
 }
 
 @media only screen and (min-width: 640px) {
 	#error-page {
 		> img {
-			&:first-child {
-				width: 283px;
-			}
-
-			&:nth-child(2) {
-		        width: 184px;
-			}
+			&:first-child {width: 283px}
+			&:nth-child(2) {width: 184px}
 		}
 	}
 
 	.error-message {
-		img {
-			width: 277px;
-		}
+		img {width: 277px}
 	}
 }
 
@@ -152,22 +138,21 @@
 	}
 
 	.error-message {
-		img {
-			width: 520px;
-		}
-
+		img {width: 520px}
 		p {font-size: 1.5em}
 	}
 }
 
 footer {
-	position: absolute;
-	bottom: 0;
-	margin: 0 20px 15px 0;
+	margin: auto 20px 15px 0;
 
 	div {
-		width: 100px;
-		padding: 12px 0 0 0;
+		// width: 100px;
+		font-size: .75em;
+		padding: 2px 12px;
 		background-color: cst.$klein;
+		border-radius: 3px;
 	}
+
+	a {text-decoration: none}
 }

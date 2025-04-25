@@ -1,3 +1,10 @@
+# dev
+```ts
+import {initContent} from 'util/editorHandler';
+
+<TemplateButton label='init' started={started} shift={false} board_key='none' is_mobile={false}> <CaseButton content="init" onClick={()=>initContent(setEditorState)} /> </TemplateButton>
+```
+
 # react
 ```ts
 // usestate changed

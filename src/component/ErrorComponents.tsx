@@ -1,9 +1,8 @@
 // main
-import {ReactNode, ReactElement, useEffect} from 'react';
+import {ReactNode} from 'react';
 import {FallbackProps} from 'react-error-boundary';
 // util
 import * as CustomMsg from 'constant/Messages';
-import {get_boundary_error} from 'util/errorHandler';
 // component
 import CaseButton from './CaseButton';
 import ActionButton from './ActionButton';
