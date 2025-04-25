@@ -1,8 +1,15 @@
 # dev
 ```ts
 import {initContent} from 'util/editorHandler';
-
 <TemplateButton label='init' started={started} shift={false} board_key='none' is_mobile={false}> <CaseButton content="init" onClick={()=>initContent(setEditorState)} /> </TemplateButton>
+```
+
+```css
+.bb {border: red solid 1px}
+.bv {border: green solid 1px}
+.bbb {background-color: rgba(255, 255, 255, .1)}
+.bbr {background-color: rgba(255, 0, 0, .2)}
+/*$clear-blue	 : #2943B9;*/
 ```
 
 # react
