@@ -1,5 +1,6 @@
 // main
-import {ReactElement, useState, useEffect, useContext} from 'react';
+import {ReactElement, useState, useEffect, useContext, useCallback} from 'react';
+import {isMobile} from 'react-device-detect';
 // util
 import {MessageContext} from 'service/context';
 import {reset_alert, label_status} from 'util/errorHandler';
@@ -9,8 +10,6 @@ import close_icon from 'assets/close.svg';
 // element
 import {REFRESH_PAGE} from 'constant/Messages';
 import {Message} from 'constant/interfaces';
-import CircleIcon from 'component/icons/CircleIcon';
-import ErrorRefreshButton from 'component/ErrorRefreshButton';
 
 const AlertMessage = ():ReactElement => {
 
@@ -24,14 +23,12 @@ const AlertMessage = ():ReactElement => {
 
 	const {level, message, displayed, reset} = alertMessage;
 
-	let displayed2 = true
-
 	/**
 	 * [CALL]
 	 * control the display of the message
 	 * @param  {isDisplayed} current diplay statut
 	 */
-	const change_displayed_state = (isDisplayed:boolean):void => {
+	const change_displayed_state = useCallback((isDisplayed:boolean):void => {
 		setAlertMessage((current:any):Message => {
 	        return {
 	          level: current.level,
@@ -40,7 +37,7 @@ const AlertMessage = ():ReactElement => {
 	          reset: current.reset
 	        }
 	    })
-	}
+	}, [setAlertMessage])
 
 	/**
 	 * close completely the alert by reseting it 
@@ -56,7 +53,6 @@ const AlertMessage = ():ReactElement => {
 	 */
 	const trigger_hiding_alert = ():void => {
 		setCurrentInterval(setInterval(():void => { 
-			console.log('bip')
 			setHidingDelay((current:any):number => {
 		        return current+1
 		    })
@@ -87,7 +83,7 @@ const AlertMessage = ():ReactElement => {
 	 */
 	useEffect(()=>{
 		// when 10s as passed, hide
-		if (hidingDelay === 1 && !keep) 
+		if (hidingDelay === 10 && !keep) 
 		{
 			clearInterval(interval)
 			change_displayed_state(false)
@@ -99,7 +95,8 @@ const AlertMessage = ():ReactElement => {
 		{
 			clearInterval(interval)
 		}
-	}, [hidingDelay, interval, keep])/*[CALL], change_displayed_state])
+	// eslint-disable-next-line
+	}, [hidingDelay, interval, keep])
 
 	/**
 	 * reset hiding delay of the alert when a new message is set
@@ -112,13 +109,20 @@ const AlertMessage = ():ReactElement => {
 		{
 			setMessageIcon(warn_icon)
 		}
-	}, [message]);
+	}, [message, level])
 
 	return (
 		<section id="message-container"
-		onMouseEnter={()=>{if (typeof displayed === 'boolean') setKeap(true)}}
-		onMouseLeave={()=>{setKeap(false)}}
 		className="flex self-end no-wrap"
+
+		{...( !isMobile
+			? {
+				onMouseEnter: ()=>{if (typeof displayed === 'boolean') setKeap(true)},
+				onMouseLeave: ()=>{setKeap(false)}
+			}
+			: {}
+		)}
+		
 		>
 			<div className={`gap-07 flex row fade-element ${(displayed) ? 'fade-animation':''}`}>
 				<span className={`alert-level rozhaone-font ${level}-color`}>{label_status[level]}</span>
@@ -130,17 +134,26 @@ const AlertMessage = ():ReactElement => {
 			</div>
 
 			<div 
-			className="flex no-wrap"
-			onMouseOver={()=>{if (displayed === false) {change_displayed_state(true)}}}
+			className={`flex no-wrap self-center fade-element ${(typeof displayed === 'boolean') ? 'fade-animation':'no-pointer'}`}
+
+			{...( !isMobile
+				? { onMouseOver: ()=> {if (displayed === false) change_displayed_state(true) }}
+				: {}
+			)}
 			>
 		      	<img id="level-icon" src={messageIcon}
 		      	alt={`Logo ${level}. Montrer le message.`}
 		      	className={`grow-element ${(displayed) ? 'grow-animation' : ''}`}
+
+		      	{...( isMobile
+					? { onClick: ()=> {if (displayed === false) change_displayed_state(true) }}
+					: {}
+				)}
+
 		        />
 
 	          	<button
-				className={`customButton flex-center no-border no-bg fade-element ${
-					(typeof displayed === 'boolean') ? 'fade-animation':'no-pointer'}`}
+				className={`no-border no-bg p-0 m-05 customButton flex-center`}
 				onClick={close_alert}
 				>
 		      		<img src={close_icon} alt="Fermer le message" />

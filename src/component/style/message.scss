@@ -55,21 +55,8 @@
     }
   }
 
-  .grow-animation {width: 7rem}
-}
-
-@media only screen and (min-width: 640px) {
-  #message-container {
-    p {max-width: 17rem}
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  #message-container {
-    p {max-width: 25rem}
-  }
-
   .grow-element {width: 3rem}
+  .grow-animation {width: 7rem}
 }
 
 @media only screen and (min-width: 1064px) {

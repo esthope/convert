@@ -2,13 +2,13 @@ import {Message} from 'constant/interfaces';
 import * as CustomMsg from 'constant/Messages';
 
 const initialMessage:Message = {
-	level: 'error',
+	level: 'none',
 	message: null,
 	displayed: null,
 	reset: false
 }
 
-const label_status = {
+const label_status:any = {
 	error: CustomMsg.ERROR,
 	warning: CustomMsg.WARNING
 }
