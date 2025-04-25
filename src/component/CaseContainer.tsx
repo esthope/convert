@@ -44,9 +44,7 @@ const CaseContainer = ({started}:{started:boolean}): ReactElement => {
 
 	return (
 		<div className="caseContainer flex">
-			<TemplateButton label='init' started={started} shift={false} board_key='none' is_mobile={false}>
-				<CaseButton content="init" onClick={()=>initContent(setEditorState)} />
-			</TemplateButton>
+			{/*<TemplateButton label='init' started={started} shift={false} board_key='none' is_mobile={false}> <CaseButton content="init" onClick={()=>initContent(setEditorState)} /> </TemplateButton>*/}
 			{
 				/*Case.hasOwnProperty(item.entry)*/
 				casesData.map((item:Interaction)=> (

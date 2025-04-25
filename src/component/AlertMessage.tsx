@@ -113,7 +113,7 @@ const AlertMessage = ():ReactElement => {
 
 	return (
 		<section id="message-container"
-		className="flex self-end no-wrap"
+		className={`flex self-end no-wrap ${(!displayed) ? 'no-overflow' : ''}`}
 
 		{...( !isMobile
 			? {
@@ -124,7 +124,7 @@ const AlertMessage = ():ReactElement => {
 		)}
 		
 		>
-			<div className={`gap-07 flex row fade-element ${(displayed) ? 'fade-animation':''}`}>
+			<div className={`gap-07 flex row fade-element right ${(displayed) ? 'fade-animation':''}`}>
 				<span className={`alert-level rozhaone-font ${level}-color`}>{label_status[level]}</span>
 
 			    <p>
@@ -134,7 +134,7 @@ const AlertMessage = ():ReactElement => {
 			</div>
 
 			<div 
-			className={`flex no-wrap self-center fade-element ${(typeof displayed === 'boolean') ? 'fade-animation':'no-pointer'}`}
+			className={`flex no-wrap self-center fade-element right ${(typeof displayed === 'boolean') ? 'fade-animation':'no-pointer'}`}
 
 			{...( !isMobile
 				? { onMouseOver: ()=> {if (displayed === false) change_displayed_state(true) }}

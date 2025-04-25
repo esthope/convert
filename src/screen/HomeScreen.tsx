@@ -12,6 +12,7 @@ import {interactionsData, Case} from 'constant/Interactions';
 import {Message} from 'constant/interfaces';
 // element
 import {CaseError, ActionError, FieldError, EditorError} from 'component/ErrorComponents';
+import Header from 'component/Header';
 import CaseContainer from 'component/CaseContainer';
 import ReplaceField from 'component/ReplaceField';
 import TextEditor from 'component/TextEditor';
@@ -98,41 +99,44 @@ const Home = ():ReactElement => {
   }, [editorState, started, key_listener])
 
   return (
-    <MessageContext.Provider value={messageValues}>
-      <main className="flex column">
-        <EditorContext.Provider value={editorValues}>
+    <>
+      <Header started={started} />
+      <MessageContext.Provider value={messageValues}>
+        <main className="flex column">
+          <EditorContext.Provider value={editorValues}>
 
-          <section id="case-section" className="gap-5 flex-between align-start self-center">
-            {/*CASES*/}
-            <ErrorBoundary FallbackComponent={CaseError} onError={display_error} >
-              <CaseContainer started={started} />
-            </ErrorBoundary>
+            <section id="case-section" className="gap-5 flex-between align-start self-center">
+              {/*CASES*/}
+              <ErrorBoundary FallbackComponent={CaseError} onError={display_error} >
+                <CaseContainer started={started} />
+              </ErrorBoundary>
 
-            {/*REPLACE*/}
-            <ErrorBoundary FallbackComponent={FieldError} onError={display_error} >
-              <ReplaceField />
-            </ErrorBoundary>
-          </section>
+              {/*REPLACE*/}
+              <ErrorBoundary FallbackComponent={FieldError} onError={display_error} >
+                <ReplaceField />
+              </ErrorBoundary>
+            </section>
 
-          <section id="editor-container" className="flex column gap-05">
-            {/*EDITOR*/}
-            <ErrorBoundary FallbackComponent={EditorError} onError={display_error} >
-              <TextEditor contentLength={contentLength} />
-            </ErrorBoundary>
+            <section id="editor-container" className="flex column gap-05">
+              {/*EDITOR*/}
+              <ErrorBoundary FallbackComponent={EditorError} onError={display_error} >
+                <TextEditor contentLength={contentLength} />
+              </ErrorBoundary>
 
-            {/*ACTIONS*/}
-            <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
-              <ActionContainer started={started} />
-            </ErrorBoundary>
-          </section>
+              {/*ACTIONS*/}
+              <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
+                <ActionContainer started={started} />
+              </ErrorBoundary>
+            </section>
 
-        </EditorContext.Provider>
+          </EditorContext.Provider>
 
-        {/*[!] self align*/}
-        <AlertMessage />
+          {/*[!] self align*/}
+          <AlertMessage />
 
-      </main>
-    </MessageContext.Provider>
+        </main>
+      </MessageContext.Provider>
+    </>
   )
 }
 

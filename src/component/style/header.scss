@@ -1,0 +1,65 @@
+@use 'constant/base.scss' as cst;
+
+#header-content {
+	row-gap: 2rem;
+	align-items: center;
+	line-height: 1.5em;
+	padding-top: 2rem;
+
+	h1, b, span {
+		font-family: cst.$RozhaOne, 'Lemonada', cursive;
+		font-weight: normal;
+	}
+
+	p {margin: .8rem 0 .8rem 0}
+}
+
+.intro {
+	span {
+		padding: 0 .3em 0 .3em;
+		margin: 0 .1em 0 .1em;
+		border-radius: 2px;
+		// color: cst.$medium-grey;
+		// color: cst.$light-orange;
+	}
+
+	.normal {background-color: cst.$klein}
+	.multi {background-color: cst.$ocher}
+}
+
+/*---------phones--------------------------------------*/
+@media only screen and (min-width: 1px)
+{
+	.desktop-title {display: none}
+
+	#header-content {
+		img {margin-right: 1rem}
+		p {text-align: justify}
+		span, b {font-size: 1.1em}
+	}
+}
+
+@media only screen and (min-width: 400px)
+{
+	#header-content img {margin-right: 2rem}
+}
+
+/*---------tablets & after-----------------------------*/
+@media only screen and (min-width: 768px)
+{
+	.desktop-title {display: initial}
+	.mobile-title {display: none}
+
+	#header-content {
+		flex-wrap: nowrap;
+		img {margin-right: 3rem}
+		p {text-align: initial}
+	}
+}
+
+@media only screen and (min-width: 1280px) {
+	#header-content {
+		padding-top: 3rem;
+		p {margin: 0}
+	}
+}

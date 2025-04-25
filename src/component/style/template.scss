@@ -3,13 +3,10 @@
 @use 'style/buttons.scss' as * ;
 @use 'style/fields.scss' as * ;
 @use 'style/message.scss' as * ;
-
-.convert_logo {
-	margin: 3rem 0 0 3rem;
-}
+@use 'style/header.scss' as * ;
 
 footer {
-	position: absolute;
+	// position: absolute;
 	bottom: 0;
 	margin: 0 20px 15px 0;
 

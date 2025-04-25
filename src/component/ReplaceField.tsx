@@ -14,6 +14,9 @@ const ReplaceField = (): ReactElement => {
 			[editorState, setEditorState] = useContext(EditorContext),
         	[setAlertMessage] = useContext(MessageContext);
 
+	throw new Error('es')
+        	
+        	
 	/**
 	 * Replace the text from selected string
 	 * 1. get the selection from blocks

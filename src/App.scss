@@ -6,13 +6,15 @@
 .bbb {background-color: rgba(255, 255, 255, .1)}
 .bbr {background-color: rgba(255, 0, 0, .2)}
 
+.p-0 {padding: 0}
 .m-0 {margin: 0}
 .m-05 {margin: .5rem}
-.p-0 {padding: 0}
 .mt-08 {margin-top: .8rem}
 .mr-2 {margin: 0 2rem 0 0}
 .mr-3 {margin-right: 3rem}
+.ml-3 {margin-left: 3rem}
 .mbe-06 {margin-bottom: .6em}
+.mb-1 {margin-bottom: 1rem !important}
 
 .no-border {border: none}
 .no-bg {background: none}
@@ -46,6 +48,7 @@
 .gap-05 {gap: .5rem}
 .gap-07 {gap: .7rem}
 .gap-1 {gap: 1rem}
+.gap-3 {gap: 3rem}
 .gap-5 {gap: 5rem}
 
 /*-displays------------------*/
@@ -53,6 +56,7 @@
 .inline {display: inline}
 .none {display: none}
 .hidden {visibility: hidden}
+.no-overflow {overflow: hidden}
 
 .relative {position: relative};
 
@@ -73,9 +77,7 @@
   font-family: cst.$quicksand;
 }
 
-.rozhaone-font {
-  font-family: cst.$RozhaOne, 'Lemonada', cursive;
-}
+.rozhaone-font {font-family: cst.$RozhaOne, 'Lemonada', cursive}
 
 .green-background {
   background-color: cst.$light-green;
@@ -99,13 +101,16 @@
   -moz-transition: opacity .7s ease-out, transform .5s ease-out;
   -webkit-transition: opacity .7s ease-out, transform .5s ease-out;
   
-  transform: translateX(var(--fade-anchor));
   opacity: 0;
   pointer-events: none;
+
+  &.left {transform: translateX(var(--fade-anchor-left))}
+  &.right {transform: translateX(var(--fade-anchor-right))}
 }
 
 .fade-animation {
-  transform: translateX(0);
+  &.left, &.right {transform: translateX(0)}
+
   opacity: 1;
   pointer-events: initial;
 }

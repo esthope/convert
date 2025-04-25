@@ -11,6 +11,8 @@ iframe {display: none !important}
 }
 
 body {
+  // border: 1px solid red;
+
   font-family: cst.$quicksand;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -42,32 +44,32 @@ main {
   }
 }
 
-p {
-  margin: 0;
-}
-
-button {
-  cursor: pointer;
-}
+/*h1,*/ p {margin: 0}
+button {cursor: pointer}
 
 /*---------phones--------------------------------------*/
 @media only screen and (min-width: 1px)
 {
-  main {margin: 0 1rem 0 1rem}
+  main, header .intro {margin: 0 1rem 0 1rem}
 }
 
 @media only screen and (min-width: 330px)
 {
-  main {margin: 0 1.8rem 0 1.8rem}
+  main, header .intro {margin: 0 1.8rem 0 1.8rem}
 }
 
 @media only screen and (min-width: 500px)
 {
-  main {margin: 0 2rem 0 2rem}
+  main, header .intro {margin: 0 2rem 0 2rem}
 }
 
 /*---------tablets & after-----------------------------*/
 @media only screen and (min-width: 640px)
 {
-  main {margin: 0 4rem 0 4rem}
+  main, header .intro {margin: 0 4rem 0 4rem}
+}
+
+@media only screen and (min-width: 768px)
+{
+  header .intro {margin: 0}
 }

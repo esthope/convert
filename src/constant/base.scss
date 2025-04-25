@@ -28,5 +28,6 @@ $quicksand : 'Quicksand', Roboto, Verdana, sans-serif;
 
 :root {
   --label-gap: 1em;
-  --fade-anchor: 3rem;
+  --fade-anchor-right: 3rem;
+  --fade-anchor-left: -3rem;
 }
