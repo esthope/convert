@@ -87,7 +87,7 @@ const AlertMessage = ():ReactElement => {
 	 */
 	useEffect(()=>{
 		// when 10s as passed, hide
-		if (hidingDelay === 10 && !keep) 
+		if (hidingDelay === 1 && !keep) 
 		{
 			clearInterval(interval)
 			change_displayed_state(false)
@@ -120,7 +120,6 @@ const AlertMessage = ():ReactElement => {
 		onMouseLeave={()=>{setKeap(false)}}
 		className="flex self-end no-wrap"
 		>
-
 			<div className={`gap-07 flex row fade-element ${(displayed) ? 'fade-animation':''}`}>
 				<span className={`alert-level rozhaone-font ${level}-color`}>{label_status[level]}</span>
 
@@ -136,6 +135,7 @@ const AlertMessage = ():ReactElement => {
 			>
 		      	<img id="level-icon" src={messageIcon}
 		      	alt={`Logo ${level}. Montrer le message.`}
+		      	className={`grow-element ${(displayed) ? 'grow-animation' : ''}`}
 		        />
 
 	          	<button
@@ -146,7 +146,6 @@ const AlertMessage = ():ReactElement => {
 		      		<img src={close_icon} alt="Fermer le message" />
 			    </button>
 			</div>
-
 		</section>
 	)
 }

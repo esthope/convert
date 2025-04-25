@@ -1,67 +1,77 @@
 @use 'constant/base.scss' as cst ;
 
 #message-container {
-    /*position: fixed;
-    bottom :0;
-    right: 3rem;*/
+  /*position: fixed;
+  bottom :0;
+  right: 3rem;*/
 
-    div.fade-element {
-        justify-content: flex-end;
-        align-items: center;
-        flex-wrap: nowrap;
+  div.fade-element {
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
 
-        p {text-align: left}
+    p {text-align: left}
 
-        span {
-            font-size: 1.2em;
-            writing-mode: sideways-lr; 
-        }
-
+    span {
+      font-size: 1.2em;
+      writing-mode: sideways-lr; 
     }
 
-    button {
-        z-index: 1;
-        align-self: center;
-    }
+  }
+
+  button {
+    z-index: 1;
+    align-self: center;
+  }
+}
+
+.grow-element {
+  transition: width .2s ease-out;
+  -o-transition: width .2s ease-out;
+  -ms-transition: width .2s ease-out;
+  -moz-transition: width .2s ease-out;
+  -webkit-transition: width .2s ease-out;
+
+  width: 2rem;
 }
 
 @media only screen and (min-width: 1px) {
-    #message-container {margin-top: 2rem}
-    #level-icon {width: 2rem}
+  #message-container {margin-top: 2rem}
+  .grow-animation {width: 3rem}
 }
 
 @media only screen and (min-width: 330px) {
-    #message-container p {order: 2}
-    .fade-animation + div #level-icon {width: 3rem}
+  #message-container p {order: 2}
+  .grow-animation {width: 4rem}
 }
 
 @media only screen and (min-width: 500px) {
-    #message-container {
-        gap: 1rem;
+  #message-container {
+    gap: 1rem;
 
-        p {
-            order: initial;
-            max-width: 25rem;
-        }
+    p {
+      order: initial;
+      max-width: 25rem;
     }
+  }
 
-    .fade-animation + div #level-icon {width: initial}
+  .grow-animation {width: 7rem}
 }
 
 @media only screen and (min-width: 640px) {
-    #message-container {
-        p {max-width: 17rem}
-    }
+  #message-container {
+    p {max-width: 17rem}
+  }
 }
 
 @media only screen and (min-width: 768px) {
-    #message-container {
-        p {max-width: 25rem}
-    }
+  #message-container {
+    p {max-width: 25rem}
+  }
 
-    #level-icon {width: 3rem}
+  .grow-element {width: 3rem}
 }
 
 @media only screen and (min-width: 1064px) {
-    #message-container {margin-top: 0}
+  #message-container {margin-top: 0}
 }
