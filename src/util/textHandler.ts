@@ -117,8 +117,9 @@ export const changeComplexCase = (action:string, text:string):string => {
  */
 export const changeCase = (caseID:string, text:string):string => {
 
+// debugger
 	// verify text
-	if (typeof text !== 'string' || text === '' || whiteReg.test(text)) return text;
+	if (typeof text !== 'string' || text === ''/* || whiteReg.test(text)*/) return text;
 
 	// change text
 	let changedText = undefined;

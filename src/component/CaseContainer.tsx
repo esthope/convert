@@ -1,6 +1,7 @@
 // main
 import {ReactElement, useContext, useEffect} from "react";
 import {EditorState} from "draft-js";
+import {isMobile} from 'react-device-detect';
 // util
 import * as CustomMsg from 'constant/Messages';
 import {MessageContext, EditorContext} from 'service/context';
@@ -14,11 +15,11 @@ import TemplateButton from './TemplateButton';
 import InverseLabel from './InverseLabel';
 import CaseButton from './CaseButton';
 
-const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => {
+const CaseContainer = ({started}:{started:boolean}): ReactElement => {
 
   	const [editorState, setEditorState] = useContext(EditorContext),
   		  // eslint-disable-next-line
-  		  [alertMessage, setAlertMessage] = useContext(MessageContext)
+  		  [setAlertMessage] = useContext(MessageContext)
 
     const handle_text = (action:string)=>{
     	const newState = updateTextCase(action, editorState, setAlertMessage);
@@ -42,12 +43,8 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
 	}, [])
 
 	return (
-		<section className="caseContainer flex">
-			<TemplateButton label='init' length={contentLength} shift={false} board_key='none' >
-				<CaseButton
-					content="init"
-					onClick={()=>initContent(setEditorState)} />
-			</TemplateButton>
+		<div className="caseContainer flex">
+			{/*<TemplateButton label='init' started={started} shift={false} board_key='none' is_mobile={false}> <CaseButton content="init" onClick={()=>initContent(setEditorState)} /> </TemplateButton>*/}
 			{
 				/*Case.hasOwnProperty(item.entry)*/
 				casesData.map((item:Interaction)=> (
@@ -55,9 +52,10 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
 			  	? <TemplateButton
 					key={item.data_id}
 					label={item.label}
-					length={contentLength}
+					started={started}
 					shift={item.shift ?? false}
-					board_key={item.key} >
+					board_key={item.key}
+					is_mobile={isMobile} >
 						<CaseButton
 						content={(item.data_id === Case.inversion) ? InverseLabel : item.title}
 						onClick={() => handle_text(item.data_id)} />
@@ -65,7 +63,7 @@ const CaseContainer = ({contentLength}:{contentLength:number}): ReactElement => 
 			  	: null
 				))
 			}
-		</section>
+		</div>
 	)
 }
 

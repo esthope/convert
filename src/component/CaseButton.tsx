@@ -21,7 +21,7 @@ const CaseButton = ({content, onClick, onMouseEnter, disabled, className}:CasePr
 	return (
 		<button
 			type="button"
-			className={`caseButtonBase caseButton ${additionalStyle}`}
+			className={`caseButtonBase caseButton mbe-06 ${additionalStyle}`}
 			{...properties}
         	onMouseDown={(event) => event.preventDefault()}
 			> 

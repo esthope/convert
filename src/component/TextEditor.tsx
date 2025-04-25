@@ -5,10 +5,12 @@ import "draft-js/dist/Draft.css";
 // util
 import {EditorContext, MessageContext} from 'service/context';
 // element
-import CustomButton from 'component/CustomButton';
+import TextButton from 'component/TextButton';
+import MultiIcon from 'component/icons/MultiIcon'
+import ResetSelectIcon from 'component/icons/ResetSelectIcon'
 import style from "constant/base.scss";
 // alert
-import * as CustomMsg from 'constant/Messages';
+import {SELECT_FAILED, MULTI_SELECT, REINIT_SELECT} from 'constant/Messages';
 import {create_error} from 'util/errorHandler';
 import {Message} from 'constant/interfaces';
 let errorMsg:Message;
@@ -70,7 +72,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     catch(err:any)
     {
       // [DEV]
-      errorMsg = create_error(CustomMsg.SELECT_FAILED)
+      errorMsg = create_error(SELECT_FAILED)
       setAlertMessage(errorMsg)
     }
   }
@@ -120,19 +122,27 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
   }, [selectMode])
 
   return (
-    <section id="editor-container">
+    <>
+      <div className="flex-between align-end">
+        <div>
+          <TextButton text={MULTI_SELECT} onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? 'multi-color' : ''} >
+            <MultiIcon />
+          </TextButton>
 
-      <CustomButton onClick={()=>setSelectMode(!selectMode)} color={(selectMode) ? colors.ocher : undefined} />
-      <CustomButton onClick={resetSelection} color="#fff" />
-
-      <div>
-        <span>{contentLength} caractères</span>
-        {(selectCount > 0) ?
-          <>
-            <span> – </span>
-            <span>{selectCount} sélectionnés</span>
-          </>
-        : null}
+          <TextButton text={REINIT_SELECT} onClick={()=>resetSelection()}>
+            <ResetSelectIcon  />
+          </TextButton>
+        </div>
+  
+        <span className="infos">
+          {contentLength} caractères
+          {(selectCount > 0) ?
+            <>
+              <span> – </span>
+              <span>{selectCount} sélectionnés</span>
+            </>
+          : null}
+        </span>
       </div>
 
       <div
@@ -148,7 +158,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
         customStyleMap={{ HIGHLIGHT: { backgroundColor: colors.ocher } }}
         onChange={onChange} />
       </div>
-    </section>
+    </>
   )
 }
 

@@ -1,7 +1,7 @@
 // main
-import {ReactElement, useEffect, useState, useRef} from "react";
+import {ReactElement, useEffect, useState, useRef, useCallback, useMemo} from "react";
 import {EditorState, Editor} from "draft-js";
-import {ErrorBoundary,} from "react-error-boundary";
+import {ErrorBoundary} from "react-error-boundary";
 // util
 import * as CustomMsg from 'constant/Messages';
 import {EditorContext, MessageContext} from 'service/context';
@@ -11,7 +11,8 @@ import {handle_press, getInteractionsKeys} from 'util/dataHandler';
 import {interactionsData, Case} from 'constant/Interactions';
 import {Message} from 'constant/interfaces';
 // element
-import {CaseError, ActionError, EditorError} from 'component/ErrorComponents';
+import {CaseError, ActionError, FieldError, EditorError} from 'component/ErrorComponents';
+import Header from 'component/Header';
 import CaseContainer from 'component/CaseContainer';
 import ReplaceField from 'component/ReplaceField';
 import TextEditor from 'component/TextEditor';
@@ -22,16 +23,17 @@ const keys = getInteractionsKeys(interactionsData),
       cases = Object.values(Case);
 
 const Home = ():ReactElement => {
-  const 
+  const [started, setStarted] = useState<boolean>(false),
         [contentLength, setContentLength] = useState<number>(0),
         [alertMessage, setAlertMessage] = useState<Message>(initialMessage),
-        [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty())
-        ;
+        [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
 
   const editorRef = useRef<Editor>(null)
 
-  const key_listener = async (event:KeyboardEvent):Promise<void> => {
+  const editorValues = useMemo(()=>([editorState, setEditorState, editorRef]), [editorState]),
+        messageValues = useMemo(()=>([setAlertMessage, alertMessage]), [alertMessage])
 
+  const key_listener = useCallback(async (event:KeyboardEvent):Promise<void> => {
     if (event.key === 'Control' || !event.ctrlKey || !editorRef?.current) return;
 
     let newState:any = null;
@@ -73,18 +75,7 @@ const Home = ():ReactElement => {
       let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.TEXT_UP)
       setAlertMessage(errorMsg)
     }
-  }
-
-  useEffect(()=>{
-    // update the content length
-    const currentContent = editorState.getCurrentContent();
-    setContentLength(getContentLength(currentContent));
-
-    document.addEventListener('keydown', key_listener)
-    return () => document.removeEventListener('keydown', key_listener)
-
-  // DEVeslint-disable-next-line
-  }, [editorState]) // key_listener
+  }, [editorState])
 
   const display_error = (error:Error):void => {
     // [DEV]
@@ -92,28 +83,58 @@ const Home = ():ReactElement => {
     setAlertMessage(errorMsg);
   }
 
+  useEffect(()=>{
+    // update the content length
+    const currentContent = editorState.getCurrentContent();
+    let length = getContentLength(currentContent);
+    setContentLength(length);
+
+    // the edition has started
+    if (length > 0 && !started) {
+      setStarted(true)
+    }
+
+    document.addEventListener('keydown', key_listener)
+    return () => document.removeEventListener('keydown', key_listener)
+  }, [editorState, started, key_listener])
+
   return (
-    <EditorContext.Provider value={[editorState, setEditorState, editorRef]}>
-      <MessageContext.Provider value={[alertMessage, setAlertMessage]}>
-      <main>
+    <>
+      <Header started={started} />
+      <MessageContext.Provider value={messageValues}>
+        <main className="flex column">
+          <EditorContext.Provider value={editorValues}>
 
-        <ErrorBoundary FallbackComponent={CaseError} onError={display_error} >
-          <CaseContainer contentLength={contentLength} />
-        </ErrorBoundary>
+            <section id="case-section" className="gap-5 flex-between align-start self-center">
+              {/*CASES*/}
+              <ErrorBoundary FallbackComponent={CaseError} onError={display_error} >
+                <CaseContainer started={started} />
+              </ErrorBoundary>
 
-        <ErrorBoundary FallbackComponent={EditorError} onError={display_error} >
-          <ReplaceField />
-          <TextEditor contentLength={contentLength} />
-        </ErrorBoundary>
+              {/*REPLACE*/}
+              <ErrorBoundary FallbackComponent={FieldError} onError={display_error} >
+                <ReplaceField />
+              </ErrorBoundary>
+            </section>
 
-        <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
-          <ActionContainer contentLength={contentLength} />
-        </ErrorBoundary>
+            <section id="editor-container" className="flex column gap-05">
+              {/*EDITOR*/}
+              <ErrorBoundary FallbackComponent={EditorError} onError={display_error} >
+                <TextEditor contentLength={contentLength} />
+              </ErrorBoundary>
 
-        <AlertMessage />
-      </main>
+              {/*ACTIONS*/}
+              <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
+                <ActionContainer started={started} />
+              </ErrorBoundary>
+            </section>
+
+          </EditorContext.Provider>
+
+          <AlertMessage />
+        </main>
       </MessageContext.Provider>
-    </EditorContext.Provider>
+    </>
   )
 }
 

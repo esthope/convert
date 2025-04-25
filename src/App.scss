@@ -4,18 +4,28 @@
 .bb {border: red solid 1px}
 .bv {border: green solid 1px}
 .bbb {background-color: rgba(255, 255, 255, .1)}
-.bbr {background-color: rgba(255, 0, 0, .1)}
+.bbr {background-color: rgba(255, 0, 0, .2)}
 
-.m-0 {margin: 0}
+.index-1 {z-index: 1;}
+
 .p-0 {padding: 0}
+.m-0 {margin: 0}
+.m-05 {margin: .5rem}
+.mt-08 {margin-top: .8rem}
+.mr-2 {margin: 0 2rem 0 0}
+.mr-3 {margin-right: 3rem}
+.ml-3 {margin-left: 3rem}
+.mbe-06 {margin-bottom: .6em}
+.mb-1 {margin-bottom: 1rem !important}
 
 .no-border {border: none}
 .no-bg {background: none}
 
-.flex {display: flex}
-.column {flex-direction: column}
-.row-reverse {flex-direction: row-reverse}
-.gap-1 {gap: 1rem}
+/*-flex------------------*/
+.flex {
+  display: flex;
+  flex-wrap: wrap
+}
 
 .flex-center {
   display: flex;
@@ -23,10 +33,32 @@
   align-items: center;
 }
 
+.flex-between {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.no-wrap {flex-wrap: nowrap}
+.column {flex-direction: column}
+.row-reverse {flex-direction: row-reverse}
+.align-start {align-items: flex-start}
+.align-end {align-items: flex-end}
+.self-end{align-self: flex-end}
+.self-center{align-self: center}
+
+.gap-05 {gap: .5rem}
+.gap-07 {gap: .7rem}
+.gap-1 {gap: 1rem}
+.gap-3 {gap: 3rem}
+.gap-5 {gap: 5rem}
+
+/*-displays------------------*/
 .block {display: block}
 .inline {display: inline}
 .none {display: none}
 .hidden {visibility: hidden}
+.no-overflow {overflow: hidden}
 
 .relative {position: relative};
 
@@ -35,6 +67,7 @@
   height: fit-content;
 }
 
+/*-text------------------*/
 .no-pointer {pointer-events: none}
 .pointer {cursor: pointer}
 
@@ -42,18 +75,11 @@
   text-align: center;
 }
 
-/*.lemonada-btn {
-  font-family: "Lemonada", cursive;
-  font-optical-sizing: auto;
-  font-weight: <weight>;
-  font-style: normal;
-}*/
-
 .quicksand-font {
   font-family: cst.$quicksand;
-  font-size: 1.25rem;
-  // font-optical-sizing: auto;
 }
+
+.rozhaone-font, h1 {font-family: cst.$RozhaOne, 'Lemonada', cursive}
 
 .green-background {
   background-color: cst.$light-green;
@@ -62,52 +88,31 @@
 
 .grey-background {
   background-color: cst.$medium-grey;
-  // background-color: cst.$medium;
   border-radius: 3px;
 }
 
-/*---overwrite--------------------------------------------*/
-*:focus {
-  outline: none;
-}
+.error-color {color: cst.$error}
+.warning-color {color: cst.$warning}
+.multi-color > * {color: cst.$light-orange}
 
-main {
-  padding: 0px 95px;
-
-  * {
-    color: cst.$off-white;
-  }
-  
-  *::selection {
-    background: cst.$klein !important;
-    text-shadow: none;
-  }
-
-  *::-moz-selection {
-    background: cst.$klein !important;
-    text-shadow: none;
-  }
-
-  label {
-    font-size: .8rem;
-  }
-}
-
-/*---common--------------------------------------------*/
+/*---animation--------------------------------------------*/
 .fade-element {
   transition: opacity .7s ease-out, transform .5s ease-out;
-  transform: translateX(var(--fade-anchor));
+  -o-transition: opacity .7s ease-out, transform .5s ease-out;
+  -ms-transition: opacity .7s ease-out, transform .5s ease-out;
+  -moz-transition: opacity .7s ease-out, transform .5s ease-out;
+  -webkit-transition: opacity .7s ease-out, transform .5s ease-out;
+  
   opacity: 0;
+  pointer-events: none;
+
+  &.left {transform: translateX(var(--fade-anchor-left))}
+  &.right {transform: translateX(var(--fade-anchor-right))}
 }
 
 .fade-animation {
-  transform: translateX(0);
-  opacity: 1;
-}
+  &.left, &.right {transform: translateX(0)}
 
-/*---react--------------------------------------------*/
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  opacity: 1;
+  pointer-events: initial;
 }

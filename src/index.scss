@@ -1,33 +1,80 @@
 @use 'constant/base.scss' as cst;
+@use 'style/template.scss' as * ;
+@use 'style/editor.scss' as * ;
+@use 'style/buttons.scss' as * ;
+@use 'style/fields.scss' as * ;
+@use 'style/message.scss' as * ;
+@use 'style/header.scss' as * ;
 
 iframe {display: none !important}
 
 #root{
   min-height: 100vh;
-  position: relative;
+}
+
+*:focus {
+  outline: none;
 }
 
 body {
-  // min-height: 100vh;
-  margin: 0;
   font-family: cst.$quicksand;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   background-color: cst.$dark-green;
-  color: cst.$off-white;
+  position: relative;
+
+  *:not(svg, path) {
+    color: cst.$off-white;
+  }
+
+  font-size: 15px;
 }
 
-footer{
-  position: absolute;
-  bottom: 0;
-  right: 0;
+main {
+  align-items: center;
+
+  label, span.infos, .textButton {
+    font-size: .85em;
+  }
+  
+  *::selection {
+    background: cst.$klein !important;
+    text-shadow: none;
+  }
+
+  *::-moz-selection {
+    background: cst.$klein !important;
+    text-shadow: none;
+  }
 }
 
-p {
-  margin: 0;
+/*h1,*/ p {margin: 0}
+button {cursor: pointer}
+
+/*---------phones--------------------------------------*/
+@media only screen and (min-width: 1px)
+{
+  main, header .intro {margin: 0 1rem 0 1rem}
 }
 
-button {
-  cursor: pointer;
+@media only screen and (min-width: 330px)
+{
+  main, header .intro {margin: 0 1.8rem 0 1.8rem}
+}
+
+@media only screen and (min-width: 500px)
+{
+  main, header .intro {margin: 0 2rem 0 2rem}
+}
+
+/*---------tablets & after-----------------------------*/
+@media only screen and (min-width: 640px)
+{
+  main, header .intro {margin: 0 4rem 0 4rem}
+}
+
+@media only screen and (min-width: 768px)
+{
+  header .intro {margin: 0}
 }

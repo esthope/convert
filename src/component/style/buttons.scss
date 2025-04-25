@@ -18,17 +18,17 @@
   max-height: var(--label-gap);
 
   label {
-    line-height: var(--label-gap);
     text-align: center;
   }
 
   label:first-child {
-    margin-bottom: var(--label-gap);
+    margin-bottom: 1.2em;
+    line-height: var(--label-gap);
   }
 
   div {
     // cursor: pointer;
-    transform: translateY(-33.33%);
+    transform: translateY(calc(-1 * var(--label-gap)));
     transition: transform .3s ease-in-out .3s;
     -o-transition: transform .3s ease-in-out .3s;
     -ms-transition: transform .3s ease-in-out .3s;
@@ -38,36 +38,36 @@
 }
 
 div.name-label {
-  transform: translateY(0%);
+  transform: translateY(0);
   cursor: pointer;
 }
 
 div.key-label {
-  transform: translateY(-66.66%);
+  transform: translateY(-2em);
   cursor: pointer;
 }
 
-/*---cases--------------------------------------------*/
-.caseContainer {
-  column-gap: 35px;
+/*---text----------------------------------------------*/
+.textButton {
+  display: inline-flex;
+  align-items: center;
+  font-family: cst.$quicksand; 
+  padding: 0;
 
-  #inversionLabel {
-    column-gap: 6px;
-  }
+  // color: cst.$off_white;
 }
 
-.caseButtonBase {
-  min-width: 64px;
-  width: max-content;
-  height: 64px;
-  border: none;
-  padding: 10px;
+.textButton:active p, .textButton:active svg {
+  color: cst.$light-orange !important;
+}
 
-  span {
-    font-family: cst.$RozhaOne;
-    font-size: 22pt;
-    line-height: 0pt;
-  }
+/*---cases---------------------------------------------*/
+.caseContainer {
+  row-gap: 25px;
+}
+
+#inversionLabel {
+  column-gap: 6px;
 }
 
 .caseButton {
@@ -80,29 +80,142 @@ div.key-label {
 
   &:hover{
     span {
-      transition: transform 2s;
       transform: rotate(390deg);
-      // animation: 5s linear 0s infinite running rotateAnim;
+      transition: transform 2s;
+      -o-transition: transform 2s;
+      -ms-transition: transform 2s;
+      -moz-transition: transform 2s;
+      -webkit-transition: transform 2s;
     }
   }
 }
 
-/*---actions--------------------------------------------*/
+/*---------phones--------------------------------------*/
+@media only screen and (min-width: 1px) {
+  #case-section {
+    min-width: 100%;
+    flex-direction: column;
+    row-gap: 5rem;
+  }
+
+  .caseContainer {
+    column-gap: 30px;
+    width: 100%;
+  }
+
+  .caseButtonBase {
+    border: none;
+    width: max-content;
+    min-width: 45px;
+    height: 45px;
+
+    span {
+      font-family: cst.$RozhaOne;
+      line-height: 0px;
+      font-size: 22px;
+    }
+  }
+}
+
+@media only screen and (min-width: 330px) {
+  .caseContainer {
+    justify-content: space-between;
+    column-gap: 1rem;
+  }
+}
+
+@media only screen and (min-width: 500px) {
+  #case-section {
+    row-gap: 3rem;
+  }
+
+  .caseContainer {
+    justify-content: flex-start;
+    column-gap: 20px;
+    width: initial;
+  }
+
+  .caseButtonBase {
+    min-width: 50px;
+    height: 50px;
+    padding: 10px;
+
+    span {
+      font-size: 24px;
+    }
+  }
+}
+
+@media only screen and (min-width: 640px) {
+  .caseContainer {
+    column-gap: 25px;
+  }
+}
+
+/*---------tablets-------------------------------------*/
+@media only screen and (min-width: 768px) {
+  .caseContainer {
+    column-gap: 35px;
+  }
+}
+
+/*---------desktops------------------------------------*/
+@media only screen and (min-width: 1024px) {
+  #case-section {
+    min-width: 90vw;
+    flex-direction: row;
+  }
+}
+
+@media only screen and (min-width: 1280px) {
+  #case-section {
+    min-width: 70vw;
+  }
+}
+
+/*---actions-------------------------------------------*/
 .actionContainer {
   column-gap: 1rem;
 }
 
 .actionButton {
-  margin-bottom: 5px;
-
-  img {
+  svg, img {
     width: 20px;
     height: auto;
     z-index: 1;
   }
 }
 
-@keyframes rotateAnim {
-  0% {transform: rotate(0deg) }
-  100% {transform: rotate(380deg) }
+/*---animation--------------------------------------------*/
+.error-color path {
+  animation: colorChangeError .7s ease-in-out;
+}
+
+.warning-color path {
+  animation: colorChangeWarning .7s ease-in-out;
+}
+
+.success-color path {
+  animation: colorChangeSuccess .7s ease-in-out;
+}
+
+.success-color:active path, .warning-color:active path, .error-color:active path {
+  animation-name: none !important;
+}
+
+@keyframes colorChangeSuccess {
+  0%, 1% {color: white;} 
+  1%, 99% {color: cst.$success;}
+  99%, 100% {color: white;}
+}
+@keyframes colorChangeWarning {
+  0%, 1% {color: white;} 
+  1%, 99% {color: cst.$warning;}
+  99%, 100% {color: white;}
+}
+
+@keyframes colorChangeError {
+  0%, 1% {color: white;} 
+  1%, 99% {color: cst.$error;}
+  99%, 100% {color: white;}
 }

@@ -1,15 +1,18 @@
 // main
-import {ReactElement, useState, useContext} from "react";
+import {ReactElement, useState, useContext, memo} from "react";
 // util
-import {EditorContext} from 'service/context';
+import {EditorContext, MessageContext} from 'service/context';
 import {getRaws, getSelection, createContent} from 'util/editorHandler';
 import {transformTexts} from 'util/textHandler';
+import {create_warning} from 'util/errorHandler';
 // element
 import CustomButton from 'component/CustomButton';
+import {SELECT_PLEASE} from 'constant/Messages';
 
 const ReplaceField = (): ReactElement => {
 	const 	[choice, setChoice] = useState<string>(''),
-			[editorState, setEditorState] = useContext(EditorContext);
+			[editorState, setEditorState] = useContext(EditorContext),
+        	[setAlertMessage] = useContext(MessageContext);
 
 	/**
 	 * Replace the text from selected string
@@ -22,24 +25,32 @@ const ReplaceField = (): ReactElement => {
 			{blocks} = currentRaws,
 			selections = getSelection(blocks, editorState);
 
-		if (selections.length === 0) return;
+		if (selections.length === 0) {
+			let errorMsg = create_warning(SELECT_PLEASE)
+      		setAlertMessage(errorMsg)
+			return;
+		}
 
 		transformTexts(selections, blocks, choice)
 		setEditorState(createContent(currentRaws))
 	}
 
 	return (
-		<section id="replace-container" className="flex">
-        	<input
-			type="text" 
-			value={choice}
-			className="green-background quicksand-font"
-			placeholder="Saisir le caratère"
-			onChange={({target})=>{setChoice(target.value)}} />
+		<div id="replacing-field">
+			<div className="flex gap-1">
+	        	<input
+				type="text" 
+				value={choice}
+				className="green-background quicksand-font block"
+				placeholder="Saisir le caratère"
+				onChange={({target})=>{setChoice(target.value)}} />
 
-			<CustomButton onClick={replaceSelection} />
-      	</section>
+				<CustomButton onClick={replaceSelection} />
+			</div>
+
+			<span className="infos">Remplacement de la sélection</span>
+      	</div>
 	)
 }
 
-export default ReplaceField;
+export default memo(ReplaceField);

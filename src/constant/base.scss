@@ -10,6 +10,9 @@ $klein 		 : #002FA7;
 $light-orange: #E0A648;
 $ocher: #908859;
 $medium: #757767;
+$success: green;
+$warning: #FEA70B;
+$error: red;
 
 $lemonada : 'Lemonada', cursive;
 $RozhaOne : 'Rozha One', cursive;
@@ -23,8 +26,8 @@ $quicksand : 'Quicksand', Roboto, Verdana, sans-serif;
 	lightOrange:$light-orange;
 }
 
-// window.documentElement.style.setProperty('--label-gap', '2rem')
 :root {
-  --label-gap: 1rem;
-  --fade-anchor: 3rem;
+  --label-gap: 1em;
+  --fade-anchor-right: 3rem;
+  --fade-anchor-left: -3rem;
 }

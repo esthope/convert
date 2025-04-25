@@ -1,18 +1,63 @@
-// @use 'constant/base.scss' as cst ;
+@use 'constant/base.scss' as cst ;
 
-// [!] comme footer
-section#message-container {
-	position: absolute;
-    bottom: 5rem;
-    right: 3rem;
+#message-container {
+  /*position: fixed;
+  bottom :0;
+  right: 3rem;*/
+
+  div.fade-element {
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    p {text-align: left}
+
+    span {
+      font-size: 1.2em;
+      writing-mode: sideways-lr; 
+    }
+
+  }
+
+  button {
+    align-self: center;
+  }
+}
+
+.grow-element {
+  transition: width .2s ease-out;
+  -o-transition: width .2s ease-out;
+  -ms-transition: width .2s ease-out;
+  -moz-transition: width .2s ease-out;
+  -webkit-transition: width .2s ease-out;
+
+  width: 2rem;
+}
+
+@media only screen and (min-width: 1px) {
+  #message-container {margin-top: 2rem}
+  .grow-animation {width: 3rem}
+}
+
+@media only screen and (min-width: 330px) {
+  #message-container p {order: 2}
+  .grow-animation {width: 4rem}
+}
+
+@media only screen and (min-width: 500px) {
+  #message-container {
+    gap: 1rem;
 
     p {
-    	padding: .7rem;
-    	text-align: left;
-    	max-width: 60%;
+      order: initial;
+      max-width: 25rem;
     }
+  }
 
-    .close-btn {
-        z-index: 1;
-    }
+  .grow-element {width: 3rem}
+  .grow-animation {width: 7rem}
+}
+
+@media only screen and (min-width: 1064px) {
+  #message-container {margin-top: 0}
 }

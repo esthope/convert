@@ -1,16 +1,73 @@
 @use 'constant/base.scss' as cst;
 
 #editor-container {
-  margin: 51px 0 0 0;
+  margin: 6rem 0 1rem 0;
+
+  .DraftEditor-root .public-DraftEditor-content {
+    min-height: 240px;
+  }
+}
+
+/*---------phones---------------------------------------------*/
+@media only screen and (min-width: 1px)
+{
+  #editor-container {
+    min-width: 100%;
+    > div:first-child {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
+  }
+}
+
+@media only screen and (min-width: 500px)
+{
+  #editor-container {
+    > div:first-child {
+      flex-direction: initial;
+      align-items: initial;
+    }
+  }
+}
+
+/*---------tablets---------------------------------------------*/
+@media only screen and (min-width: 768px)
+{
+  #editor-container {
+    min-width: 85%;
+  }
+}
+
+@media only screen and (min-width: 1024px)
+{
+  #editor-container {
+    min-width: initial;
+
+    .DraftEditor-root .public-DraftEditor-content {
+      min-width: 650px;
+    }
+  }
+}
+
+/*---------desktops---------------------------------------------*/
+@media only screen and (min-width: 1280px)
+{
+  #editor-container .DraftEditor-root .public-DraftEditor-content {
+      min-width: 750px;
+  }
+}
+
+@media only screen and (min-width: 1800px)
+{
+  #editor-container .DraftEditor-root .public-DraftEditor-content {
+      min-width: 900px;
+      min-height: 340px;
+  }
 }
 
 .editor {
   padding: 50px;
   border: none;
-  width: 50vw;
-  // min-height: 40vh;
-  // height: 40vh;
-
 }
 
 .highlight {

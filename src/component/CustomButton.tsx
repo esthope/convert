@@ -1,5 +1,5 @@
-import {ReactElement} from "react";
-import CircleIcon from 'component/CircleIcon';
+import {ReactElement, memo} from "react";
+import CircleIcon from 'component/icons/CircleIcon';
 
 interface ButtonProp {
 	onClick:any,
@@ -12,11 +12,11 @@ const CustomButton = ({onClick, color, className, disabled}:ButtonProp):ReactEle
 	return (
 		<button
 			type="button"
-			className={`customButton flex-center no-border no-bg ${className}`}
+			className={`customButton flex-center no-border no-bg p-0 ${className}`}
 			onClick={onClick} >
 			<CircleIcon color={color} />
 	    </button>
 	)
 }
 
-export default CustomButton;
+export default memo(CustomButton);

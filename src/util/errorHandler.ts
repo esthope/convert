@@ -8,6 +8,11 @@ const initialMessage:Message = {
 	reset: false
 }
 
+const label_status:any = {
+	error: CustomMsg.ERROR,
+	warning: CustomMsg.WARNING
+}
+
 const create_message = (level:string, message:string, reset?:boolean):Message => {
 	return {
 		level: level,
@@ -39,4 +44,4 @@ const is_message = (result:Message|any):boolean => {
 	return !!(typeof result === 'object' && result?.level?.length > 0);
 }
 
-export {initialMessage, create_warning, create_error, reset_alert, get_boundary_error, is_message}
+export {initialMessage, label_status, create_warning, create_error, reset_alert, get_boundary_error, is_message}

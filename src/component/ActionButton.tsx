@@ -1,19 +1,25 @@
 // main
 import {ReactElement} from "react";
 import {useState, useEffect, useRef} from 'react';
+
 // element
-import CircleIncon from "assets/circle.svg"
+import CopyIcon from 'component/icons/CopyIcon';
+import CircleIcon from 'component/icons/CircleIcon';
+import CutIcon from 'component/icons/CutIcon';
+import PastIcon from 'component/icons/PastIcon';
+import ResetIcon from 'component/icons/ResetIcon';
 
 interface ActionProp {
 	entry:string,
 	label?:string,
 	onMouseEnter?:Function,
+	statut?:String,
 	onClick?:Function
 }
 
-const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactElement => {
+const ActionButton = ({entry, label, onMouseEnter, statut, onClick}:ActionProp):ReactElement => {
+	const [IconPath, setIconPath] = useState<any>(CircleIcon);
 
-	const [iconPath, setIconPath] = useState<string>(CircleIncon)
 	let buttonProp:object = {},
 		imageProp:object = {},
 		unmounted = useRef(true);
@@ -27,32 +33,38 @@ const ActionButton = ({entry, label, onMouseEnter, onClick}:ActionProp):ReactEle
 			unmounted.current = false
 			return 
 		}
-
-		try
-		{
-			const path = require(`../assets/${entry}.svg`)
-			setIconPath(path)
-		}
-		catch(err)
-		{
-			/*[DEV] message icon absent*/
+	
+		switch (entry) {
+			case 'copy':
+				setIconPath(CopyIcon)
+			break;
+			case 'cut':
+				setIconPath(CutIcon)
+			break;
+			case 'past':
+				setIconPath(PastIcon)
+			break;
+			case 'reset':
+				setIconPath(ResetIcon)
+			break;
+			default:
+				setIconPath(CircleIcon)
 		}
 
 		return () => {unmounted.current = true}
-
 	}, [entry])
 
 	return (
 		<button
 			type="button"
-			className="actionButton flex-center column no-bg no-border"
+			className={`${statut?.includes(entry) ? statut.split(' ').pop() : ''} actionButton mbe-06 flex-center column no-bg no-border`}
 			{...buttonProp}
 		>
-        	<img
-        	src={iconPath}
-        	alt={label}
-			{...imageProp}
-        	/>
+			<IconPath
+				stroke='currentColor'
+				fill={(entry === 'reset' || entry === 'copy') ? 'currentColor' : 'transparent'}
+				{...imageProp}
+				/>
 	    </button>
 	)
 }

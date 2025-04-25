@@ -1,6 +1,6 @@
 // Internal
 const TECH = 'Une erreur technique empêche',
-	  RIGHT_TECH = `${TECH} le bon`,
+	  RIGHT_TECH = `${TECH} le`,
 	  SHORTKEY_OK = 'Les raccourcis clavier sont encore disponibles',
 	  FONCTION = 'fonctionnement',
 	  TRAITMENT = 'traitement',
@@ -18,6 +18,7 @@ const TECH_ERR = `${RIGHT_TECH} ${TRAITMENT} ${PAGE}`,
 
 // user
 const REFRESH = 'Veuillez rafraîchir',
+	  REFRESH_PAGE = 'Rafraichir la page',
 	  LATTER = 'réessayez plus tard',
 	  ALERT = "Consultez le message d'erreur en bas de la fenêtre",
 	  REF_IF_PERSIST = `${REFRESH} si cela persiste`
@@ -35,12 +36,20 @@ const EDITOR = "L'éditeur est indisponible",
 	  PAST_ERR = `${TECH} ${PAST} du texte. ${DEV}.`,
 	  COPY_ERR = `${TECH} ${COPY} du texte. ${DEV}.`;
 
-const SELECT_FAILED = `La sélection n'a pas pu être effectuée`
+const SELECT_FAILED = `La sélection n'a pas pu être effectuée`,
+	  MULTI_SELECT = 'Sélection multiple',
+	  REINIT_SELECT = 'Réinitialiser la sélection',
+	  SELECT_PLEASE = `Aucun texte à remplacer ne semble sélectionné.\nPour sélectionner à plusieurs endroit dans votre textes, appuyez sur le bouton ${MULTI_SELECT}`
+
+// labels
+const ERROR = 'erreur',
+	  WARNING = 'alerte'
 
 export {
 	TECH_ERR,
 	TECH_BTN,
 	REFRESH,
+	REFRESH_PAGE,
 	DEV,
 	LATTER,
 	EDITOR,
@@ -56,5 +65,10 @@ export {
 	NOTHING_PAST,
 	PAST_ERR,
 	COPY_ERR,
-	SELECT_FAILED
+	SELECT_FAILED,
+	SELECT_PLEASE,
+	MULTI_SELECT,
+	REINIT_SELECT,
+	ERROR,
+	WARNING
 }
