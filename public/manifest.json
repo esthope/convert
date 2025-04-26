@@ -1,6 +1,6 @@
 {
-  "short_name": "Convert",
-  "name": "Conversion de la casse et remplacement de texte",
+  "short_name": "Outils de conversion Convert",
+  "name": "Convertisseur de casse et remplacement de caractères",
   "icons": [
     {
       "src": "favicon.ico",
@@ -11,12 +11,7 @@
       "src": "orange.svg",
       "type": "image/svg",
       "sizes": "192x192"
-    }/*,
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }*/
+    }
   ],
   "start_url": ".",
   "display": "standalone",
