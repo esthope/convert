@@ -2,9 +2,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Template from 'component/Template';
 import HomeScreen from 'screen/HomeScreen';
 
-// import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import 'App.scss';
-
 function App() {
   return (
     <Router>
@@ -14,7 +11,7 @@ function App() {
         </Route>
       </Routes>
     </Router>
-  );
+  )
 }
 
 export default App;

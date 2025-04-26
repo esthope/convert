@@ -6,7 +6,6 @@ import {isMobile} from 'react-device-detect';
 import * as CustomMsg from 'constant/Messages';
 import {MessageContext, EditorContext} from 'service/context';
 import {is_message} from 'util/errorHandler';
-import {initContent} from 'util/editorHandler';
 import {updateTextCase} from 'util/textHandler';
 import {Interaction} from 'constant/interfaces';
 // element
@@ -44,9 +43,7 @@ const CaseContainer = ({started}:{started:boolean}): ReactElement => {
 
 	return (
 		<div className="caseContainer flex">
-			{/*<TemplateButton label='init' started={started} shift={false} board_key='none' is_mobile={false}> <CaseButton content="init" onClick={()=>initContent(setEditorState)} /> </TemplateButton>*/}
 			{
-				/*Case.hasOwnProperty(item.entry)*/
 				casesData.map((item:Interaction)=> (
 				(true)
 			  	? <TemplateButton

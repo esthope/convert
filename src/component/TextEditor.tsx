@@ -36,7 +36,6 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
   const onPreventDelete = (command:string, editorState:EditorState):any => {
     const event = window.event;
 
-    console.log(command)
     if ((command === 'delete' || command === 'split-block') &&
         (event instanceof KeyboardEvent
         && event?.ctrlKey

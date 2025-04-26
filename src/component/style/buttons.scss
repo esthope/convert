@@ -17,9 +17,7 @@
   overflow: hidden;
   max-height: var(--label-gap);
 
-  label {
-    text-align: center;
-  }
+  label {text-align: center}
 
   label:first-child {
     margin-bottom: 1.2em;
@@ -53,26 +51,14 @@ div.key-label {
   align-items: center;
   font-family: cst.$quicksand; 
   padding: 0;
-
-  // color: cst.$off_white;
 }
 
-.textButton:active p, .textButton:active svg {
-  color: cst.$light-orange !important;
-}
+.textButton:active p, .textButton:active svg {color: cst.$light-orange !important}
 
 /*---cases---------------------------------------------*/
-.caseContainer {
-  row-gap: 25px;
-}
-
-#inversionLabel {
-  column-gap: 6px;
-}
-
-.caseButton {
-  box-shadow: -3.5px -3.5px 0 cst.$klein;
-}
+#inversionLabel {column-gap: 6px}
+.caseContainer {row-gap: 25px}
+.caseButton {box-shadow: -3.5px -3.5px 0 cst.$klein}
 
 .unactiveButton {
   box-shadow: -3.5px -3.5px 0 cst.$medium;
@@ -125,9 +111,7 @@ div.key-label {
 }
 
 @media only screen and (min-width: 500px) {
-  #case-section {
-    row-gap: 3rem;
-  }
+  #case-section {row-gap: 3rem}
 
   .caseContainer {
     justify-content: flex-start;
@@ -140,23 +124,17 @@ div.key-label {
     height: 50px;
     padding: 10px;
 
-    span {
-      font-size: 24px;
-    }
+    span {font-size: 24px}
   }
 }
 
 @media only screen and (min-width: 640px) {
-  .caseContainer {
-    column-gap: 25px;
-  }
+  .caseContainer {column-gap: 25px}
 }
 
 /*---------tablets-------------------------------------*/
 @media only screen and (min-width: 768px) {
-  .caseContainer {
-    column-gap: 35px;
-  }
+  .caseContainer {column-gap: 35px}
 }
 
 /*---------desktops------------------------------------*/
@@ -168,15 +146,11 @@ div.key-label {
 }
 
 @media only screen and (min-width: 1280px) {
-  #case-section {
-    min-width: 70vw;
-  }
+  #case-section {min-width: 70vw}
 }
 
 /*---actions-------------------------------------------*/
-.actionContainer {
-  column-gap: 1rem;
-}
+.actionContainer {column-gap: 1rem}
 
 .actionButton {
   svg, img {

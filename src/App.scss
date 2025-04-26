@@ -1,11 +1,6 @@
 @use 'constant/base.scss' as cst;
 
 /*---base---------------------------------------------*/
-.bb {border: red solid 1px}
-.bv {border: green solid 1px}
-.bbb {background-color: rgba(255, 255, 255, .1)}
-.bbr {background-color: rgba(255, 0, 0, .2)}
-
 .index-1 {z-index: 1;}
 
 .p-0 {padding: 0}
@@ -13,10 +8,10 @@
 .m-05 {margin: .5rem}
 .mt-08 {margin-top: .8rem}
 .mr-2 {margin: 0 2rem 0 0}
-.mr-3 {margin-right: 3rem}
 .ml-3 {margin-left: 3rem}
 .mbe-06 {margin-bottom: .6em}
 .mb-1 {margin-bottom: 1rem !important}
+.mb-5 {margin-bottom: 5rem}
 
 .no-border {border: none}
 .no-bg {background: none}
@@ -41,7 +36,6 @@
 
 .no-wrap {flex-wrap: nowrap}
 .column {flex-direction: column}
-.row-reverse {flex-direction: row-reverse}
 .align-start {align-items: flex-start}
 .align-end {align-items: flex-end}
 .self-end{align-self: flex-end}
@@ -50,17 +44,14 @@
 .gap-05 {gap: .5rem}
 .gap-07 {gap: .7rem}
 .gap-1 {gap: 1rem}
-.gap-3 {gap: 3rem}
+.gap-2 {gap: 2rem}
 .gap-5 {gap: 5rem}
 
 /*-displays------------------*/
 .block {display: block}
 .inline {display: inline}
 .none {display: none}
-.hidden {visibility: hidden}
 .no-overflow {overflow: hidden}
-
-.relative {position: relative};
 
 .fit-content {
   width: fit-content;
@@ -70,10 +61,7 @@
 /*-text------------------*/
 .no-pointer {pointer-events: none}
 .pointer {cursor: pointer}
-
-.text-center {
-  text-align: center;
-}
+.text-center {text-align: center}
 
 .quicksand-font {
   font-family: cst.$quicksand;
