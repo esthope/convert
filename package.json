@@ -1,6 +1,6 @@
 {
   "name": "Zeste",
-  "homepage": "https://esthope.github.io/zeste"
+  "homepage": "https://esthope.github.io/zeste",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -13,6 +13,7 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "draft-js": "^0.11.7",
+    "gh-pages": "^6.3.0",
     "react": "^18.3.1",
     "react-app-rewired": "^2.2.1",
     "react-device-detect": "^2.2.3",
@@ -31,7 +32,6 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
-
   },
   "eslintConfig": {
     "extends": [
