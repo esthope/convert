@@ -1,6 +1,5 @@
 {
   "name": "Zeste",
-  "homepage": "https://esthope.github.io/zeste/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
