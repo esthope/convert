@@ -21,22 +21,14 @@ const ActionButton = ({entry, label, onMouseEnter, statut, onClick}:ActionProp):
 	const [IconPath, setIconPath] = useState<any>(CircleIcon);
 
 	let buttonProp:object = {},
-		imageProp:object = {},
-		unmounted = useRef(true);
+		imageProp:object = {};
 
 	if (onClick) buttonProp = {onClick: onClick};
 	if (onMouseEnter) imageProp = {onMouseEnter: onMouseEnter};
 
 	// get the button icon
 	useEffect(()=>{
-		console.log(unmounted?.current, entry)
-		if (unmounted?.current) {
-			unmounted.current = false
-			return 
-		}
-	
-		console.log(entry)
-		console.log(CopyIcon)
+		console.log(label)
 		switch (entry) {
 			case 'copy':
 				setIconPath(CopyIcon)
@@ -53,8 +45,6 @@ const ActionButton = ({entry, label, onMouseEnter, statut, onClick}:ActionProp):
 			default:
 				setIconPath(CircleIcon)
 		}
-
-		return () => {unmounted.current = true}
 	}, [entry])
 
 	return (
