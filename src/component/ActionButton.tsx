@@ -29,7 +29,7 @@ const ActionButton = ({entry, label, onMouseEnter, statut, onClick}:ActionProp):
 
 	// get the button icon
 	useEffect(()=>{
-		console.log('mounting')
+		console.log(unmounted?.current, entry)
 		if (unmounted?.current) {
 			unmounted.current = false
 			return 
