@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/zeste/static/css/main.f4743ceb.css",
-    "main.js": "/zeste/static/js/main.0667b6da.js",
+    "main.js": "/zeste/static/js/main.9da6919a.js",
     "static/js/453.6cbd2be1.chunk.js": "/zeste/static/js/453.6cbd2be1.chunk.js",
     "static/media/warn.svg": "/zeste/static/media/warn.5e85d71f75c5083db38b016dc0a14109.svg",
     "static/media/error.svg": "/zeste/static/media/error.df20ad9a38d3ba9a226af09377c0d2fd.svg",
@@ -12,11 +12,11 @@
     "static/media/close.svg": "/zeste/static/media/close.c9b14eb970dfcb02916d28714ff885fa.svg",
     "static/media/linkedin.svg": "/zeste/static/media/linkedin.47f39e581279bdcedbb85fc305fa0ab4.svg",
     "main.f4743ceb.css.map": "/zeste/static/css/main.f4743ceb.css.map",
-    "main.0667b6da.js.map": "/zeste/static/js/main.0667b6da.js.map",
+    "main.9da6919a.js.map": "/zeste/static/js/main.9da6919a.js.map",
     "453.6cbd2be1.chunk.js.map": "/zeste/static/js/453.6cbd2be1.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f4743ceb.css",
-    "static/js/main.0667b6da.js"
+    "static/js/main.9da6919a.js"
   ]
 }
