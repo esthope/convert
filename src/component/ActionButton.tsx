@@ -28,7 +28,6 @@ const ActionButton = ({entry, label, onMouseEnter, statut, onClick}:ActionProp):
 
 	// get the button icon
 	useEffect(()=>{
-		console.log(label)
 		switch (entry) {
 			case 'copy':
 				setIconPath(CopyIcon)

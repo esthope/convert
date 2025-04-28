@@ -6,8 +6,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/zeste" element={<Template/>}>
-          <Route path="/zeste" element={<HomeScreen/>} />
+        <Route path="/" element={<Template/>}>
+          <Route path="/" element={<HomeScreen/>} />
           {/*<Route path="*" element={<Navigate to="/" />} />*/}
         </Route>
       </Routes>
