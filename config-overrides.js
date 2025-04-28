@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = function override(config, env) {
   // Ajout des alias
   config.resolve.alias = {
-    ...config.resolve.alias,
+    ...(config.resolve.alias || {}),
     assets: path.resolve(__dirname, 'src/assets/'),
     component: path.resolve(__dirname, 'src/component/'),
     icons: path.resolve(__dirname, 'src/component/icons/'),

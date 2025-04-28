@@ -1,6 +1,6 @@
 {
   "name": "Zeste",
-  "homepage": "https://zeste-convert.fr/",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
