@@ -12,7 +12,7 @@ const Template = ():ReactElement => {
     	<ErrorBoundary FallbackComponent={UnavailableScreen}>
 			<Outlet />
     	</ErrorBoundary>
-        <footer className="self-end">
+        <footer className="self-end index-1">
         	<div className="flex-center gap-2">
         		Réalisation par Esthope :
 

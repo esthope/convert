@@ -24,7 +24,8 @@ const REFRESH = 'Veuillez rafraîchir',
 	  REF_IF_PERSIST = `${REFRESH} si cela persiste`
 
 // component
-const EDITOR = "L'éditeur est indisponible",
+const SITE_NAME = "Zeste", 
+	  EDITOR = "L'éditeur est indisponible",
 	  SHORTKEY = `${MAY} le raccourcie clavier n'ait pas fonctionné`,
 	  // [!] svg
 	  ACTIONS = `${TECH_BTN} des actions copier/coller/couper/réinitialiser. ${SHORTKEY_OK}`,
@@ -52,6 +53,7 @@ export {
 	REFRESH_PAGE,
 	DEV,
 	LATTER,
+	SITE_NAME,
 	EDITOR,
 	ALERT,
 	OOPS,

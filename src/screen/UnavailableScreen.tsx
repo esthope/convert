@@ -6,20 +6,19 @@ import * as CustomMsg from 'constant/Messages';
 import errorIcon from "assets/error.svg"
 import warnIcon from "assets/warn.svg"
 import orangeIcon from "assets/orange.svg"
-import convertIcon from "assets/convert.svg"
+import convertIcon from "assets/zeste.svg"
 
 const Unavailable = ({error, resetErrorBoundary}:FallbackProps):ReactElement => {
-
 	return (
 		<>
 		<header id="header-content" className="ml-3 index-1 flex"> 
     		<img src={orangeIcon} alt="Logo du site en erreur" />
-			<h1>Convert</h1>
+			<h1>Zeste</h1>
 		</header>
 
 	    <main id="error-page" className="m-0 flex no-overflow">
 	    	<img src={convertIcon} alt="Logo alerte avertissement" />
-	    	<img src={warnIcon} alt="Logo du site Convert" />
+	    	<img src={warnIcon} alt="Logo du site Zeste" />
 
 	    	<div className="error-message flex no-wrap">
 					<img src={errorIcon} alt="Logo erreur" />
