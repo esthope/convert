@@ -8,7 +8,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Template/>}>
           <Route index element={<HomeScreen/>} />
-          <Route path="*" element={<Navigate to="/" />} />
+          {/*<Route path="*" element={<Navigate to="/" />} />*/}
         </Route>
       </Routes>
     </Router>
