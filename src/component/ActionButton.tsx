@@ -29,11 +29,14 @@ const ActionButton = ({entry, label, onMouseEnter, statut, onClick}:ActionProp):
 
 	// get the button icon
 	useEffect(()=>{
+		console.log('mounting')
 		if (unmounted?.current) {
 			unmounted.current = false
 			return 
 		}
 	
+		console.log(entry)
+		console.log(CopyIcon)
 		switch (entry) {
 			case 'copy':
 				setIconPath(CopyIcon)
