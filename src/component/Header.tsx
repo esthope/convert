@@ -53,7 +53,7 @@ const Header = ({started}:{started:boolean}):ReactElement => {
 	      		<div className={`intro fade-element left ${(displayed) ? 'fade-animation':''}`}
 	      		>
 	      			<h1 className="mb-1 desktop-title">Zeste</h1>
-		      		<p><b>Bienvenue sur Zeste</b>, cet outil permet de convertir les majuscules et minusules <b>– la casse –</b> du texte, et de remplacer plusieurs lettres par d'autres en un seul coup.</p>
+		      		<p><b>Bienvenue sur Zeste</b>, cet outil est un convertisseur de majuscules et de minuscules <b>– la casse –</b> du texte, et permet de remplacer plusieurs lettres par d'autres en un seul coup.</p>
 		      		<p>Remplacer en masse le texte souhaité grâce à la sélection multiple. La sélection sera bleue en <span className="normal">sélection normale</span> et ocre en <span className="multi">sélection multiple</span> !</p>
 		      	</div>
 			</div>
