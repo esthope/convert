@@ -161,35 +161,28 @@ div.key-label {
 }
 
 /*---animation--------------------------------------------*/
-.error-color path {
-  animation: colorChangeError .7s ease-in-out;
-}
+.error-color-btn path {animation: colorChangeError 1s ease-in-out}
+.warning-color-btn path {animation: colorChangeWarning 1s ease-in-out}
+.success-color-btn path {animation: colorChangeSuccess .7s ease-in-out}
 
-.warning-color path {
-  animation: colorChangeWarning .7s ease-in-out;
-}
-
-.success-color path {
-  animation: colorChangeSuccess .7s ease-in-out;
-}
-
-.success-color:active path, .warning-color:active path, .error-color:active path {
+.success-color-btn:active path, .warning-color-btn:active path, .error-color-btn:active path {
   animation-name: none !important;
 }
 
-@keyframes colorChangeSuccess {
-  0%, 1% {color: white;} 
-  1%, 99% {color: cst.$success;}
+@keyframes colorChangeError {
+  0%, 1% {color: white;}
+  1%, 99% {color: cst.$error;}
   99%, 100% {color: white;}
 }
+
 @keyframes colorChangeWarning {
-  0%, 1% {color: white;} 
+  0%, 1% {color: white;}
   1%, 99% {color: cst.$warning;}
   99%, 100% {color: white;}
 }
 
-@keyframes colorChangeError {
-  0%, 1% {color: white;} 
-  1%, 99% {color: cst.$error;}
+@keyframes colorChangeSuccess {
+  0%, 1% {color: white;}
+  1%, 99% {color: cst.$success;}
   99%, 100% {color: white;}
 }

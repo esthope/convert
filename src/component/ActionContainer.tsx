@@ -37,14 +37,14 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 			if (newState instanceof EditorState)
 				setEditorState(newState)
 
-			setStatutColor(entry + ' success-color') 
+			setStatutColor(entry + ' success-color-btn') 
 		}
 		catch(err:any)
 		{
 			// ? [DEV]
-			console.log(err)
+			// console.log(err)
 			let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.ACTION_FAILED)
-			setStatutColor(entry + ` ${err?.level ?? 'error'}-color`) 
+			setStatutColor(entry + ` ${err?.level ?? 'error'}-color-btn`) 
 			setAlertMessage(errorMsg)
 		}
 	}
