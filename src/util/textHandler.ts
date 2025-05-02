@@ -211,7 +211,7 @@ export const clipboardAction = async (action:string, editorRef:any):Promise<any>
 				break;
 			case Action.past:
 				newContent = await clipboard.readText()
-				.then((text:any) => (text === '') ? create_warning(CustomMsg.NOTHING_PAST) : createContent(text))
+				.then((text:any) => (text === '' || typeof text !== 'string') ? create_warning(CustomMsg.NOTHING_PAST) : createContent(text))
 				.catch ((err:any) =>/*DEV*/create_error(CustomMsg.PAST_ERR));
 				break;
 		}
