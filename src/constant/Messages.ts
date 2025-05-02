@@ -28,14 +28,14 @@ const SITE_NAME = "Zeste",
 	  EDITOR = "L'éditeur est indisponible",
 	  SHORTKEY = `${MAY} le raccourcie clavier n'ait pas fonctionné`,
 	  // [!] svg
-	  ACTIONS = `${TECH_BTN} des actions copier/coller/couper/réinitialiser. ${SHORTKEY_OK}`,
-	  ACTION_FAILED = `Votre action n'a pas pu aboutir à cause d'un soucis technique. ${DEV}.`,
+	  ACTIONS = `${TECH_BTN} des actions copier • coller • couper • réinitialiser. ${SHORTKEY_OK}`,
+	  ACTION_FAILED = `Votre action n'a pas pu aboutir à cause d'un soucis technique.`, // ${DEV}.
 	  CASES = `${TECH_BTN} de la casse`,
 	  TEXT_UP = `Un soucis technique peut avoir empêché la mise à jour d'une partie du texte.`,
 	  TEXT_UNCHANGED = `Le texte n'a pas pu être changé. ${REF_IF_PERSIST}.`,
 	  NOTHING_PAST = `Il n'y a rien à coller.`,
-	  PAST_ERR = `${TECH} ${PAST} du texte. ${DEV}.`,
-	  COPY_ERR = `${TECH} ${COPY} du texte. ${DEV}.`;
+	  PAST_ERR = `${TECH} ${PAST} du texte.`, // ${DEV}.
+	  COPY_ERR = `${TECH} ${COPY} du texte.`; // ${DEV}.
 
 const SELECT_FAILED = `La sélection n'a pas pu être effectuée`,
 	  MULTI_SELECT = 'Sélection multiple',
