@@ -7,9 +7,9 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Template/>}>
-          <Route path="/" element={<HomeScreen/>} />
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route index element={<HomeScreen/>} />
         </Route>
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   )

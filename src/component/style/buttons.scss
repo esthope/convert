@@ -140,7 +140,7 @@ div.key-label {
 /*---------desktops------------------------------------*/
 @media only screen and (min-width: 1024px) {
   #case-section {
-    min-width: 90vw;
+    max-width: 90vw;
     flex-direction: row;
   }
 }
