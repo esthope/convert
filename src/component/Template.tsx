@@ -19,7 +19,7 @@ const Template = ():ReactElement => {
     	</ErrorBoundary>
 
         <footer className="self-end flex-end column index-1 gap-3">
-        	<div className="flex gap-7">
+        	<div className="flex">
         		{Links.map((link:Link):any => (
 	        		<ExternalLink
 	        		key={link.title}

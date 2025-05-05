@@ -51,25 +51,35 @@ button {cursor: pointer}
 /*---------phones--------------------------------------*/
 @media only screen and (min-width: 1px) {
   main, header .intro {margin: 0 1rem 0 1rem}
+  main {margin-bottom: 5rem}
 }
 
 @media only screen and (min-width: 330px) {
   main, header .intro {margin: 0 1.8rem 0 1.8rem}
+  main {margin-bottom: 5rem}
 }
 
 @media only screen and (min-width: 500px) {
+  body {background-size: auto 20%}
   main, header .intro {margin: 0 2rem 0 2rem}
+  main {margin-bottom: 5rem}
 }
 
 /*---------tablets & after-----------------------------*/
 @media only screen and (min-width: 640px) {
+  body {background-size: auto 23%}
   main, header .intro {margin: 0 4rem 0 4rem}
-  main {
-    margin-bottom: 5rem;
-    background-size: auto 40%;
-  }
+  main {margin-bottom: 5rem}
 }
 
 @media only screen and (min-width: 768px) {
   header .intro {margin: 0}
+}
+
+@media only screen and (min-width: 1064px) {
+  body {background-size: auto 30%}
+}
+
+@media only screen and (min-width: 1280px) {
+  body {background-size: auto 40%}
 }
