@@ -17,6 +17,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   background-color: cst.$dark-green;
+
+  background-image: url("/assets/footer_bg.svg");
+  background-position: bottom 0 right 0;
+  background-repeat: no-repeat;
+
   position: relative;
 
   *:not(svg, path) {color: cst.$off-white}
@@ -59,6 +64,10 @@ button {cursor: pointer}
 /*---------tablets & after-----------------------------*/
 @media only screen and (min-width: 640px) {
   main, header .intro {margin: 0 4rem 0 4rem}
+  main {
+    margin-bottom: 5rem;
+    background-size: auto 40%;
+  }
 }
 
 @media only screen and (min-width: 768px) {

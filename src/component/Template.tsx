@@ -17,10 +17,9 @@ const Template = ():ReactElement => {
     	<ErrorBoundary FallbackComponent={UnavailableScreen}>
 			<Outlet />
     	</ErrorBoundary>
-    	{/* pt-2*/}
-        <footer className="self-end flex column align-end index-1 gap-3">
-        	<div className="flex gap-5">
 
+        <footer className="self-end flex-end column index-1 gap-3">
+        	<div className="flex gap-7">
         		{Links.map((link:Link):any => (
 	        		<ExternalLink
 	        		key={link.title}

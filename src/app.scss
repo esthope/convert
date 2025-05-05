@@ -1,0 +1,116 @@
+@use 'constant/base.scss' as cst;
+
+/*---base---------------------------------------------*/
+.index-1 {z-index: 1;}
+.bb {border: 1px red solid}
+
+.p-0 {padding: 0}
+.pt-2 {padding-top: 2rem}
+.m-0 {margin: 0}
+.m-05 {margin: .5rem}
+.mt-08 {margin-top: .8rem}
+.mr-2 {margin: 0 2rem 0 0}
+.ml-3 {margin-left: 3rem}
+.mbe-06 {margin-bottom: .6em}
+.mb-1 {margin-bottom: 1rem !important}
+.mb-5 {margin-bottom: 5rem}
+
+.no-border {border: none}
+.no-bg {background: none}
+
+/*-flex------------------*/
+.flex {
+  display: flex;
+  flex-wrap: wrap
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-between {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.no-wrap {flex-wrap: nowrap}
+.column {flex-direction: column}
+.align-start {align-items: flex-start}
+.align-end {align-items: flex-end}
+.self-end{align-self: flex-end}
+.self-center{align-self: center}
+
+.gap-05 {gap: .5rem}
+.gap-07 {gap: .7rem}
+.gap-1 {gap: 1rem}
+.gap-2 {gap: 2rem}
+.gap-3 {gap: 3rem}
+.gap-5 {gap: 5rem}
+.gap-7 {gap: 7rem}
+
+/*-displays------------------*/
+.block {display: block}
+.inline {display: inline}
+.none {display: none}
+.no-overflow {overflow: hidden}
+
+.fit-content {
+  width: fit-content;
+  height: fit-content;
+}
+
+/*-text------------------*/
+.no-pointer {pointer-events: none}
+.pointer {cursor: pointer}
+.text-center {text-align: center}
+
+.quicksand-font {
+  font-family: cst.$quicksand;
+}
+
+.rozhaone-font, h1 {font-family: cst.$RozhaOne, 'Lemonada', cursive}
+
+.green-background {
+  background-color: cst.$light-green;
+  border-radius: 3px;
+}
+
+.grey-background {
+  background-color: cst.$medium-grey;
+  border-radius: 3px;
+}
+
+.error-color {color: cst.$error}
+.warning-color {color: cst.$warning}
+.multi-color > * {color: cst.$light-orange}
+
+/*---animation--------------------------------------------*/
+.fade-element {
+  transition: opacity .7s ease-out, transform .5s ease-out;
+  -o-transition: opacity .7s ease-out, transform .5s ease-out;
+  -ms-transition: opacity .7s ease-out, transform .5s ease-out;
+  -moz-transition: opacity .7s ease-out, transform .5s ease-out;
+  -webkit-transition: opacity .7s ease-out, transform .5s ease-out;
+  
+  opacity: 0;
+  pointer-events: none;
+
+  &.left {transform: translateX(var(--fade-anchor-left))}
+  &.right {transform: translateX(var(--fade-anchor-right))}
+}
+
+.fade-animation {
+  &.left, &.right {transform: translateX(0)}
+
+  opacity: 1;
+  pointer-events: initial;
+}
