@@ -20,3 +20,12 @@ Tous les boutons ont des raccourcies clavier associés.
 
 >>>
 >>>
+
+ site une page avec un éditeur de texte, des boutons et un champs de saisie.
+
+Avec les boutons on peut modifier la casse du texte de l'éditeur, selon ce qu'on souhaite (majuscule, minuscule, camel case, pascal case, inversion de casse). Avec 4 autres boutons on peut copier, coller, réinitialiser, couper. Tous les boutons ont un raccourcie clavier dédiés
+Le champs de saisie secondaire permet de remplacer du texte. Il faut d'abord faire une sélection dans l'éditeur, puis cliquer sur un bouton dédié au remplacement pour remplacer cette sélection par le texte inscrit dans le champs de saisie secondaire.
+
+une fonctionnalité en plus est présente : la multi sélection. on peut switcher entre le mode de sélection simple (habituel), et le mode de sélection multiple. quand ce dernier mode est activé, toutes les sélections effectuées à partir de ce moment sont maintenues (techniquement, les index des caractères sont enregistrés dans une table), et il est possible de sélectionner plusieurs caractères à plusieurs endroits dans le texte.
+
+quand des caractères sont sélectionnés, ce sont seulement eux qui vont être modifié par les boutons et le remplacement. si rien n'est sélectionné, alors le texte entier sera modifié, sauf pour le remplacement qui ne fonctionnera pas.
