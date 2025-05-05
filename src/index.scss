@@ -17,6 +17,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   background-color: cst.$dark-green;
+
+  background-image: url("/assets/footer_bg.svg");
+  background-position: bottom 0 right 0;
+  background-repeat: no-repeat;
+
   position: relative;
 
   *:not(svg, path) {color: cst.$off-white}
@@ -46,21 +51,35 @@ button {cursor: pointer}
 /*---------phones--------------------------------------*/
 @media only screen and (min-width: 1px) {
   main, header .intro {margin: 0 1rem 0 1rem}
+  main {margin-bottom: 5rem}
 }
 
 @media only screen and (min-width: 330px) {
   main, header .intro {margin: 0 1.8rem 0 1.8rem}
+  main {margin-bottom: 5rem}
 }
 
 @media only screen and (min-width: 500px) {
+  body {background-size: auto 20%}
   main, header .intro {margin: 0 2rem 0 2rem}
+  main {margin-bottom: 5rem}
 }
 
 /*---------tablets & after-----------------------------*/
 @media only screen and (min-width: 640px) {
+  body {background-size: auto 23%}
   main, header .intro {margin: 0 4rem 0 4rem}
+  main {margin-bottom: 5rem}
 }
 
 @media only screen and (min-width: 768px) {
   header .intro {margin: 0}
+}
+
+@media only screen and (min-width: 1064px) {
+  body {background-size: auto 30%}
+}
+
+@media only screen and (min-width: 1280px) {
+  body {background-size: auto 40%}
 }

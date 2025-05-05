@@ -9,7 +9,7 @@ function App() {
         <Route path="/" element={<Template/>}>
           <Route index element={<HomeScreen/>} />
         </Route>
-        <Route path="*" element={<Navigate to="/" />} />
+        <Route path="/*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   )

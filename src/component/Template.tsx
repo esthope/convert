@@ -3,8 +3,13 @@ import {ErrorBoundary} from "react-error-boundary";
 import {Outlet} from 'react-router-dom';
 import {ReactElement} from "react";
 // element
+import {Link} from "constant/interfaces"
 import UnavailableScreen from 'screen/UnavailableScreen';
-import linkedinLogo from 'assets/linkedin.svg';
+import ExternalLink from 'component/ExternalLink';
+
+
+import {Links} from 'constant/Configuration'
+
 
 const Template = ():ReactElement => {
 	return (
@@ -12,16 +17,20 @@ const Template = ():ReactElement => {
     	<ErrorBoundary FallbackComponent={UnavailableScreen}>
 			<Outlet />
     	</ErrorBoundary>
-        <footer className="self-end index-1 pt-2">
-        	<div className="flex-center gap-2">
-        		Réalisation par Esthope :
 
-        		<a href="https://github.com/esthope" target="_blank" rel="noreferrer" className="">Github</a>
-        		<a href="https://www.linkedin.com/in/lucile-demongeot-779a211a5" target="_blank" rel="noreferrer" className="flex-center gap-05">
-        			<span>Contact</span> 
-        			<img src={linkedinLogo} alt="LinkedIn"/>
-        		</a>
+        <footer className="self-end flex-end column index-1 gap-3">
+        	<div className="flex">
+        		{Links.map((link:Link):any => (
+	        		<ExternalLink
+	        		key={link.title}
+	        		text={link.text}
+	        		image={link.image}
+	        		link={link.link}
+	        		title={link.title}
+	        		/>
+        		))}
         	</div>
+        	<span className="rozhaone-font">Copyright © 2025 • Tous droits réservés</span>
         </footer>
 	</>
 	)

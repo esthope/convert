@@ -20,6 +20,25 @@
 	}
 }
 
+.link {
+	p {font-size: .8em}
+
+	img {width: 150px}
+
+	a {
+		text-decoration: none;
+		font-size: 1.1em;
+	}
+}
+
+footer {
+	margin-top: auto;
+
+	span {
+		font-size: .8em;
+	}
+}
+
 @media only screen and (min-width: 1px) {
 	#error-page {
 		> img {
@@ -50,10 +69,29 @@
 
 		p {font-size: 1em}
 	}
+
+	footer {
+		width: 100%;
+
+		> div {
+			width: 100%;
+			justify-content: space-around;
+			row-gap: 2rem;
+		}
+
+		.link:nth-child(1) {width: 100%}
+	}
 }
 
 @media only screen and (min-width: 330px) {
 	.error-message {padding-left: 9rem}
+}
+
+@media only screen and (min-width: 500px) {
+	footer {
+		> div {column-gap: 2rem}
+		.link:nth-child(1) {width: initial}
+	}
 }
 
 @media only screen and (min-width: 640px) {
@@ -67,9 +105,20 @@
 	.error-message {
 		img {width: 277px}
 	}
+
+	footer {
+		width: initial;
+		padding: 0 20px 15px 0;
+
+		> div {
+			width: initial;
+			justify-content: initial;
+			column-gap: 3rem;
+		}
+	}
 }
 
-@media only screen and (min-width: 764px) {
+@media only screen and (min-width: 768px) {
 	#error-page {
 		> img {
 			&:first-child {
@@ -98,8 +147,9 @@
 			transform: rotate(13deg);
 		}
 	}
-}
 
+	footer > div {column-gap: 5rem}
+}
 
 @media only screen and (min-width: 1064px) {
 	#error-page {
@@ -120,6 +170,8 @@
 		img {width: 335px}
 		p {font-size: 1.2em}
 	}
+
+	footer > div {column-gap: 7rem}
 }
 
 @media only screen and (min-width: 1280px) {
@@ -141,17 +193,4 @@
 		img {width: 520px}
 		p {font-size: 1.5em}
 	}
-}
-
-footer {
-	margin: auto 20px 15px 0;
-
-	div {
-		font-size: .75em;
-		padding: 2px 12px;
-		background-color: cst.$klein;
-		border-radius: 3px;
-	}
-
-	a {text-decoration: none}
 }

@@ -59,3 +59,10 @@ export interface SvgType {
 	fill:string,
 	stroke:string
 }
+
+export interface Link {
+	text: string,
+	image: string,
+	link: string,
+	title: string
+}

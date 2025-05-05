@@ -1,15 +1,37 @@
 {
-  "short_name": "Outils de conversion Zeste",
   "name": "Convertisseur de casse et remplacement de caractères",
+  "short_name": "Zeste convert",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/logo180.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    },
+    {
+      "src": "/favicon96.png",
+      "type": "image/png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "orange.svg",
-      "type": "image/svg",
+      "src": "/orange.svg",
+      "type": "image/svg+xml",
       "sizes": "192x192"
     }
   ],
