@@ -36,11 +36,24 @@ Des évènements sont écoutés sur le clavier pour *attraper* les raccoucis dé
 Les raccourcis correspondant à copier • coller et couper agissent sur l'intégralité du texte. C'est pourquoi ils sont **désactivés lorsque l'éditeur a le focus**. Cela permet à l'utilisateur de faire ces actions dans son texte.
 
 ## Le design
-![Logo Zeste](/public/favicon96.png)
-> Les logos et les images ont été réalisés avec le logiciel de courbes Adobe Illustrator.
+> ![Logo Zeste](/public/favicon32.png) Les logos et les images ont été réalisés avec le logiciel de courbes Adobe Illustrator.
 
 La police principale est **QuickSand**, et la police pour les titres ou les mots spéciaux est **RozhaOne**.
 
 Le thème de l'agrume est venu lors de la réflexion sur le projet, sur l'application [Trello](https://trello.com/fr) : j'avais illustré une des listes avec l'image d'une orange dont la peau avait sa couleur complémentaire bleue. Cela m'évoquait la dualité des majuscules et des minuscules qui sont opposées. Ce symbole a construit l'identité du programme.
 
 Pour trancher avec la couleur orange, le thème principale est donc kaki, et la couleur secondaire est du bleu klein.
+
+## Le développeur
+La développeuse, plutôt !
+
+Mes études se sont passées en Lorraine et dans le Nord de la France :
+* Licence de Psychologie
+* [Développeur web et web mobile](https://www.francecompetences.fr/recherche/rncp/37674/)
+* [Concepteur Développeur d'Application](https://www.francecompetences.fr/recherche/rncp/37873/)
+
+Consultante SAP module PI/PO, j'ai conçu l'outil Zeste d'abord pour mon usage professionnel.
+Bénévole à mes heures perdues pour aider les associations à maintenir leur site.
+
+
+J'aime partager mon travail alors parcourez les fichiers de Zeste si cela vous rend curieux.

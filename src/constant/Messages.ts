@@ -21,6 +21,8 @@ const REFRESH = 'Veuillez rafraîchir',
 	  REFRESH_PAGE = 'Rafraichir la page',
 	  LATTER = 'réessayez plus tard',
 	  ALERT = "Consultez le message d'erreur en bas de la fenêtre",
+	  TO_PAST = 'coller',
+	  TO_CUT = 'couper',
 	  REF_IF_PERSIST = `${REFRESH} si cela persiste`
 
 // component
@@ -34,6 +36,8 @@ const SITE_NAME = "Zeste",
 	  TEXT_UP = `Un soucis technique peut avoir empêché la mise à jour d'une partie du texte.`,
 	  TEXT_UNCHANGED = `Le texte n'a pas pu être changé. ${REF_IF_PERSIST}.`,
 	  NOTHING_PAST = `Il n'y a rien à coller.`,
+	  CB_NOT_ALLOWED = 'Vous devez autoriser le site à accéder au presse-papier pour pouvoir',
+	  PLEASE_FOCUS = 'Vous pouvez coller du texte seulement en ayant le focus dans le champs de l\'éditeur',
 	  PAST_ERR = `${TECH} ${PAST} du texte.`, // ${DEV}.
 	  COPY_ERR = `${TECH} ${COPY} du texte.`; // ${DEV}.
 
@@ -58,6 +62,8 @@ export {
 	ALERT,
 	OOPS,
 	SHORTKEY,
+	TO_PAST,
+	TO_CUT,
 	REF_IF_PERSIST,
 	ACTIONS,
 	ACTION_FAILED,
@@ -65,6 +71,8 @@ export {
 	TEXT_UP,
 	TEXT_UNCHANGED,
 	NOTHING_PAST,
+	CB_NOT_ALLOWED,
+	PLEASE_FOCUS,
 	PAST_ERR,
 	COPY_ERR,
 	SELECT_FAILED,

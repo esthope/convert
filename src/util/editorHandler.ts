@@ -111,36 +111,48 @@ export const getSelection = (blocks:any[], editorState:EditorState):any[] => {
 			length = 0,
 			done = false
 
-		const content = editorState.getCurrentContent()
-		blocks.forEach((block, index):void => {
-
-			if (done || (block.key !== checkKey)) return;
-
-			switch (checkKey) {
-				case startKey:
-					length = block.text.length - offset
-					break;
-				case lastKey: 
-					offset = 0
-					length = lastSet
-					break;
-				default:
-					offset = 0
-					length = block.text.length
-					break;
-			}
-
+		if (anchorKey === focusKey)
+		{
 			selections.push({
-				anchor_key: block.key,
+				anchor_key: anchorKey,
 				offset,
-				length
+				length: lastSet
 			})
+		}
+		else
+		{
+			const content = editorState.getCurrentContent()
+			blocks.forEach((block, index):void => {
+				// done or the first selected block is in the middle of the text
+				if (done || (block.key !== checkKey)) return;
 
-			if (checkKey !== lastKey)
-				checkKey = content.getBlockAfter(checkKey)?.getKey();
-			else
-				done = true
-		})
+				switch (checkKey) {
+					case startKey:
+						length = block.text.length - offset
+						break;
+					case lastKey: 
+						offset = 0
+						length = lastSet
+						break;
+					default:
+						offset = 0
+						length = block.text.length
+						break;
+				}
+
+				selections.push({
+					anchor_key: block.key,
+					offset,
+					length
+				})
+
+				if (checkKey !== lastKey)
+					checkKey = content.getBlockAfter(checkKey)?.getKey();
+				else
+					done = true
+			})
+		}
+
 	}
 
 	return selections;
