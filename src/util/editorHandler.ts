@@ -1,4 +1,4 @@
-import {convertToRaw, convertFromRaw, EditorState, ContentState} from "draft-js";
+import {convertToRaw, convertFromRaw, EditorState, Modifier, ContentState} from "draft-js";
 import {Raw, Selection, EditorSelection} from 'constant/interfaces';
 
 export const createContent = (content:Raw|string):EditorState => {
@@ -74,29 +74,32 @@ export const initContent = (setEditorState:Function) => {
 }
 
 /**
-* Get all the selections of each Block
-* @return {array} selection
-*/
+ * Get all the selections of each Block
+ * @return {array} selection
+ */
 export const getSelection = (blocks:any[], editorState:EditorState):any[] => {
-
 	let selections:Selection[] = [];
 
 	// multi selections
+	// [!] remplacement multi ligne : capter les sauts de lignes au moment de la sélection
 	blocks.forEach((block, index):void => {
-		const {key, inlineStyleRanges} = block;
-		if (inlineStyleRanges.length <= 0) return;
+		const {key, inlineStyleRanges} = block,
+			  styleRange = inlineStyleRanges.filter((range:Selection)=>range.style !== 'HIGHLIGHT')
+
+		let selectRange = inlineStyleRanges.filter((range:Selection)=>range.style === 'HIGHLIGHT')
+		if (selectRange.length <= 0) return;
 
 		// add the block key to the first selection
-		inlineStyleRanges[0].anchor_key = key;
-		selections.push(...inlineStyleRanges)
+		selectRange[0].anchor_key = key;
+		selections.push(...selectRange)
 
 		// empty the selection
-		block.inlineStyleRanges = [];
+		block.inlineStyleRanges = styleRange;
 	})
 
 	// classic selection
 	const editorSel = editorState.getSelection().toJS()
-	const {hasFocus, anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorSel;
+	const {anchorKey, anchorOffset, focusKey, focusOffset, isBackward} = editorSel;
 
 	// if selections is empty + not on focus
 	if ((selections.length === 0) && !(focusOffset === anchorOffset && anchorKey === focusKey)) 
@@ -112,7 +115,6 @@ export const getSelection = (blocks:any[], editorState:EditorState):any[] => {
 
 		if (anchorKey === focusKey)
 		{
-			debugger
 			selections.push({
 				anchor_key: anchorKey,
 				offset,
@@ -220,3 +222,23 @@ export const getBlock = (blockKey:string, editorState:EditorState):any => {
 	const block = editorState.getCurrentContent().getBlockForKey(blockKey);
 	return block;
 }
+
+/*const resetSelection2 = ():void => {
+	// reset if some text has been highlighed
+	if (editorState.getCurrentInlineStyle().count() < 0) return;
+
+	// get data
+	const contentState = editorState.getCurrentContent(),
+		lastBlock = contentState.getLastBlock(),
+		selection = new SelectionState({
+			anchorKey: contentState.getFirstBlock().getKey(),
+			focusKey: lastBlock.getKey(),
+			focusOffset: lastBlock.getLength()
+		})
+
+	// update current states
+	const newContent = Modifier.removeInlineStyle(contentState, selection, 'HIGHLIGHT');
+	const removed = EditorState.push(editorState, newContent, 'change-inline-style');
+	setEditorState(removed)
+	setSelectCount(0)
+}*/

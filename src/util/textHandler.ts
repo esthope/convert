@@ -20,33 +20,26 @@ const addLastIteration = () => {
 	currentBlock.text = newText;
 }
 
-/**
- * Split the selection, then concat with chosen text
- * @param  {array} 	selections 	All positions of the selection
- * @param  {array} 	blocks 		the text blocks from Draftjs
- * @param  {string} value 		A changed text for case update
+const multi_mode_loop = (selections:Selection[], blocks:any[], value?:string, caseAction?:string):void =>
+{
+	let selectedText:string,
+		focus = 0;
 
- */
-export const transformTexts = (selections:Selection[], blocks:any[], value?:string, caseAction?:string):void => {
-	let selectionsLength = selections.length,
-		selectedText:string,
-		focus:number = 0;
-
-	selections.forEach((selection, index):void => {
+	selections.forEach((selection, index):void =>
+	{
 		const {offset, length, anchor_key} = selection;
 		focus = offset + length;
 
-		// debugger
 		if (anchor_key)
 		{
-			// For the last iteration : add the rest of its sentence, then update
+			// Add the rest of the block from last iteration
 			if (newText !== '') 
 			{
 				addLastIteration();
 			}
 
 			// get the current block with its passed key
-			currentBlock = blocks.find((block)=>block.key === anchor_key);
+			currentBlock = blocks.find((block)=>block?.key === anchor_key);
 			workText = currentBlock.text;
 
 			// init
@@ -67,13 +60,67 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 		initial = focus;
 
 		// on last iteration, add the rest of the sentence, then update
-		if (selectionsLength === (index+1))
+		if (selections.length === (index+1))
 		{
 			addLastIteration();
 		}
 	})
+}
 
-	workText = ''
+const replace_mode_loop = (selections:Selection[], blocks:any[], value?:string):void =>
+{
+	const firstBlock = blocks.find((block)=>block?.key === selections[0].anchor_key);
+	let focus = 0;
+
+	selections.forEach((selection, index):void =>
+	{
+		const {offset, length, anchor_key} = selection;
+		currentBlock = blocks.find((block)=>block?.key === anchor_key);
+		workText = currentBlock.text;
+		focus = offset + length;
+
+		// get tje first characters and add the value
+		if (index === 0) {
+			newText += workText.slice(0, offset) + value;
+			// only one selection : add the rest of its sentence
+			if (selections.length === 1) {
+				initial = focus;
+				newText += workText.slice(initial);
+			}
+			return;
+		}
+
+		// get the last characters
+		if (selections.length === (index+1)) {
+			newText += workText.slice(focus);
+		}
+
+		// Delete the block after the first
+		let currentIndex = blocks.indexOf(currentBlock)
+		blocks.splice(currentIndex, 1)
+	})
+	firstBlock.text = newText;
+}
+
+/**
+ * Split the selection, then concat with chosen text
+ * @param  {array} 	selections 	All positions of the selection
+ * @param  {array} 	blocks 		the text blocks from Draftjs
+ * @param  {string} value 		A changed text for case update
+
+ */
+export const transformTexts = (selections:Selection[], blocks:any[], value?:string, caseAction?:string):void => {
+	const is_multi_mode:boolean = selections.every((selection)=> selection?.style === 'HIGHLIGHT');
+
+	//  transform
+	if (caseAction || is_multi_mode) {
+		multi_mode_loop(selections, blocks, value, caseAction)
+	} else {
+		replace_mode_loop(selections, blocks, value)
+	}
+
+	// refresh global var
+	workText=''
 	newText=''
 	initial=0
 }
@@ -117,10 +164,8 @@ export const changeComplexCase = (action:string, text:string):string => {
  * @return {[type]}        [description]
  */
 export const changeCase = (caseID:string, text:string):string => {
-
-// debugger
 	// verify text
-	if (typeof text !== 'string' || text === ''/* || whiteReg.test(text)*/) return text;
+	if (typeof text !== 'string' || text === '' || whiteReg.test(text)) return text;
 
 	// change text
 	let changedText = undefined;
