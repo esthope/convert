@@ -20,4 +20,12 @@ Le champs de saisie secondaire permet de remplacer du texte. Il faut d'abord ins
 ### Sélection
 Une fonctionnalité de **multi sélection** permet de switcher entre le mode de sélection simple (habituel), et le mode de sélection multiple. Quand ce dernier mode est activé, toutes les sélections effectuées à partir de ce moment sont enregistrées. On peut donc **sélectionner plusieurs caractères à plusieurs endroits** dans le texte.
 
+> [en analyse] la multi-sélectio sur téléphone n'est pas disponible, ou ne fonctionnera probablement pas.
+
 Quand des caractères sont sélectionnés, ce sont **seulement eux qui vont être modifiés** par les boutons et le remplacement. Si rien n'est sélectionné, alors ce sera la casse du texte entier qui sera modifiée – le remplacement attend une sélection.
+
+### Le programme derrière
+
+>>>
+BODY
+>>>
