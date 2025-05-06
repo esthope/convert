@@ -7,7 +7,7 @@ import {transformTexts} from 'util/textHandler';
 import {create_warning} from 'util/errorHandler';
 // element
 import CustomButton from 'component/CustomButton';
-import {SELECT_PLEASE} from 'constant/Messages';
+import {SELECT_PLEASE, EMPTY_FIELD} from 'constant/Messages';
 
 const ReplaceField = (): ReactElement => {
 	const 	[choice, setChoice] = useState<string>(''),
@@ -27,6 +27,12 @@ const ReplaceField = (): ReactElement => {
 
 		if (selections.length === 0) {
 			let errorMsg = create_warning(SELECT_PLEASE)
+      		setAlertMessage(errorMsg)
+			return;
+		}
+
+		if (choice.hasOwnProperty('length') && choice.length === 0) {
+			let errorMsg = create_warning(EMPTY_FIELD)
       		setAlertMessage(errorMsg)
 			return;
 		}

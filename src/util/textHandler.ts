@@ -36,6 +36,7 @@ export const transformTexts = (selections:Selection[], blocks:any[], value?:stri
 		const {offset, length, anchor_key} = selection;
 		focus = offset + length;
 
+		// debugger
 		if (anchor_key)
 		{
 			// For the last iteration : add the rest of its sentence, then update
@@ -207,12 +208,25 @@ export const clipboardAction = async (action:string, editorRef:any):Promise<any>
 				let currentContent = currEditor?.innerText;
 				if (currentContent && !(currentContent === '\n'))
 					newContent = await clipboard.writeText(currentContent)
-					.catch ((err:any) =>/*DEV*/create_error(CustomMsg.COPY_ERR));
+					.catch ((err:any) =>{
+						if (err.message.includes('denied')) {
+							return create_warning(`${CustomMsg.CB_NOT_ALLOWED} ${CustomMsg.TO_CUT}.`)
+						}
+						/*DEV*/
+						return create_error(CustomMsg.COPY_ERR)
+					})
 				break;
 			case Action.past:
 				newContent = await clipboard.readText()
 				.then((text:any) => (text === '' || typeof text !== 'string') ? create_warning(CustomMsg.NOTHING_PAST) : createContent(text))
-				.catch ((err:any) =>/*DEV*/create_error(CustomMsg.PAST_ERR));
+				.catch ((err:any) => {
+					if (err.message.includes('denied')) {
+						return create_warning(`${CustomMsg.CB_NOT_ALLOWED} ${CustomMsg.TO_PAST}. ${CustomMsg.PLEASE_FOCUS}.`)
+					}
+					/*DEV*/
+					return create_error(CustomMsg.PAST_ERR)
+				})
+
 				break;
 		}
 
