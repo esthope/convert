@@ -21,22 +21,28 @@ const REFRESH = 'Veuillez rafraîchir',
 	  REFRESH_PAGE = 'Rafraichir la page',
 	  LATTER = 'réessayez plus tard',
 	  ALERT = "Consultez le message d'erreur en bas de la fenêtre",
+	  TO_PAST = 'coller',
+	  TO_CUT = 'couper',
 	  REF_IF_PERSIST = `${REFRESH} si cela persiste`
 
 // component
-const SITE_NAME = "Zeste", 
-	  EDITOR = "L'éditeur est indisponible",
+const EDITOR = "L'éditeur est indisponible",
 	  SHORTKEY = `${MAY} le raccourcie clavier n'ait pas fonctionné`,
-	  // [!] svg
-	  ACTIONS = `${TECH_BTN} des actions copier • coller • couper • réinitialiser. ${SHORTKEY_OK}`,
-	  ACTION_FAILED = `Votre action n'a pas pu aboutir à cause d'un soucis technique.`, // ${DEV}.
 	  CASES = `${TECH_BTN} de la casse`,
+	  // text
 	  TEXT_UP = `Un soucis technique peut avoir empêché la mise à jour d'une partie du texte.`,
 	  TEXT_UNCHANGED = `Le texte n'a pas pu être changé. ${REF_IF_PERSIST}.`,
+	  // actions
+	  ACTIONS = `${TECH_BTN} des actions copier • coller • couper • réinitialiser. ${SHORTKEY_OK}`,
+	  ACTION_FAILED = `Votre action n'a pas pu aboutir à cause d'un soucis technique.`, // ${DEV}.
 	  NOTHING_PAST = `Il n'y a rien à coller.`,
+	  CB_NOT_ALLOWED = 'Vous devez autoriser le site à accéder au presse-papier pour pouvoir',
+	  PLEASE_FOCUS = 'Vous pouvez coller du texte seulement en ayant le focus dans le champs de l\'éditeur',
 	  PAST_ERR = `${TECH} ${PAST} du texte.`, // ${DEV}.
-	  COPY_ERR = `${TECH} ${COPY} du texte.`; // ${DEV}.
+	  COPY_ERR = `${TECH} ${COPY} du texte.`,
+	  EMPTY_FIELD = 'Saisissez du texte dans le champs de remplacement pour remplacer votre sélection'; // ${DEV}.
 
+// selection
 const SELECT_FAILED = `La sélection n'a pas pu être effectuée`,
 	  MULTI_SELECT = 'Sélection multiple',
 	  REINIT_SELECT = 'Réinitialiser la sélection',
@@ -53,11 +59,12 @@ export {
 	REFRESH_PAGE,
 	DEV,
 	LATTER,
-	SITE_NAME,
 	EDITOR,
 	ALERT,
 	OOPS,
 	SHORTKEY,
+	TO_PAST,
+	TO_CUT,
 	REF_IF_PERSIST,
 	ACTIONS,
 	ACTION_FAILED,
@@ -65,8 +72,11 @@ export {
 	TEXT_UP,
 	TEXT_UNCHANGED,
 	NOTHING_PAST,
+	CB_NOT_ALLOWED,
+	PLEASE_FOCUS,
 	PAST_ERR,
 	COPY_ERR,
+	EMPTY_FIELD,
 	SELECT_FAILED,
 	SELECT_PLEASE,
 	MULTI_SELECT,

@@ -20,7 +20,7 @@ const Links = [
 	{
 		text: "Soutenez en faisant un don",
 		image: kofiLogo,
-		link: "",
+		link: "https://ko-fi.com/zeste_convert",
 		title: "Ko-fi"
 	}
 ]

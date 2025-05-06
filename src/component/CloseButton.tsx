@@ -14,7 +14,7 @@ const TextButton = ({onClick, text, logo, color}:ButtonProp):ReactElement => {
 			className={`textButton no-border no-bg inline mr-2`}
 			onClick={onClick} >
 			{text} {color}
-			<img src={logo} alt=""/>
+			<img src={logo} alt="Fermer"/>
 	    </button>
 	)
 }
