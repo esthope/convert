@@ -60,14 +60,13 @@ button {cursor: pointer}
 }
 
 @media only screen and (min-width: 500px) {
-  body {background-size: auto 20%}
+  body {background-size: auto 42vh}
   main, header .intro {margin: 0 2rem 0 2rem}
   main {margin-bottom: 5rem}
 }
 
 /*---------tablets & after-----------------------------*/
 @media only screen and (min-width: 640px) {
-  body {background-size: auto 23%}
   main, header .intro {margin: 0 4rem 0 4rem}
   main {margin-bottom: 5rem}
 }
@@ -77,9 +76,9 @@ button {cursor: pointer}
 }
 
 @media only screen and (min-width: 1064px) {
-  body {background-size: auto 30%}
+  body {background-size: auto 37vh}
 }
 
 @media only screen and (min-width: 1280px) {
-  body {background-size: auto 40%}
+  body {background-size: auto 50vh}
 }

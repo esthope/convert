@@ -8,21 +8,41 @@
   }
 }
 
+.editor {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+}
 /*---------phones---------------------------------------------*/
 @media only screen and (min-width: 1px)
 {
   #editor-container {
-    width: 100%;
+    width: calc(100vw - 1rem);
+
     > div:first-child {
       flex-direction: column-reverse;
       align-items: flex-start;
     }
+  }
+  
+  .editor {
+    padding: 25px;
+  }  
+}
+
+@media only screen and (min-width: 330px)
+{
+  .editor {
+    padding: 50px;
   }
 }
 
 @media only screen and (min-width: 500px)
 {
   #editor-container {
+    width: calc(100vw - 5.2rem);
+
+
     > div:first-child {
       flex-direction: initial;
       align-items: initial;
@@ -30,8 +50,13 @@
   }
 }
 
+@media only screen and (min-width: 640px) {
+  #editor-container {
+    width: calc(100vw - 9.2rem);
+  }
+}
 /*---------tablets---------------------------------------------*/
-@media only screen and (min-width: 768px)
+@media only screen and (min-width: 780px)
 {
   #editor-container {width: 670px}
 }
@@ -62,11 +87,6 @@
       // min-height: 340px;
       min-height: 36vh;
   }
-}
-
-.editor {
-  padding: 50px;
-  border: none;
 }
 
 .highlight {background-color: cst.$ocher}
