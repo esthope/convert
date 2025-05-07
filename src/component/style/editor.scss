@@ -17,7 +17,7 @@
 @media only screen and (min-width: 1px)
 {
   #editor-container {
-    width: calc(100vw - 1rem);
+    width: calc(100vw - 4rem);
 
     > div:first-child {
       flex-direction: column-reverse;
@@ -32,9 +32,7 @@
 
 @media only screen and (min-width: 330px)
 {
-  .editor {
-    padding: 50px;
-  }
+  .editor {padding: 50px 35px}
 }
 
 @media only screen and (min-width: 500px)
@@ -48,6 +46,9 @@
       align-items: initial;
     }
   }
+
+  .editor {padding: 50px}
+
 }
 
 @media only screen and (min-width: 640px) {
