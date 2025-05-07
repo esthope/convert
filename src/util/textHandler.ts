@@ -1,18 +1,22 @@
 import {ContentState} from "draft-js";
-import {Selection, Block} from 'constant/interfaces';
+import {Selection, Block, Cause} from 'constant/interfaces';
 import {Case, Action} from 'constant/Interactions';
 
 // util
-import * as CustomMsg from 'constant/Messages';
-import {create_error, create_warning, is_message} from 'util/errorHandler';
+import * as Msg from 'constant/Messages';
+import {create_error, create_cause, create_warning, is_message} from 'util/errorHandler';
 import {getRaws, getSelection, createContent, clearContent} from 'util/editorHandler';
+
+// error mail
+let cause:Cause|undefined,
+	location = 'C-TEXT',
+	errorMsg:string
 
 let currentBlock:any,
 	whiteReg = new RegExp('^\\s+$', 'g'),
 	workText:string,
 	newText:string|undefined = '',
-	initial = 0,
-	errorMsg:string
+	initial = 0
 	;
 
 const addLastIteration = () => {
@@ -181,7 +185,7 @@ export const changeCase = (caseID:string, text:string):string => {
 	}
 
 	if (!changedText) {
-		errorMsg = CustomMsg.TEXT_UP;
+		errorMsg = Msg.TEXT_UP;
 		return text
 	}
 
@@ -224,11 +228,10 @@ export const updateTextCase = (action:string, editorState:any, setAlertMessage:F
 
 		return createContent(currentRaws);
   	}
-	catch (err)
+	catch (err:any)
 	{
-		// [DEV]
-		// console.log(err)
-		return create_error(CustomMsg.TEXT_UNCHANGED)
+		cause = create_cause('CASE', location, err)
+		return create_error(Msg.TEXT_UNCHANGED, cause)
 	}
 }
 
@@ -255,24 +258,37 @@ export const clipboardAction = async (action:string, editorRef:any):Promise<any>
 					newContent = await clipboard.writeText(currentContent)
 					.catch ((err:any) =>{
 						if (err.message.includes('denied')) {
-							return create_warning(`${CustomMsg.CB_NOT_ALLOWED} ${CustomMsg.TO_CUT}.`)
+							return create_warning(`${Msg.CB_NOT_ALLOWED} ${Msg.TO_CUT}.`)
 						}
-						/*DEV*/
-						return create_error(CustomMsg.COPY_ERR)
+
+						cause = create_cause('ACTION', location, err)
+						return create_error(Msg.COPY_ERR, cause)
 					})
-				break;
+			break;
 			case Action.past:
 				newContent = await clipboard.readText()
-				.then((text:any) => (text === '' || typeof text !== 'string') ? create_warning(CustomMsg.NOTHING_PAST) : createContent(text))
+				.then((text:any) => {
+					let notString = typeof text !== 'string';
+					if (text === '' || notString)
+					{
+						cause = (notString) ? create_cause('ACTION', location, `${Msg.PAST_FAILED} : le texte "${text}" est de type ${typeof text}.`) : undefined;
+						return create_warning(Msg.NOTHING_PAST, cause)
+					}
+					else 
+					{
+						return createContent(text)
+					}
+				})
 				.catch ((err:any) => {
 					if (err.message.includes('denied')) {
-						return create_warning(`${CustomMsg.CB_NOT_ALLOWED} ${CustomMsg.TO_PAST}. ${CustomMsg.PLEASE_FOCUS}.`)
+						const message = `${Msg.CB_NOT_ALLOWED} ${Msg.TO_PAST}. ${Msg.PLEASE_FOCUS}.`;
+						return create_warning(message)
 					}
-					/*DEV*/
-					return create_error(CustomMsg.PAST_ERR)
-				})
 
-				break;
+					cause = create_cause('ACTION', location, err)
+					return create_error(Msg.PAST_ERR, cause)
+				})
+			break;
 		}
 
 		if (action === Action.reset || action === Action.cut)
@@ -280,8 +296,8 @@ export const clipboardAction = async (action:string, editorRef:any):Promise<any>
 	}
 	catch(err:any)
 	{
-		// [DEV]
-		return create_error(CustomMsg.ACTION_FAILED)
+		cause = create_cause('ACTION', location, err)
+		return create_error(Msg.ACTION_FAILED, cause)
 	}
 
 	return newContent;

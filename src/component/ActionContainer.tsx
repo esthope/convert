@@ -5,7 +5,7 @@ import {EditorState} from 'draft-js';
 import {isMobile} from 'react-device-detect';
 // util
 import * as CustomMsg from 'constant/Messages';
-import {is_message, create_error} from 'util/errorHandler';
+import {is_message, create_cause, create_error} from 'util/errorHandler';
 import {clipboardAction} from 'util/textHandler';
 import {Interaction} from 'constant/interfaces';
 import {Action, actionsData} from 'constant/Interactions';
@@ -13,7 +13,8 @@ import {Action, actionsData} from 'constant/Interactions';
 import ActionButton from 'component/ActionButton';
 import TemplateButton from './TemplateButton';
 
-const initialColor = '';
+const initialColor = '',
+	  location = 'C-ACTION';
 
 const ActionContainer = ({started}:{started:boolean}): ReactElement => {
   	// eslint-disable-next-line
@@ -41,9 +42,9 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 		}
 		catch(err:any)
 		{
-			// ? [DEV]
-			// console.log(err)
-			let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.ACTION_FAILED)
+			const cause = create_cause('ACTION', location, err),
+				  errorMsg = (is_message(err)) ? err : create_error(CustomMsg.ACTION_FAILED, cause)
+
 			setStatutColor(entry + ` ${err?.level ?? 'error'}-color-btn`) 
 			setAlertMessage(errorMsg)
 		}
@@ -51,7 +52,8 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 
 	useEffect(()=>{
   		if (actionsData.length === 0) {
-  			throw new Error(CustomMsg.ACTIONS, {cause: {fonite:'ACTION'}})
+			const cause = create_cause('ACTION', location, CustomMsg.EMPTY_DATA)
+  			throw new Error(CustomMsg.ACTIONS, {cause: cause})
   		}
 	}, [])
 

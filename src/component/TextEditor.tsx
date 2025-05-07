@@ -11,9 +11,10 @@ import ResetSelectIcon from 'component/icons/ResetSelectIcon'
 import style from "constant/base.scss";
 // alert
 import {SELECT_FAILED, MULTI_SELECT, REINIT_SELECT} from 'constant/Messages';
-import {create_error} from 'util/errorHandler';
-import {Message} from 'constant/interfaces';
-let errorMsg:Message;
+import {create_error, create_cause} from 'util/errorHandler';
+import {Message, Cause} from 'constant/interfaces';
+let errorMsg:Message,
+    cause:Cause;
 
 const colors:any = style;
 
@@ -70,8 +71,8 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     }
     catch(err:any)
     {
-      // [DEV]
-      errorMsg = create_error(SELECT_FAILED)
+      cause = create_cause('SELECTION', 'C-EDITOR', err)
+      errorMsg = create_error(SELECT_FAILED, cause)
       setAlertMessage(errorMsg)
     }
   }

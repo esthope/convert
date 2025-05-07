@@ -6,7 +6,7 @@ import {ErrorBoundary} from "react-error-boundary";
 import * as CustomMsg from 'constant/Messages';
 import {EditorContext, MessageContext} from 'service/context';
 import {getContentLength, updateTextCase, clipboardAction} from 'util/textHandler';
-import {initialMessage, get_boundary_error, create_error, is_message} from "util/errorHandler";
+import {initialMessage, get_boundary_error, create_error, create_cause, is_message} from "util/errorHandler";
 import {handle_press, getInteractionsKeys} from 'util/dataHandler';
 import {interactionsData, Case} from 'constant/Interactions';
 import {Message} from 'constant/interfaces';
@@ -70,15 +70,14 @@ const Home = ():ReactElement => {
     }
     catch(err:any)
     {
-      // ? [DEV]
-      // console.log(err)
-      let errorMsg = (is_message(err)) ? err : create_error(CustomMsg.TEXT_UP)
+      const cause = create_cause('INTERACTION', 'S-HOME', err),
+            errorMsg = (is_message(err)) ? err : create_error(CustomMsg.TEXT_UP, cause)
+
       setAlertMessage(errorMsg)
     }
   }, [editorState])
 
   const display_error = (error:Error):void => {
-    // [DEV]
     const errorMsg = get_boundary_error(error);
     setAlertMessage(errorMsg);
   }

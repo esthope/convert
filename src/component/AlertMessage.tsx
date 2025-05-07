@@ -3,7 +3,7 @@ import {ReactElement, useState, useEffect, useContext, useCallback, useRef} from
 import {isMobile} from 'react-device-detect';
 // util
 import {MessageContext} from 'service/context';
-import {reset_alert, label_status} from 'util/errorHandler';
+import {reset_alert, label_status, send_mail} from 'util/errorHandler';
 import error_icon from 'assets/error.svg';
 import warn_icon from 'assets/warn.svg';
 import close_icon from 'assets/close.svg';
@@ -20,7 +20,7 @@ const AlertMessage = ():ReactElement => {
 		[keep, setKeap] = useState<boolean>(false)
 		;
 
-	const {level, message, displayed, reset} = alertMessage;
+	const {level, message, displayed, reset, cause} = alertMessage;
 	const intervaRef = useRef<any>(null);
 
 	/**
@@ -109,7 +109,11 @@ const AlertMessage = ():ReactElement => {
 		{
 			setMessageIcon(warn_icon)
 		}
-	}, [message, level])
+
+		if (cause) {
+			send_mail(alertMessage)
+		}
+	}, [message, level, cause])
 
 	return (
 		<section id="message-container"

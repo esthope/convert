@@ -2,7 +2,7 @@ import linkedinLogo from 'assets/linkedin.svg';
 import githubLogo from 'assets/github.svg';
 import kofiLogo from 'assets/kofi.svg';
 
-const SITE_NAME = "Zeste"
+const SITE_NAME = "Zeste";
 
 const Links = [
 	{
@@ -25,6 +25,10 @@ const Links = [
 	}
 ]
 
-export {
-	Links
+const Email = {
+	serviceID: 'service_ci8vcfm',
+	templateID: 'template_5hpquz7',
+	publicKey: 'SzgJIs_mogwx8X71E'
 }
+
+export {SITE_NAME, Links, Email}

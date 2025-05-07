@@ -1,6 +1,7 @@
 import {ReactElement, useEffect, useState, useRef, memo} from "react";
 import {isMobile} from 'react-device-detect';
 import convert_logo from 'assets/zeste.svg';
+import {SITE_NAME} from "constant/Configuration"
 
 const Header = ({started}:{started:boolean}):ReactElement => {
 
@@ -41,7 +42,7 @@ const Header = ({started}:{started:boolean}):ReactElement => {
 			)}>
 	      		<img src={convert_logo}
 	      		className="ml-3 pointer"
-	      		alt="Logo du site Zeste"
+	      		alt={`Logo du site ${SITE_NAME}`}
 	      		{...( !isMobile && started
 					? {
 						onMouseEnter: ()=>{setDisplayed(true)},
@@ -49,11 +50,11 @@ const Header = ({started}:{started:boolean}):ReactElement => {
 				)}
 	      		/>
 
-	      		<h1 className="mobile-title">Zeste</h1>
+	      		<h1 className="mobile-title">{SITE_NAME}</h1>
 	      		<div className={`intro fade-element left ${(displayed) ? 'fade-animation':''}`}
 	      		>
-	      			<h1 className="mb-1 desktop-title">Zeste</h1>
-		      		<p><b>Bienvenue sur Zeste</b>, cet outil est un convertisseur de majuscules et de minuscules <b>– la casse –</b> du texte, et permet de remplacer plusieurs lettres par d'autres en un seul coup.</p>
+	      			<h1 className="mb-1 desktop-title">{SITE_NAME}</h1>
+		      		<p><b>Bienvenue sur {SITE_NAME}</b>, cet outil est un convertisseur de majuscules et de minuscules <b>– la casse –</b> du texte, et permet de remplacer plusieurs lettres par d'autres en un seul coup.</p>
 		      		<p>Remplacer en masse le texte souhaité grâce à la sélection multiple. La sélection sera bleue en <span className="normal">sélection normale</span> et ocre en <span className="multi">sélection multiple</span> !</p>
 		      	</div>
 			</div>
