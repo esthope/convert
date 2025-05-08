@@ -81,16 +81,12 @@ export const send_mail = (message:Message) => {
     if (message?.cause)
     {
     	template.fonite = message.cause.fonite
-		template.location = message.cause.location
-		template.error = message.cause.error
+			template.location = message.cause.location
+			template.error = message.cause.error
     }
 
-    emailjs.send(Email.serviceID, Email.templateID, template, options).then(
-      (data) => {
-        console.log('SUCCESS', data);
-      },
-      (error) => {
-        console.log('FAILED', error.text);
-      },
-    )
+    console.log(message)
+    // [!]
+    // emailjs.send(Email.serviceID, Email.templateID, template, options)
+    // .then((data) => {console.log('SUCCESS', data); }, (error) => {console.log('FAILED', error.text);} )
 }

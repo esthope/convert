@@ -95,6 +95,7 @@ const Home = ():ReactElement => {
 
     document.addEventListener('keydown', key_listener)
     return () => document.removeEventListener('keydown', key_listener)
+
   }, [editorState, started, key_listener])
 
   return (

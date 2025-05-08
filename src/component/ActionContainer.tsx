@@ -1,20 +1,23 @@
 // main
-import {ReactElement, useContext, useState, useEffect} from "react";
-import {EditorContext, MessageContext} from 'service/context';
-import {EditorState} from 'draft-js';
-import {isMobile} from 'react-device-detect';
+import {ReactElement, useContext, useState, useEffect, useRef} from "react"
+import {EditorContext, MessageContext} from 'service/context'
+import {EditorState} from 'draft-js'
+import {isMobile} from 'react-device-detect'
+import {useSelector, useDispatch} from 'react-redux'
 // util
-import * as CustomMsg from 'constant/Messages';
-import {is_message, create_cause, create_error} from 'util/errorHandler';
-import {clipboardAction} from 'util/textHandler';
-import {Interaction} from 'constant/interfaces';
-import {Action, actionsData} from 'constant/Interactions';
+import * as Msg from 'constant/Messages'
+import {is_message, create_cause, create_error} from 'util/errorHandler'
+import {clipboardAction} from 'util/textHandler'
+import {activeLastHistory, undoContent} from 'util/historyHandler'
+// constant
+import {Interaction} from 'constant/interfaces'
+import {Action, actionsData} from 'constant/Interactions'
 // element
-import ActionButton from 'component/ActionButton';
-import TemplateButton from './TemplateButton';
+import ActionButton from 'component/ActionButton'
+import TemplateButton from './TemplateButton'
 
 const initialColor = '',
-	  location = 'C-ACTION';
+	  location = 'C-ACTION'
 
 const ActionContainer = ({started}:{started:boolean}): ReactElement => {
   	// eslint-disable-next-line
@@ -22,15 +25,39 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
   		  [statutColor, setStatutColor] = useState<string>(initialColor),
   		  [setAlertMessage] = useContext(MessageContext);
 
+  	const stateHistory = useSelector((state:any)=>state.history),
+  		  dispatch = useDispatch(),
+  		  undoActived = useRef<boolean>(false);
+
+  	const handleUndo = () => {
+  		activeLastHistory(dispatch)
+  		undoActived.current = !undoActived.current;
+  	}
+
+  	useEffect(()=>{
+		const newState = undoContent(stateHistory)
+
+		if (newState instanceof EditorState)
+			setEditorState(newState)
+
+  	}, [undoActived.current])
+
 	/**
 	* Update the editor content
 	*/
 	const handleAction = async (action:string, entry:string):Promise<void> => {
 		try
 		{
+			if (action === Action.undo) 
+			{
+				handleUndo()
+				return
+			}
+
 			// if (contentLength === 0) return;
 			const newState = await clipboardAction(action, editorRef)
 
+			// [!] vérif à l'extérieur ? 
 			// getting new state failed
 			if (is_message(newState))
 				throw newState
@@ -43,7 +70,7 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 		catch(err:any)
 		{
 			const cause = create_cause('ACTION', location, err),
-				  errorMsg = (is_message(err)) ? err : create_error(CustomMsg.ACTION_FAILED, cause)
+				  errorMsg = (is_message(err)) ? err : create_error(Msg.ACTION_FAILED, cause)
 
 			setStatutColor(entry + ` ${err?.level ?? 'error'}-color-btn`) 
 			setAlertMessage(errorMsg)
@@ -52,8 +79,8 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 
 	useEffect(()=>{
   		if (actionsData.length === 0) {
-			const cause = create_cause('ACTION', location, CustomMsg.EMPTY_DATA)
-  			throw new Error(CustomMsg.ACTIONS, {cause: cause})
+			const cause = create_cause('ACTION', location, Msg.EMPTY_DATA)
+  			throw new Error(Msg.ACTIONS, {cause: cause})
   		}
 	}, [])
 

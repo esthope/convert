@@ -1,7 +1,6 @@
 import {ContentState} from "draft-js";
 import {Selection, Block, Cause} from 'constant/interfaces';
 import {Case, Action} from 'constant/Interactions';
-
 // util
 import * as Msg from 'constant/Messages';
 import {create_error, create_cause, create_warning, is_message} from 'util/errorHandler';

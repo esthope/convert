@@ -1,6 +1,8 @@
 // main
-import {ReactElement, useState, useEffect, useContext} from "react";
 import {RichUtils, Editor, EditorState, Modifier, SelectionState} from 'draft-js';
+import {ReactElement, useState, useEffect, useContext} from "react";
+import {addContentHistory} from 'util/historyHandler'
+import {useDispatch} from 'react-redux'
 import "draft-js/dist/Draft.css";
 // util
 import {EditorContext, MessageContext} from 'service/context';
@@ -24,9 +26,9 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
         [selectCount, setSelectCount] = useState<number>(0),
         [selectMode, setSelectMode] = useState<boolean>(false)
 
-  const 
-        [editorState, setEditorState, editorRef] = useContext(EditorContext),
+  const [editorState, setEditorState, editorRef] = useContext(EditorContext),
         [setAlertMessage] = useContext(MessageContext)
+  const dispatch = useDispatch()
 
   /**
    * Listen the delete command of DraftJS to cancel it 
@@ -106,6 +108,10 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
    * @param  {EditorState}  editorState The current state of the editor content
    */
   const onChange = (editorState:EditorState):any => {
+
+    // [!]
+    addContentHistory(dispatch, editorRef)
+
     // update text state
     setEditorState(editorState)
 
