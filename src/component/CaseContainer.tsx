@@ -3,9 +3,9 @@ import {ReactElement, useContext, useEffect} from "react";
 import {EditorState} from "draft-js";
 import {isMobile} from 'react-device-detect';
 // util
-import * as CustomMsg from 'constant/Messages';
+import * as Msg from 'constant/Messages';
 import {MessageContext, EditorContext} from 'service/context';
-import {is_message} from 'util/errorHandler';
+import {is_message, create_cause} from 'util/errorHandler';
 import {updateTextCase} from 'util/textHandler';
 import {Interaction} from 'constant/interfaces';
 // element
@@ -13,6 +13,8 @@ import {Case, casesData} from 'constant/Interactions';
 import TemplateButton from './TemplateButton';
 import InverseLabel from './InverseLabel';
 import CaseButton from './CaseButton';
+
+const location = 'C-CASE';
 
 const CaseContainer = ({started}:{started:boolean}): ReactElement => {
 
@@ -27,8 +29,6 @@ const CaseContainer = ({started}:{started:boolean}): ReactElement => {
 	    {
 	      	// returned error
 	    	setAlertMessage(newState)
-  			// [DEV]
-  			throw new Error(newState.message, {cause: {fonite:'CASES'}})
 	    }
 
 		if (newState instanceof EditorState)
@@ -37,7 +37,8 @@ const CaseContainer = ({started}:{started:boolean}): ReactElement => {
 
 	useEffect(()=>{
   		if (casesData.length === 0) {
-  			throw new Error(CustomMsg.CASES, {cause: {fonite:'CASES'}})
+  			const cause = create_cause('CASE', location, Msg.EMPTY_DATA)
+  			throw new Error(Msg.CASES, {cause: cause})
   		}
 	}, [])
 

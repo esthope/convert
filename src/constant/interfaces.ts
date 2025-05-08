@@ -3,6 +3,12 @@ import {RawDraftContentBlock, RawDraftContentState} from "draft-js";
 export type Block = RawDraftContentBlock; //
 export type Raw = RawDraftContentState;
 
+export type Cause = {
+	fonite:string,
+	location:string,
+	error:string
+}
+
 export type Selection = {
 	anchor_key: string
 	offset: number,
@@ -39,7 +45,8 @@ export interface Message {
 	level:string,
 	message?:string|null,
 	displayed:boolean|null,
-	reset?:boolean
+	reset?:boolean,
+	cause?:Cause
 }
 
 export interface SvgType {

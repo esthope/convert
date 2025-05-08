@@ -1,6 +1,6 @@
 // main
 import {ReactElement} from "react";
-import {useState, useEffect, useRef} from 'react';
+import {useState, useEffect} from 'react';
 
 // element
 import CopyIcon from 'component/icons/CopyIcon';

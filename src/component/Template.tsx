@@ -6,15 +6,21 @@ import {ReactElement} from "react";
 import {Link} from "constant/interfaces"
 import UnavailableScreen from 'screen/UnavailableScreen';
 import ExternalLink from 'component/ExternalLink';
-
+import {create_internal_error, create_cause, send_mail} from 'util/errorHandler';
 
 import {Links} from 'constant/Configuration'
 
-
 const Template = ():ReactElement => {
+
+	const onError = (err:any) => {
+		const cause = create_cause('GENERAL', 'C-TEMPLATE', err),
+			  errorMsg = create_internal_error('Alerte au crash !', cause)
+		send_mail(errorMsg)
+	}
+
 	return (
 	<>
-    	<ErrorBoundary FallbackComponent={UnavailableScreen}>
+    	<ErrorBoundary onError={onError} FallbackComponent={UnavailableScreen}>
 			<Outlet />
     	</ErrorBoundary>
 

@@ -1,4 +1,4 @@
-import {convertToRaw, convertFromRaw, EditorState, Modifier, ContentState} from "draft-js";
+import {convertToRaw, convertFromRaw, EditorState, ContentState} from "draft-js";
 import {Raw, Selection, EditorSelection} from 'constant/interfaces';
 
 export const createContent = (content:Raw|string):EditorState => {

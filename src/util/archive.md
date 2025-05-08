@@ -216,7 +216,6 @@ try
 
 	// afterRemoval.set('selectionBefore', selection)
 	// selection.isCollapsed() ? 'backspace-character' : 
-	debugger
 	EditorState.push(editorState, merged, 'remove-range');
 
 	// si ne met pas à jour : ?récupérer les block, maj raws. 

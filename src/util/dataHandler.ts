@@ -1,10 +1,13 @@
 import {StringIndex, Interaction} from 'constant/interfaces';
 import interactionData from 'service/data_interaction.json';
 // alert
-import * as CustomMsg from 'constant/Messages';
-import {create_error} from 'util/errorHandler';
-import {Message} from 'constant/interfaces';
-let errorMsg:Message;
+import * as Msg from 'constant/Messages';
+import {create_error, create_internal_error, create_cause, send_mail} from 'util/errorHandler';
+import {Message, Cause} from 'constant/interfaces';
+
+let cause:Cause,
+	errorMsg:Message,
+	location = 'U-DATA';
 
 export const fetchData = (slice?:string):Interaction|any => {
 	try
@@ -25,8 +28,9 @@ export const fetchData = (slice?:string):Interaction|any => {
 	}
 	catch(err:any)
 	{
-		// [DEV]
-		// console.log(err)
+		cause = create_cause('DATA', location, err)
+		errorMsg = create_internal_error(Msg.EMPTY_DATA, cause)
+		send_mail(errorMsg)
 		return [];
 	}
 }
@@ -37,7 +41,7 @@ export const createKeyEntries = (slice:string):StringIndex => {
 	let interactions:StringIndex = {};
 
 	selection.forEach((item:any) => {
-		interactions[item.entry] = item.data_id
+		interactions[item.entry] = item.data_id;
 	})
 
 	return interactions;
@@ -74,7 +78,6 @@ export const handle_press = (event:any, keys:string[], interactions:Interaction[
 		// action de l'appli : focus doit être à false
 		if (hasFocus && !keys.includes(pressedKey))
 		{
-			// console.log('bloup')
 			return interID;
 		}
 
@@ -93,8 +96,8 @@ export const handle_press = (event:any, keys:string[], interactions:Interaction[
 	}
 	catch(err:any)
 	{
-		// [DEV]
-		errorMsg = create_error(`${CustomMsg.OOPS} ${CustomMsg.SHORTKEY}. ${CustomMsg.DEV}.\n${CustomMsg.REF_IF_PERSIST}`)
+		cause = create_cause('KEYSHORT', location, err)
+		errorMsg = create_error(`${Msg.OOPS} ${Msg.SHORTKEY}. ${Msg.DEV}.\n${Msg.REF_IF_PERSIST}`, cause)
 		return errorMsg;
 	}
 }
