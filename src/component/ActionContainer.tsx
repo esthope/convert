@@ -1,5 +1,5 @@
 // main
-import {ReactElement, useContext, useState, useEffect, useRef} from "react"
+import {ReactElement, useContext, useState, useEffect, useRef, useCallback} from "react"
 import {EditorContext, MessageContext} from 'service/context'
 import {EditorState} from 'draft-js'
 import {isMobile} from 'react-device-detect'
@@ -8,7 +8,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import * as Msg from 'constant/Messages'
 import {is_message, create_cause, create_error} from 'util/errorHandler'
 import {clipboardAction} from 'util/textHandler'
-import {activeLastHistory, undoContent} from 'util/historyHandler'
+import {activePreviousHistory, undoneContent, addContentHistory} from 'util/historyHandler'
 // constant
 import {Interaction} from 'constant/interfaces'
 import {Action, actionsData} from 'constant/Interactions'
@@ -27,44 +27,29 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 
   	const stateHistory = useSelector((state:any)=>state.history),
   		  dispatch = useDispatch(),
-  		  undoActived = useRef<boolean>(false);
-
-  	const handleUndo = () => {
-  		activeLastHistory(dispatch)
-  		undoActived.current = !undoActived.current;
-  	}
-
-  	useEffect(()=>{
-		const newState = undoContent(stateHistory)
-
-		if (newState instanceof EditorState)
-			setEditorState(newState)
-
-  	}, [undoActived.current])
+  		  undo = useRef<boolean>(false)
 
 	/**
-	* Update the editor content
+	* Check the new content and Update the editor
+	* @param [EditorState|Message] the new content or a message to be send
+	* @param [string] the button entry for the color
 	*/
-	const handleAction = async (action:string, entry:string):Promise<void> => {
-		try
+  	const checkNewState = useCallback((newState:any, entry:string) => {
+  		try
 		{
-			if (action === Action.undo) 
-			{
-				handleUndo()
-				return
-			}
+			let newText:string|undefined = undefined;
 
-			// if (contentLength === 0) return;
-			const newState = await clipboardAction(action, editorRef)
-
-			// [!] vérif à l'extérieur ? 
 			// getting new state failed
 			if (is_message(newState))
 				throw newState
 
-			if (newState instanceof EditorState)
+			// set new content
+			if (newState instanceof EditorState) {
 				setEditorState(newState)
+				newText = newState.getCurrentContent().getPlainText()
+			}
 
+      		addContentHistory(dispatch, editorRef, newText)
 			setStatutColor(entry + ' success-color-btn') 
 		}
 		catch(err:any)
@@ -75,7 +60,35 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 			setStatutColor(entry + ` ${err?.level ?? 'error'}-color-btn`) 
 			setAlertMessage(errorMsg)
 		}
+  	}, [dispatch, editorRef, setAlertMessage, setEditorState])
+
+	/**
+	* Handle the actions from buttons
+	*/
+	const handleAction = async (action:string, entry:string):Promise<void> => {
+		if (action === Action.undo) 
+		{
+			activePreviousHistory(dispatch)
+			undo.current = true
+			return
+		}
+
+		// if (contentLength === 0) return;
+		const newState = await clipboardAction(action, editorRef)
+		checkNewState(newState, entry)
 	}
+
+	/**
+	 * Set the new content from history
+	 */
+  	useEffect(()=>{
+  		if (!undo.current) return
+
+		const newState = undoneContent(stateHistory)
+		checkNewState(newState, 'undo')
+
+		undo.current = false
+  	}, [checkNewState, stateHistory])
 
 	useEffect(()=>{
   		if (actionsData.length === 0) {

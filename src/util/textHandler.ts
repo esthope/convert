@@ -1,9 +1,10 @@
-import {ContentState} from "draft-js";
+import {RefObject} from "react";
+import {Editor, ContentState} from "draft-js";
 import {Selection, Block, Cause} from 'constant/interfaces';
 import {Case, Action} from 'constant/Interactions';
 // util
 import * as Msg from 'constant/Messages';
-import {create_error, create_cause, create_warning, is_message} from 'util/errorHandler';
+import {create_error, create_cause, create_warning, create_internal_error, is_message} from 'util/errorHandler';
 import {getRaws, getSelection, createContent, clearContent} from 'util/editorHandler';
 
 // error mail
@@ -193,6 +194,20 @@ export const changeCase = (caseID:string, text:string):string => {
 
 export const getContentLength = (currentContent:ContentState):number => {
 	return currentContent.getPlainText().length
+}
+
+export const get_inner_text = (editorRef:RefObject<Editor>):string|void => {
+	try
+    {
+    	// [!]
+    	if (!(editorRef.current && editorRef.current.editor)) throw new Error('L\'éditeur n\'est pas référencé.')
+    	return editorRef.current.editor.innerText
+	}
+    catch(err)
+    {
+		const cause = create_cause('TECH', location, err)
+		create_internal_error('[!] tech', cause) 
+    }
 }
 
 /**

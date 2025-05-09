@@ -18,7 +18,8 @@ import {Message, Cause} from 'constant/interfaces';
 let errorMsg:Message,
     cause:Cause;
 
-const colors:any = style;
+const colors:any = style,
+      wordReg = new RegExp('(?:(?! ).)+ $') //'/(?:(?! ).)+ $/'
 
 const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
 
@@ -28,8 +29,8 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
 
   const [editorState, setEditorState, editorRef] = useContext(EditorContext),
         [setAlertMessage] = useContext(MessageContext)
-  const dispatch = useDispatch()
 
+  const dispatch = useDispatch()
   /**
    * Listen the delete command of DraftJS to cancel it 
    * It uses the shortcut ctrl•D and ctrl•maj•D. We need those for the selection handler
@@ -39,7 +40,13 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
   const onPreventDelete = (command:string, editorState:EditorState):any => {
     const event = window.event;
 
-    if ((command === 'delete' || command === 'split-block') &&
+    // add sentence to history
+    if (command === 'split-block')
+    {
+      addContentHistory(dispatch, editorRef)
+    }
+
+    if ((command === 'delete') &&
         (event instanceof KeyboardEvent
         && event?.ctrlKey
       )) {
@@ -47,6 +54,12 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
     }
   }
 
+  const handleHistory = (editorState:EditorState, force:boolean=false):void => {
+    const currentText = editorState.getCurrentContent().getPlainText()
+    if (force || wordReg.test(currentText)) {
+      addContentHistory(dispatch, editorRef)
+    }
+  }
   /**
    * Switch the multi selection mode
    * Save the current selection as highlight text into the editor state
@@ -109,8 +122,8 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
    */
   const onChange = (editorState:EditorState):any => {
 
-    // [!]
-    addContentHistory(dispatch, editorRef)
+    // add each word to history
+    handleHistory(editorState)
 
     // update text state
     setEditorState(editorState)
@@ -162,6 +175,7 @@ const TextEditor = ({contentLength}:{contentLength:number}): ReactElement => {
         editorState={editorState}
         handleKeyCommand={onPreventDelete}
         customStyleMap={{ HIGHLIGHT: { backgroundColor: colors.ocher } }}
+        onBlur={()=>handleHistory(editorState, true)}
         onChange={onChange} />
       </div>
     </>

@@ -1,34 +1,36 @@
 // main
-import {ReactElement, useEffect, useState, useRef, useCallback, useMemo} from "react";
-import {EditorState, Editor} from "draft-js";
-import {ErrorBoundary} from "react-error-boundary";
+import {ReactElement, useEffect, useState, useRef, useCallback, useMemo} from "react"
+import {EditorState, Editor} from "draft-js"
+import {ErrorBoundary} from "react-error-boundary"
 // util
-import * as CustomMsg from 'constant/Messages';
-import {EditorContext, MessageContext} from 'service/context';
-import {getContentLength, updateTextCase, clipboardAction} from 'util/textHandler';
-import {initialMessage, get_boundary_error, create_error, create_cause, is_message} from "util/errorHandler";
-import {handle_press, getInteractionsKeys} from 'util/dataHandler';
-import {interactionsData, Case} from 'constant/Interactions';
-import {Message} from 'constant/interfaces';
+import * as CustomMsg from 'constant/Messages'
+import {EditorContext, MessageContext} from 'service/context'
+import {getContentLength, updateTextCase, clipboardAction} from 'util/textHandler'
+import {initialMessage, get_boundary_error, create_error, create_cause, is_message} from "util/errorHandler"
+import {handle_press, getInteractionsKeys} from 'util/dataHandler'
+import {interactionsData, Case} from 'constant/Interactions'
+import {Message} from 'constant/interfaces'
+import {useSelector} from 'react-redux'
 // element
-import {CaseError, ActionError, FieldError, EditorError} from 'component/ErrorComponents';
-import Header from 'component/Header';
-import CaseContainer from 'component/CaseContainer';
-import ReplaceField from 'component/ReplaceField';
-import TextEditor from 'component/TextEditor';
-import ActionContainer from 'component/ActionContainer';
-import AlertMessage from 'component/AlertMessage';
+import {CaseError, ActionError, FieldError, EditorError} from 'component/ErrorComponents'
+import Header from 'component/Header'
+import CaseContainer from 'component/CaseContainer'
+import ReplaceField from 'component/ReplaceField'
+import TextEditor from 'component/TextEditor'
+import ActionContainer from 'component/ActionContainer'
+import AlertMessage from 'component/AlertMessage'
 
 const keys = getInteractionsKeys(interactionsData),
       cases = Object.values(Case);
 
 const Home = ():ReactElement => {
-  const [started, setStarted] = useState<boolean>(false),
-        [contentLength, setContentLength] = useState<number>(0),
+  const [contentLength, setContentLength] = useState<number>(0),
         [alertMessage, setAlertMessage] = useState<Message>(initialMessage),
         [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
 
-  const editorRef = useRef<Editor>(null)
+  const editorRef = useRef<Editor>(null),
+        started = useRef<boolean>(false),
+        stateHistory = useSelector((state:any)=>state.history)
 
   const editorValues = useMemo(()=>([editorState, setEditorState, editorRef]), [editorState]),
         messageValues = useMemo(()=>([setAlertMessage, alertMessage]), [alertMessage])
@@ -89,18 +91,21 @@ const Home = ():ReactElement => {
     setContentLength(length);
 
     // the edition has started
-    if (length > 0 && !started) {
-      setStarted(true)
+    if (length > 0 && !started.current) {
+      started.current = true
     }
 
     document.addEventListener('keydown', key_listener)
     return () => document.removeEventListener('keydown', key_listener)
+  }, [editorState, key_listener])
 
-  }, [editorState, started, key_listener])
+  useEffect(()=>{
+    console.log(stateHistory)
+  }, [stateHistory])
 
   return (
     <>
-      <Header started={started} />
+      <Header started={started.current} />
       <MessageContext.Provider value={messageValues}>
         <main className="flex column">
           <EditorContext.Provider value={editorValues}>
@@ -108,7 +113,7 @@ const Home = ():ReactElement => {
             <section id="case-section" className="gap-5 flex-between align-start self-center">
               {/*CASES*/}
               <ErrorBoundary FallbackComponent={CaseError} onError={display_error} >
-                <CaseContainer started={started} />
+                <CaseContainer started={started.current} />
               </ErrorBoundary>
 
               {/*REPLACE*/}
@@ -125,7 +130,7 @@ const Home = ():ReactElement => {
 
               {/*ACTIONS*/}
               <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
-                <ActionContainer started={started} />
+                <ActionContainer started={started.current} />
               </ErrorBoundary>
             </section>
 
