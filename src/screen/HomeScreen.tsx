@@ -26,9 +26,11 @@ const Home = ():ReactElement => {
   const [started, setStarted] = useState<boolean>(false),
         [contentLength, setContentLength] = useState<number>(0),
         [alertMessage, setAlertMessage] = useState<Message>(initialMessage),
+        [boardStatut, setBoardStatut] = useState<string>('');
         [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
 
-  const editorRef = useRef<Editor>(null)
+  const editorRef = useRef<Editor>(null),
+        boardStatut2 = useRef<string>('')
 
   const editorValues = useMemo(()=>([editorState, setEditorState, editorRef]), [editorState]),
         messageValues = useMemo(()=>([setAlertMessage, alertMessage]), [alertMessage])
@@ -40,7 +42,8 @@ const Home = ():ReactElement => {
     // ? editorHasFocus
     const hasFocus = editorRef.current.editor === document.activeElement,
           interID = handle_press(event, keys, interactionsData, hasFocus),
-          askedInter = (typeof interID === 'string') ? interID : '';
+          askedInter = (typeof interID === 'string') ? interID : '',
+          caseInteraction = cases.includes(askedInter);
 
     try
     {
@@ -49,7 +52,7 @@ const Home = ():ReactElement => {
         throw interID
 
       // the interaction is a Case
-      if (cases.includes(askedInter))
+      if (caseInteraction)
       {
         event.preventDefault();
         newState = updateTextCase(askedInter, editorState, setAlertMessage)
@@ -67,13 +70,20 @@ const Home = ():ReactElement => {
 
       if (newState instanceof EditorState)
         setEditorState(newState)
+
+      // [!] button color
+      boardStatut2.current = `${entry} success-color-btn`
+      setBoardStatut(`${entry} success-color-btn`)
     }
     catch(err:any)
     {
       const cause = create_cause('INTERACTION', 'S-HOME', err),
             errorMsg = (is_message(err)) ? err : create_error(CustomMsg.TEXT_UP, cause)
 
+      // [!] button color
       setAlertMessage(errorMsg)
+      boardStatut2.current = `${entry} ${err?.level ?? 'error'}-color-btn`
+      setBoardStatut(`${entry} ${err?.level ?? 'error'}-color-btn`)
     }
   }, [editorState])
 
@@ -125,7 +135,8 @@ const Home = ():ReactElement => {
 
               {/*ACTIONS*/}
               <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
-                <ActionContainer started={started} />
+                {/*boardStatut2*/}
+                <ActionContainer started={started} boardStatut />
               </ErrorBoundary>
             </section>
 
