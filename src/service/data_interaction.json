@@ -85,9 +85,9 @@
 		{
 			"data_id": "UDO",
 			"entry": "undo",
-			"unactive": true,
+			"unactive": false,
 			"label": "état précédent",
-			"focus": true,
+			"focus": false,
 			"key": "Z"
 		},
 		{
@@ -103,7 +103,7 @@
 			"data_id": "MUL",
 			"entry": "multi",
 			"unactive": true,
-			"label": "Mmlti-selection",
+			"label": "Multi-selection",
 			"focus": true,
 			"key": "D"
 		}

@@ -8,6 +8,7 @@ import CircleIcon from 'component/icons/CircleIcon';
 import CutIcon from 'component/icons/CutIcon';
 import PastIcon from 'component/icons/PastIcon';
 import ResetIcon from 'component/icons/ResetIcon';
+import UndoIcon from 'component/icons/UndoIcon';
 
 interface ActionProp {
 	entry:string,
@@ -41,6 +42,9 @@ const ActionButton = ({entry, label, onMouseEnter, statut, onClick}:ActionProp):
 			case 'reset':
 				setIconPath(ResetIcon)
 			break;
+			case 'undo':
+				setIconPath(UndoIcon)
+			break;
 			default:
 				setIconPath(CircleIcon)
 		}
@@ -54,7 +58,7 @@ const ActionButton = ({entry, label, onMouseEnter, statut, onClick}:ActionProp):
 		>
 			<IconPath
 				stroke='currentColor'
-				fill={(entry === 'reset' || entry === 'copy') ? 'currentColor' : 'transparent'}
+				fill={(entry === 'reset' || entry === 'copy' || entry === 'undo') ? 'currentColor' : 'transparent'}
 				{...imageProp}
 				/>
 	    </button>

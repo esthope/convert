@@ -33,6 +33,7 @@ const CaseContainer = ({started}:{started:boolean}): ReactElement => {
 
 		if (newState instanceof EditorState)
 			setEditorState(newState)
+
     }
 
 	useEffect(()=>{
