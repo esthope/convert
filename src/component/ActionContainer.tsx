@@ -1,17 +1,17 @@
 // main
 import {ReactElement, useContext, useState, useEffect, useRef, useCallback} from "react"
 import {EditorContext, MessageContext} from 'service/context'
-import {EditorState} from 'draft-js'
-import {isMobile} from 'react-device-detect'
 import {useSelector, useDispatch} from 'react-redux'
+import {isMobile} from 'react-device-detect'
+import {EditorState} from 'draft-js'
 // util
-import * as Msg from 'constant/Messages'
+import {activePreviousHistory, undoneContent, addContentHistory} from 'util/historyHandler'
 import {is_message, create_cause, create_error} from 'util/errorHandler'
 import {clipboardAction} from 'util/textHandler'
-import {activePreviousHistory, undoneContent, addContentHistory} from 'util/historyHandler'
+import * as Msg from 'constant/Messages'
 // constant
-import {Interaction} from 'constant/interfaces'
 import {Action, actionsData} from 'constant/Interactions'
+import {Interaction} from 'constant/interfaces'
 // element
 import ActionButton from 'component/ActionButton'
 import TemplateButton from './TemplateButton'
@@ -47,9 +47,9 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 			if (newState instanceof EditorState) {
 				setEditorState(newState)
 				newText = newState.getCurrentContent().getPlainText()
+      			addContentHistory(dispatch, editorRef, newText)
 			}
 
-      		addContentHistory(dispatch, editorRef, newText)
 			setStatutColor(entry + ' success-color-btn') 
 		}
 		catch(err:any)

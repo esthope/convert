@@ -85,7 +85,7 @@
 		{
 			"data_id": "UDO",
 			"entry": "undo",
-			"unactive": false,
+			"unactive": true,
 			"label": "état précédent",
 			"focus": false,
 			"key": "Z"

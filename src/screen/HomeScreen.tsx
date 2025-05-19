@@ -1,7 +1,8 @@
 // main
 import {ReactElement, useEffect, useState, useRef, useCallback, useMemo} from "react"
-import {EditorState, Editor} from "draft-js"
+import {useSelector, useDispatch} from 'react-redux'
 import {ErrorBoundary} from "react-error-boundary"
+import {EditorState, Editor} from "draft-js"
 // util
 import * as CustomMsg from 'constant/Messages'
 import {EditorContext, MessageContext} from 'service/context'
@@ -9,8 +10,8 @@ import {getContentLength, updateTextCase, clipboardAction} from 'util/textHandle
 import {initialMessage, get_boundary_error, create_error, create_cause, is_message} from "util/errorHandler"
 import {handle_press, getInteractionsKeys} from 'util/dataHandler'
 import {interactionsData, Case} from 'constant/Interactions'
+import {addContentHistory} from 'util/historyHandler'
 import {Message} from 'constant/interfaces'
-import {useSelector} from 'react-redux'
 // element
 import {CaseError, ActionError, FieldError, EditorError} from 'component/ErrorComponents'
 import Header from 'component/Header'
@@ -24,21 +25,33 @@ const keys = getInteractionsKeys(interactionsData),
       cases = Object.values(Case);
 
 const Home = ():ReactElement => {
-  const [contentLength, setContentLength] = useState<number>(0),
+  const // states
+        [contentLength, setContentLength] = useState<number>(0),
         [alertMessage, setAlertMessage] = useState<Message>(initialMessage),
-        [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
-
-  const editorRef = useRef<Editor>(null),
+        [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty()),
+        // refs
+        editorRef = useRef<Editor>(null),
         started = useRef<boolean>(false),
-        stateHistory = useSelector((state:any)=>state.history)
+        // memo
+        editorValues = useMemo(()=>([editorState, setEditorState, editorRef]), [editorState]),
+        messageValues = useMemo(()=>([setAlertMessage, alertMessage]), [alertMessage]),
+        // redux
+        stateHistory = useSelector((state:any)=>state.history),
+        dispatch = useDispatch()
 
-  const editorValues = useMemo(()=>([editorState, setEditorState, editorRef]), [editorState]),
-        messageValues = useMemo(()=>([setAlertMessage, alertMessage]), [alertMessage])
-
-  const key_listener = useCallback(async (event:KeyboardEvent):Promise<void> => {
+  /**
+   * Listen the key shortcut for the editor functionalities
+   * Filter the keys and determination of the action or new case requested
+   * Update the editor and the history with the new content
+   * @param  {KeyboardEvent} event the current key event
+   */
+  const key_listener = useCallback(async (event:KeyboardEvent):Promise<void> =>
+  {
+    // init
     if (event.key === 'Control' || !event.ctrlKey || !editorRef?.current) return;
+    let newText:string|undefined = undefined,
+        newState:any = null
 
-    let newState:any = null;
     // ? editorHasFocus
     const hasFocus = editorRef.current.editor === document.activeElement,
           interID = handle_press(event, keys, interactionsData, hasFocus),
@@ -46,7 +59,7 @@ const Home = ():ReactElement => {
 
     try
     {
-      // getting the interaction ID failed
+      // failure during getting the interaction ID
       if (is_message(interID))
         throw interID
 
@@ -60,15 +73,22 @@ const Home = ():ReactElement => {
       else if (askedInter)
       {
         // no prevent default is needed for action
-        newState = await clipboardAction(askedInter, editorRef)
+        event.preventDefault();
+        newState = await clipboardAction(askedInter, editorRef, dispatch, stateHistory)
       }
 
       // getting new state failed
       if (is_message(newState))
         throw newState
 
-      if (newState instanceof EditorState)
+      // set new content
+      if (newState instanceof EditorState) {
         setEditorState(newState)
+        newText = newState.getCurrentContent().getPlainText()
+        // console.log(editorRef.current.editor.innerText, newText)
+      }
+
+      // addContentHistory(dispatch, editorRef, newText)
     }
     catch(err:any)
     {
@@ -77,7 +97,7 @@ const Home = ():ReactElement => {
 
       setAlertMessage(errorMsg)
     }
-  }, [editorState])
+  }, [editorState, dispatch])
 
   const display_error = (error:Error):void => {
     const errorMsg = get_boundary_error(error);

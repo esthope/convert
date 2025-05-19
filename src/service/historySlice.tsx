@@ -20,6 +20,9 @@ const historySlice = createSlice({
 		addContent: (state:any, action:ReduceAction):any => {
 			try
 			{
+				debugger
+				action.payload = (action.payload === '\n') ? '' : action.payload;
+
 				const {content} = getActiveHistory(state),
 					  {payload} = action
 

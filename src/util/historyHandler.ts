@@ -17,6 +17,8 @@ export const addContentHistory = (dispatch:Function, editorRef:RefObject<Editor>
   {
     const newContent = text ?? get_inner_text(editorRef)
 
+    console.log(newContent)
+
     if (typeof newContent === 'string')
       dispatch(addContent(newContent))
   }
@@ -39,7 +41,7 @@ export const undoneContent = (stateHistory:Array<any>):EditorState|Message=>{
   {
   	const activeHistory:any = getActiveHistory(stateHistory)
 
-    console.log(activeHistory)
+    console.log('undo...', activeHistory.content)
 
     if (activeHistory.hasOwnProperty('content')) {
       newContent = createContent(activeHistory.content)
