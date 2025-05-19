@@ -28,6 +28,7 @@ const Home = ():ReactElement => {
   const // states
         [contentLength, setContentLength] = useState<number>(0),
         [alertMessage, setAlertMessage] = useState<Message>(initialMessage),
+<<<<<<< HEAD
         [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty()),
         // refs
         editorRef = useRef<Editor>(null),
@@ -48,6 +49,18 @@ const Home = ():ReactElement => {
   const key_listener = useCallback(async (event:KeyboardEvent):Promise<void> =>
   {
     // init
+=======
+        [boardStatut, setBoardStatut] = useState<string>('');
+        [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
+
+  const editorRef = useRef<Editor>(null),
+        boardStatut2 = useRef<string>('')
+
+  const editorValues = useMemo(()=>([editorState, setEditorState, editorRef]), [editorState]),
+        messageValues = useMemo(()=>([setAlertMessage, alertMessage]), [alertMessage])
+
+  const key_listener = useCallback(async (event:KeyboardEvent):Promise<void> => {
+>>>>>>> 8b5654005805c1d4e3a3813993ab26fcbfc96c35
     if (event.key === 'Control' || !event.ctrlKey || !editorRef?.current) return;
     let newText:string|undefined = undefined,
         newState:any = null
@@ -55,7 +68,8 @@ const Home = ():ReactElement => {
     // ? editorHasFocus
     const hasFocus = editorRef.current.editor === document.activeElement,
           interID = handle_press(event, keys, interactionsData, hasFocus),
-          askedInter = (typeof interID === 'string') ? interID : '';
+          askedInter = (typeof interID === 'string') ? interID : '',
+          caseInteraction = cases.includes(askedInter);
 
     try
     {
@@ -64,7 +78,7 @@ const Home = ():ReactElement => {
         throw interID
 
       // the interaction is a Case
-      if (cases.includes(askedInter))
+      if (caseInteraction)
       {
         event.preventDefault();
         newState = updateTextCase(askedInter, editorState, setAlertMessage)
@@ -84,18 +98,28 @@ const Home = ():ReactElement => {
       // set new content
       if (newState instanceof EditorState) {
         setEditorState(newState)
+<<<<<<< HEAD
         newText = newState.getCurrentContent().getPlainText()
         // console.log(editorRef.current.editor.innerText, newText)
       }
 
       // addContentHistory(dispatch, editorRef, newText)
+=======
+
+      // [!] button color
+      boardStatut2.current = `${entry} success-color-btn`
+      setBoardStatut(`${entry} success-color-btn`)
+>>>>>>> 8b5654005805c1d4e3a3813993ab26fcbfc96c35
     }
     catch(err:any)
     {
       const cause = create_cause('INTERACTION', 'S-HOME', err),
             errorMsg = (is_message(err)) ? err : create_error(CustomMsg.TEXT_UP, cause)
 
+      // [!] button color
       setAlertMessage(errorMsg)
+      boardStatut2.current = `${entry} ${err?.level ?? 'error'}-color-btn`
+      setBoardStatut(`${entry} ${err?.level ?? 'error'}-color-btn`)
     }
   }, [editorState, dispatch])
 
@@ -150,7 +174,12 @@ const Home = ():ReactElement => {
 
               {/*ACTIONS*/}
               <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
+<<<<<<< HEAD
                 <ActionContainer started={started.current} />
+=======
+                {/*boardStatut2*/}
+                <ActionContainer started={started} boardStatut />
+>>>>>>> 8b5654005805c1d4e3a3813993ab26fcbfc96c35
               </ErrorBoundary>
             </section>
 

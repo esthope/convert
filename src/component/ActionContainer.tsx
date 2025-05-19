@@ -16,13 +16,12 @@ import {Interaction} from 'constant/interfaces'
 import ActionButton from 'component/ActionButton'
 import TemplateButton from './TemplateButton'
 
-const initialColor = '',
-	  location = 'C-ACTION'
+const location = 'C-ACTION'
 
-const ActionContainer = ({started}:{started:boolean}): ReactElement => {
+const ActionContainer = ({started, boardStatut}:{started:boolean, boardStatut:string}): ReactElement => {
   	// eslint-disable-next-line
 	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
-  		  [statutColor, setStatutColor] = useState<string>(initialColor),
+  		  [statutColor, setStatutColor] = useState<string>(''),
   		  [setAlertMessage] = useContext(MessageContext);
 
   	const stateHistory = useSelector((state:any)=>state.history),
@@ -96,6 +95,13 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
   			throw new Error(Msg.ACTIONS, {cause: cause})
   		}
 	}, [])
+
+	// [!] from homescreen
+	useEffect(()=>{
+		console.log(boardStatut)
+		if (boardStatut)
+			setStatutColor(boardStatut)
+	}, [boardStatut])
 
 	return (
 		<div className="actionContainer flex">

@@ -52,6 +52,7 @@ const ActionButton = ({entry, label, onMouseEnter, statut, onClick}:ActionProp):
 
 	return (
 		<button
+			id={`${entry}-btn`}
 			type="button"
 			className={`${statut?.includes(entry) ? statut.split(' ').pop() : ''} actionButton mbe-06 flex-center column no-bg no-border`}
 			{...buttonProp}
