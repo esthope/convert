@@ -305,8 +305,13 @@ export const clipboardAction = async (action:string, editorRef:any, dispatch?:Fu
 				})
 			break;
 			case Action.undo:
-				activePreviousHistory(dispatch)
-				newContent = undoneContent(stateHistory)
+				// [!] déplacer dans history et utiliser avant ?
+				// mettre dans un clipboardFn dédié aux états de l'historique ? 
+				// else : erreur ?
+				if (typeof dispatch === 'function' && typeof stateHistory === 'object') {
+					activePreviousHistory(dispatch)
+					newContent = undoneContent(stateHistory)
+				}
 			break;
 		}
 

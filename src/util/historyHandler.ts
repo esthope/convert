@@ -15,6 +15,7 @@ const location = 'U-HISTORY'
 export const addContentHistory = (dispatch:Function, editorRef:RefObject<Editor>, text?:string):void => {
   try
   {
+    // [!] que le texte : ne prend pas le style si le texte en a un déjà
     const newContent = text ?? get_inner_text(editorRef)
 
     console.log(newContent)

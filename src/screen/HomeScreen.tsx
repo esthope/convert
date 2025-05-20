@@ -28,10 +28,11 @@ const Home = ():ReactElement => {
   const // states
         [contentLength, setContentLength] = useState<number>(0),
         [alertMessage, setAlertMessage] = useState<Message>(initialMessage),
-<<<<<<< HEAD
+        [boardStatut, setBoardStatut] = useState<string>(''),
         [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty()),
         // refs
         editorRef = useRef<Editor>(null),
+        boardStatut2 = useRef<string>(''),
         started = useRef<boolean>(false),
         // memo
         editorValues = useMemo(()=>([editorState, setEditorState, editorRef]), [editorState]),
@@ -48,19 +49,6 @@ const Home = ():ReactElement => {
    */
   const key_listener = useCallback(async (event:KeyboardEvent):Promise<void> =>
   {
-    // init
-=======
-        [boardStatut, setBoardStatut] = useState<string>('');
-        [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty());
-
-  const editorRef = useRef<Editor>(null),
-        boardStatut2 = useRef<string>('')
-
-  const editorValues = useMemo(()=>([editorState, setEditorState, editorRef]), [editorState]),
-        messageValues = useMemo(()=>([setAlertMessage, alertMessage]), [alertMessage])
-
-  const key_listener = useCallback(async (event:KeyboardEvent):Promise<void> => {
->>>>>>> 8b5654005805c1d4e3a3813993ab26fcbfc96c35
     if (event.key === 'Control' || !event.ctrlKey || !editorRef?.current) return;
     let newText:string|undefined = undefined,
         newState:any = null
@@ -98,18 +86,16 @@ const Home = ():ReactElement => {
       // set new content
       if (newState instanceof EditorState) {
         setEditorState(newState)
-<<<<<<< HEAD
+        // [!] ne prend pas le style
         newText = newState.getCurrentContent().getPlainText()
         // console.log(editorRef.current.editor.innerText, newText)
       }
 
       // addContentHistory(dispatch, editorRef, newText)
-=======
 
       // [!] button color
-      boardStatut2.current = `${entry} success-color-btn`
-      setBoardStatut(`${entry} success-color-btn`)
->>>>>>> 8b5654005805c1d4e3a3813993ab26fcbfc96c35
+      boardStatut2.current = `${askedInter} success-color-btn`
+      setBoardStatut(`${askedInter} success-color-btn`)
     }
     catch(err:any)
     {
@@ -118,8 +104,8 @@ const Home = ():ReactElement => {
 
       // [!] button color
       setAlertMessage(errorMsg)
-      boardStatut2.current = `${entry} ${err?.level ?? 'error'}-color-btn`
-      setBoardStatut(`${entry} ${err?.level ?? 'error'}-color-btn`)
+      boardStatut2.current = `${askedInter} ${err?.level ?? 'error'}-color-btn`
+      setBoardStatut(`${askedInter} ${err?.level ?? 'error'}-color-btn`)
     }
   }, [editorState, dispatch])
 
@@ -174,12 +160,7 @@ const Home = ():ReactElement => {
 
               {/*ACTIONS*/}
               <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
-<<<<<<< HEAD
-                <ActionContainer started={started.current} />
-=======
-                {/*boardStatut2*/}
-                <ActionContainer started={started} boardStatut />
->>>>>>> 8b5654005805c1d4e3a3813993ab26fcbfc96c35
+                <ActionContainer started={started.current} boardStatut={boardStatut2.current}  />
               </ErrorBoundary>
             </section>
 
