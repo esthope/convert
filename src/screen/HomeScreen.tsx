@@ -11,6 +11,7 @@ import {initialMessage, get_boundary_error, create_error, create_cause, is_messa
 import {handle_press, getInteractionsKeys} from 'util/dataHandler'
 import {interactionsData, Case} from 'constant/Interactions'
 import {addContentHistory} from 'util/historyHandler'
+import {changeColor} from 'service/buttonSlice'
 import {Message} from 'constant/interfaces'
 // element
 import {CaseError, ActionError, FieldError, EditorError} from 'component/ErrorComponents'
@@ -27,13 +28,11 @@ const keys = getInteractionsKeys(interactionsData),
 const Home = ():ReactElement => {
   const // states
         [contentLength, setContentLength] = useState<number>(0),
-        [alertMessage, setAlertMessage] = useState<Message>(initialMessage),
-        [boardStatut, setBoardStatut] = useState<string>(''),
+        [alertMessage, setAlertMessage] = useState<Message>(initialMessage), // [!] adapter avec redux
         [editorState, setEditorState] = useState<EditorState>(EditorState.createEmpty()),
         // refs
         editorRef = useRef<Editor>(null),
-        boardStatut2 = useRef<string>(''),
-        started = useRef<boolean>(false),
+        started = useRef<boolean>(false), // [!] adapter avec redux
         // memo
         editorValues = useMemo(()=>([editorState, setEditorState, editorRef]), [editorState]),
         messageValues = useMemo(()=>([setAlertMessage, alertMessage]), [alertMessage]),
@@ -94,8 +93,7 @@ const Home = ():ReactElement => {
       // addContentHistory(dispatch, editorRef, newText)
 
       // [!] button color
-      boardStatut2.current = `${askedInter} success-color-btn`
-      setBoardStatut(`${askedInter} success-color-btn`)
+      dispatch(changeColor(`${askedInter} success-color-btn`))
     }
     catch(err:any)
     {
@@ -104,8 +102,7 @@ const Home = ():ReactElement => {
 
       // [!] button color
       setAlertMessage(errorMsg)
-      boardStatut2.current = `${askedInter} ${err?.level ?? 'error'}-color-btn`
-      setBoardStatut(`${askedInter} ${err?.level ?? 'error'}-color-btn`)
+      dispatch(changeColor(`${askedInter} ${err?.level ?? 'error'}-color-btn`))
     }
   }, [editorState, dispatch])
 
@@ -160,7 +157,7 @@ const Home = ():ReactElement => {
 
               {/*ACTIONS*/}
               <ErrorBoundary FallbackComponent={ActionError} onError={display_error} >
-                <ActionContainer started={started.current} boardStatut={boardStatut2.current}  />
+                <ActionContainer started={started.current} />
               </ErrorBoundary>
             </section>
 

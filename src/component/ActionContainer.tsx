@@ -1,5 +1,5 @@
 // main
-import {ReactElement, useContext, useState, useEffect, useRef, useCallback} from "react"
+import {ReactElement, useContext, useState, useEffect, useRef, useCallback, RefObject} from "react"
 import {EditorContext, MessageContext} from 'service/context'
 import {useSelector, useDispatch} from 'react-redux'
 import {isMobile} from 'react-device-detect'
@@ -8,6 +8,7 @@ import {EditorState} from 'draft-js'
 import {activePreviousHistory, undoneContent, addContentHistory} from 'util/historyHandler'
 import {is_message, create_cause, create_error} from 'util/errorHandler'
 import {clipboardAction} from 'util/textHandler'
+import {changeColor} from 'service/buttonSlice'
 import * as Msg from 'constant/Messages'
 // constant
 import {Action, actionsData} from 'constant/Interactions'
@@ -18,7 +19,7 @@ import TemplateButton from './TemplateButton'
 
 const location = 'C-ACTION'
 
-const ActionContainer = ({started, boardStatut}:{started:boolean, boardStatut:string}): ReactElement => {
+const ActionContainer = ({started}:{started:boolean}): ReactElement => {
   	// eslint-disable-next-line
 	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
   		  [statutColor, setStatutColor] = useState<string>(''),
@@ -33,7 +34,7 @@ const ActionContainer = ({started, boardStatut}:{started:boolean, boardStatut:st
 	* @param [EditorState|Message] the new content or a message to be send
 	* @param [string] the button entry for the color
 	*/
-  	const checkNewState = useCallback((newState:any, entry:string) => {
+  	const checkNewState = useCallback((newState:any, action:string) => {
   		try
 		{
 			let newText:string|undefined = undefined;
@@ -49,14 +50,16 @@ const ActionContainer = ({started, boardStatut}:{started:boolean, boardStatut:st
       			addContentHistory(dispatch, editorRef, newText)
 			}
 
-			setStatutColor(entry + ' success-color-btn') 
+			dispatch(changeColor(action + ' success-color-btn'))
+			// setStatutColor(action + ' success-color-btn') 
 		}
 		catch(err:any)
 		{
 			const cause = create_cause('ACTION', location, err),
 				  errorMsg = (is_message(err)) ? err : create_error(Msg.ACTION_FAILED, cause)
 
-			setStatutColor(entry + ` ${err?.level ?? 'error'}-color-btn`) 
+			dispatch(changeColor(action + ` ${err?.level ?? 'error'}-color-btn`))
+			// setStatutColor(action + ` ${err?.level ?? 'error'}-color-btn`) 
 			setAlertMessage(errorMsg)
 		}
   	}, [dispatch, editorRef, setAlertMessage, setEditorState])
@@ -64,7 +67,7 @@ const ActionContainer = ({started, boardStatut}:{started:boolean, boardStatut:st
 	/**
 	* Handle the actions from buttons
 	*/
-	const handleAction = async (action:string, entry:string):Promise<void> => {
+	const handleAction = async (action:string):Promise<void> => {
 		if (action === Action.undo) 
 		{
 			activePreviousHistory(dispatch)
@@ -74,7 +77,7 @@ const ActionContainer = ({started, boardStatut}:{started:boolean, boardStatut:st
 
 		// if (contentLength === 0) return;
 		const newState = await clipboardAction(action, editorRef)
-		checkNewState(newState, entry)
+		checkNewState(newState, action)
 	}
 
 	/**
@@ -84,7 +87,7 @@ const ActionContainer = ({started, boardStatut}:{started:boolean, boardStatut:st
   		if (!undo.current) return
 
 		const newState = undoneContent(stateHistory)
-		checkNewState(newState, 'undo')
+		checkNewState(newState, Action.undo)
 
 		undo.current = false
   	}, [checkNewState, stateHistory])
@@ -95,13 +98,6 @@ const ActionContainer = ({started, boardStatut}:{started:boolean, boardStatut:st
   			throw new Error(Msg.ACTIONS, {cause: cause})
   		}
 	}, [])
-
-	// [!] from homescreen
-	useEffect(()=>{
-		console.log(boardStatut)
-		if (boardStatut)
-			setStatutColor(boardStatut)
-	}, [boardStatut])
 
 	return (
 		<div className="actionContainer flex">
@@ -117,10 +113,9 @@ const ActionContainer = ({started, boardStatut}:{started:boolean, boardStatut:st
 					is_mobile={isMobile}
 					>
 					<ActionButton
-						entry={item.entry}
+						actionID={item.data_id}
 						label={item.label}
-						statut={statutColor}
-						onClick={()=>handleAction(item.data_id, item.entry)} />
+						onClick={()=>handleAction(item.data_id)} />
 				</TemplateButton>
 			  	: null
 			))
