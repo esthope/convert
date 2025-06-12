@@ -22,6 +22,10 @@ import TextEditor from 'component/TextEditor'
 import ActionContainer from 'component/ActionContainer'
 import AlertMessage from 'component/AlertMessage'
 
+import {activePreviousHistory, undoneContent} from 'util/historyHandler'
+
+
+
 const keys = getInteractionsKeys(interactionsData),
       cases = Object.values(Case);
 

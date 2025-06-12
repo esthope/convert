@@ -59,7 +59,6 @@ const historySlice = createSlice({
 
 				const new_index = getActiveIndex(state)
 				console.log(new_index)
-
 			}
 			catch(err)
 			{

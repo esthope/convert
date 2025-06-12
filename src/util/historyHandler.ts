@@ -18,8 +18,6 @@ export const addContentHistory = (dispatch:Function, editorRef:RefObject<Editor>
     // [!] que le texte : ne prend pas le style si le texte en a un déjà
     const newContent = text ?? get_inner_text(editorRef)
 
-    console.log(newContent)
-
     if (typeof newContent === 'string')
       dispatch(addContent(newContent))
   }
@@ -35,11 +33,12 @@ export const activePreviousHistory = (dispatch:Function):void=>{
   dispatch(activePrecedent())
 }
 
-export const undoneContent = (stateHistory:Array<any>):EditorState|Message=>{
+export const undoneContent = (stateHistory:Array<any>, dispatch:Function):EditorState|Message=>{
   let newContent:any;
 
   try
   {
+    activePreviousHistory(dispatch)
   	const activeHistory:any = getActiveHistory(stateHistory)
 
     console.log('undo...', activeHistory.content)

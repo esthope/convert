@@ -3,7 +3,6 @@ import {ReactElement} from "react";
 import {useState, useEffect} from 'react';
 import {Action} from 'constant/Interactions'
 import {useSelector} from 'react-redux'
-// import {changeColor} from 'service/buttonSlice'
 
 // element
 import CpyIcon from 'component/icons/CpyIcon';

@@ -1,5 +1,5 @@
 // main
-import {ReactElement, useContext, useState, useEffect, useRef, useCallback, RefObject} from "react"
+import {ReactElement, useContext, useEffect, useRef, useCallback} from "react"
 import {EditorContext, MessageContext} from 'service/context'
 import {useSelector, useDispatch} from 'react-redux'
 import {isMobile} from 'react-device-detect'
@@ -22,7 +22,6 @@ const location = 'C-ACTION'
 const ActionContainer = ({started}:{started:boolean}): ReactElement => {
   	// eslint-disable-next-line
 	const [editorState, setEditorState, editorRef] = useContext(EditorContext),
-  		  [statutColor, setStatutColor] = useState<string>(''),
   		  [setAlertMessage] = useContext(MessageContext);
 
   	const stateHistory = useSelector((state:any)=>state.history),
@@ -51,7 +50,6 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 			}
 
 			dispatch(changeColor(action + ' success-color-btn'))
-			// setStatutColor(action + ' success-color-btn') 
 		}
 		catch(err:any)
 		{
@@ -59,7 +57,6 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
 				  errorMsg = (is_message(err)) ? err : create_error(Msg.ACTION_FAILED, cause)
 
 			dispatch(changeColor(action + ` ${err?.level ?? 'error'}-color-btn`))
-			// setStatutColor(action + ` ${err?.level ?? 'error'}-color-btn`) 
 			setAlertMessage(errorMsg)
 		}
   	}, [dispatch, editorRef, setAlertMessage, setEditorState])
@@ -86,7 +83,7 @@ const ActionContainer = ({started}:{started:boolean}): ReactElement => {
   	useEffect(()=>{
   		if (!undo.current) return
 
-		const newState = undoneContent(stateHistory)
+		const newState = undoneContent(stateHistory, dispatch)
 		checkNewState(newState, Action.undo)
 
 		undo.current = false
